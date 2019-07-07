@@ -1,0 +1,16 @@
+<form #f="ngForm">
+  <div class="form-group">
+     <h1>{{ 'Bienvenue à la page d\'administration de la Main Tendue!' }}</h1>
+      <div class="form-group">
+         <label for="email"> {{ 'Email' }} :</label>
+         <input type="text" id="email" name="email" class="form-control" [(ngModel)]="emailInput" required placeholder="Email"/>
+       </div>
+       <div class="form-group">
+          <label for="password"> {{ 'Password' }} :</label>
+          <input type="password" id="password" name="password" [(ngModel)]="passwordInput" class="form-control" required placeholder="Password"/>
+       </div>
+
+      <button type="submit" [disabled]="f.invalid" (click)="loginUser()" class="btn btn-success margin-right-20">{{ 'Login' }}</button>
+    </div>
+</form>
+
