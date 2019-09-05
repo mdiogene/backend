@@ -1,15 +1,13 @@
+import * as firebase from 'firebase/app';
 import { Injectable } from '@angular/core';
 import {User} from '../model/User';
 import {Subject} from 'rxjs';
 import {error} from 'util';
 import {AngularFirestore} from '@angular/fire/firestore';
-import * as firebase from 'firebase/app';
+
 
 // Add the Firebase services that you want to use
 import 'firebase/auth';
-import {LoginService} from './login.service';
-
-
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +21,14 @@ export class UsersService {
   usersMap: Map<string, User> = new Map();
   userRegistered: boolean;
   userByEmail: User;
-currentUserEmail: string;
+  loggedUserEmail: string;
 
-  constructor(public fs: AngularFirestore, loginService: LoginService) { }
+  constructor(public fs: AngularFirestore) {}
+
+  getCurrentUserEmail(): string {
+    this.loggedUserEmail = this.fs.firestore.app.auth().currentUser.email;
+    return this.loggedUserEmail;
+  }
 
   emitUsersSubject() {
     if (this.users) {
@@ -40,15 +43,20 @@ currentUserEmail: string;
   }
 
    createUserWithEmailAndPassword (user: User) {
+
     this.userRegistered = false;
     this.fs.firestore.app.auth().createUserWithEmailAndPassword(user.email, user.password)
-      .then(function () {
+      .then((value) => {
 
-        const userAuth = firebase.auth().currentUser;
-        userAuth.updateProfile({
+       // this.userAuthUid = value.user.uid;
+       const userAuth = firebase.auth().currentUser;
+        user.userId = value.user.uid;
+           console.log('idTokenUtilisateur est :');
+           console.log(user.userId);
+        this.addUser(user);
+       userAuth.updateProfile({
           displayName: user.prenom + ' ' + user.name
-        })
-
+        });
         userAuth.sendEmailVerification().then(function() {
 
           console.log('email sent to ' + this.userAuth.email + '.');
@@ -56,11 +64,14 @@ currentUserEmail: string;
           // An error happened.
         });
       });
-  }
+
+   }
 
 
 
-  addUser(user: User): void {
+  private addUser(user: User): void {
+
+    // this.createUserWithEmailAndPassword(user);
     this.id = 0;
     user.id = 0;
     console.log('au debut users a la valeur de :');
@@ -73,10 +84,11 @@ currentUserEmail: string;
         }
       }
       user.id = this.id + 1;
-    }
 
-    this.createUserWithEmailAndPassword(user);
-     this.fs.collection('Users').doc(user.email).set(Object.assign({}, user));
+    }
+    //  user.userId = this.userAuthUid;
+
+     this.fs.collection('Users').doc(user.userId).set(Object.assign({}, user));
      if (!this.usersMap.has(user.email)) {
        this.usersMap.set(user.email, user)
        this.users.unshift(user);
@@ -85,8 +97,8 @@ currentUserEmail: string;
 
   updateUser(user: User): void {
 
-    this.fs.collection('Users').doc(user.email)
-      .set(Object.assign({ id: user.id, name: user.name, email: user.email, prenom: user.prenom, password: user.password, isAdmin: user.isAdmin, urlPicture: user.urlPicture}));
+    this.fs.collection('Users').doc(user.userId)
+      .set(Object.assign({ name: user.name, email: user.email, prenom: user.prenom, password: user.password, isAdmin: user.isAdmin, urlPicture: user.urlPicture}));
     this.users[this.users.indexOf(user)] = user;
     this.emitUsersSubject();
 
@@ -96,10 +108,6 @@ currentUserEmail: string;
     if (this.usersMap.has(email)) {
       this.userByEmail = this.usersMap.get(email);
       this.emitUserByEmailSubject();
-      console.log('je suis dans getUserByEmail : l utilisateur admin est :' );
-      console.log( email );
-      console.log( this.userByEmail );
-
     }
   }
 
@@ -107,8 +115,10 @@ currentUserEmail: string;
     this.fs.collection('Users').get()
       .subscribe(usersDoc => {
           usersDoc.forEach(doc => {
-            if (!this.usersMap.has(doc.id)) {
-              this.usersMap.set(doc.id, <User>doc.data())
+            let user: User;
+            user = <User>doc.data();
+            if (!this.usersMap.has(user.email)) {
+              this.usersMap.set(user.email, <User>doc.data());
               this.users.unshift(<User>doc.data());
             }
           });
@@ -116,16 +126,19 @@ currentUserEmail: string;
           this.emitUsersSubject();
         },
         () => {
-          console.log('Erreur de suppression' + error);
+          console.log('Erreur' + error);
         });
-    console.log('Le print de users map est:' );
-    console.log( this.usersMap );
-
-  }
+    }
 
   deleteUser(user: User) {
-    this.fs.collection('Users').doc(user.email).delete();
-    this.fs.firestore.app.auth().currentUser.delete();
+    const email = this.fs.firestore.app.auth().currentUser.email;
+    this.getUserByEmail(email);
+    this.fs.collection('Users').doc(user.userId).delete();
+
+    this.fs.firestore.app.auth().signInWithEmailAndPassword(user.email, user.password).then(userToDelete => {
+      userToDelete.user.delete();
+    });
+    this.fs.firestore.app.auth().signInWithEmailAndPassword(this.userByEmail.email, this.userByEmail.password );
     this.users.splice( this.users.indexOf(user), 1);
     this.emitUsersSubject();
    }

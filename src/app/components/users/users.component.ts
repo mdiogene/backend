@@ -21,7 +21,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   userByEmail: User;
   users: User[] = [];
   usersMatTable: MatTableDataSource<User>  = new MatTableDataSource<User>(this.users);
-  signedInUser: User;
   usersSubscription: Subscription;
   userByEmailSubscription: Subscription;
   localUserEmailSubscription: Subscription;
@@ -29,7 +28,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   infoToUser: string;
   infoToUserAdminOrNot: string;
   displayedName: string;
-  loggedUser: User;
 
 
   constructor(private usersService: UsersService, private loginService: LoginService, private router: Router) { }
@@ -50,26 +48,30 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.userByEmail = user;
       }
     );
-
+1
     this.localUserEmailSubscription = this.loginService.localUserEmailSubject.subscribe(
       (email: string) => {
         console.log('localUserEmailSubscription email est:' );
-        console.log( email );
+
         this.signedInUserEmail = email;
+        console.log( this.signedInUserEmail );
       }
     );
 
-    this.getDisplayedNames();
     this.usersService.getAllUsers();
+
+    this.getDisplayedNames();
   }
 
   getDisplayedNames() {
-    if (this.loginService.localUserEmail) {
-      this.usersService.getUserByEmail(this.loginService.localUserEmail);
+    if (this.usersService.getCurrentUserEmail()) {
+      this.usersService.getUserByEmail(this.usersService.getCurrentUserEmail());
       this.displayedName = 'Logged user : ' + this.userByEmail.prenom + ' ' + this.userByEmail.name;
     } else {
       this.displayedName  = '';
     }
+    console.log('logged user email:');
+    console.log(this.signedInUserEmail);
     console.log('logged user :');
     console.log(this.userByEmail);
   //  return this.displayedName;
@@ -80,9 +82,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   newUser.isOnUpdate = true;
   this.usersMatTable.data.unshift(newUser);
   this.usersMatTable._updateChangeSubscription();
-    console.log('je suis dans users => onCreateNUsers : ');
-    console.log(newUser);
-  }
+ }
 
   onEditButtonClick(user: User) {
     console.log(user);
@@ -102,30 +102,16 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
   onSaveButtonClick(user: User) {
     this.iniTializeData(user);
-    console.log('je suis au debut de onsubmit : is admin is :' );
-    console.log( user.isAdmin );
     this.loginService.localUserEmail;
     this.usersService.getUserByEmail(this.loginService.localUserEmail);
-    console.log('je suis au debut de onsubmit : l utilisateur admin est :' );
-    console.log( this.loginService.localUserEmail );
-    console.log( this.userByEmail );
-    if (this.userByEmail.isAdmin) {
-      console.log('je suis au debut de onsubmit : + this.user :' );
-      console.log( user );
-      console.log( this.users );
-      user.isOnUpdate = false;
+         user.isOnUpdate = false;
       if (user.id) {
         this.usersService.updateUser(user);
         this.userToModify.delete(user.id);
       } else {
-        this.usersService.addUser(user);
+        this.usersService. createUserWithEmailAndPassword (user);
       }
-    } else {
-      this.infoToUserAdminOrNot = 'Vous n\'avez pas assez de droit, Veuillez contacter votre administrateur';
-      this.onCancelButtonClick(user);
-    }
-
-  }
+   }
 
   onCancelButtonClick(user: User) {
     user.isOnUpdate = false;

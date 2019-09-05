@@ -1,7 +1,6 @@
 .mat-body{
   max-width: 80%;
   margin-left: 10%;
-  background-image: src='assets/img/mnt.png';
 }
 
 a {
@@ -26,4 +25,7 @@ li {
 
 .float-right{
   float: right;
+}
+.mat-title {
+  align-items: center;
 }

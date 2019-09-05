@@ -30,6 +30,7 @@ export class LoginService {
 
          console.log(this.localUserEmail);
         console.log(userResponse);
+        this.emitLocalUserEmailnSubject();
         this.emitUserLoggedInSubject();
         this.userLoggedJSON = userResponse;
 
