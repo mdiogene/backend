@@ -22,14 +22,11 @@ export class LoginService {
     this.angularFireAuth.authState.subscribe(userResponse => {
       if (userResponse) {
         localStorage.setItem('user', JSON.stringify(userResponse));
-        this.userLoggedIn = true;
+
         if (localStorage.user.operationType === 'signIn') {
           this.localUserEmail = userResponse.email;
+          this.userLoggedIn = true;
         }
-        console.log('user response');
-
-         console.log(this.localUserEmail);
-        console.log(userResponse);
         this.emitLocalUserEmailnSubject();
         this.emitUserLoggedInSubject();
         this.userLoggedJSON = userResponse;
@@ -50,9 +47,12 @@ export class LoginService {
   }
 
   async login(email: string, password: string) {
-    this.localUserEmail = email;
-    this.emitLocalUserEmailnSubject();
-    return await this.angularFireAuth.auth.signInWithEmailAndPassword(email, password);
+      return await this.angularFireAuth.auth.signInWithEmailAndPassword(email, password).then(userStatusIsOnline => {
+        this.userLoggedIn = true;
+        this.localUserEmail = userStatusIsOnline.user.email;
+        this.emitLocalUserEmailnSubject();
+        this.emitUserLoggedInSubject();
+    });
   }
 
   async logout() {

@@ -38,9 +38,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       (users: User[]) => {
         this.usersMatTable.data = users;
         this.usersMatTable._updateChangeSubscription();
-        console.log('je suis dans onInit users : ');
-        console.log(this.usersMatTable.data );
-      }
+       }
     );
 
     this.userByEmailSubscription = this.usersService.userByEmailSubject.subscribe(
@@ -48,13 +46,10 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.userByEmail = user;
       }
     );
-1
+
     this.localUserEmailSubscription = this.loginService.localUserEmailSubject.subscribe(
       (email: string) => {
-        console.log('localUserEmailSubscription email est:' );
-
         this.signedInUserEmail = email;
-        console.log( this.signedInUserEmail );
       }
     );
 
@@ -68,14 +63,8 @@ export class UsersComponent implements OnInit, OnDestroy {
       this.usersService.getUserByEmail(this.usersService.getCurrentUserEmail());
       this.displayedName = 'Logged user : ' + this.userByEmail.prenom + ' ' + this.userByEmail.name;
     } else {
-      this.displayedName  = '';
+      this.displayedName = '';
     }
-    console.log('logged user email:');
-    console.log(this.signedInUserEmail);
-    console.log('logged user :');
-    console.log(this.userByEmail);
-  //  return this.displayedName;
-
   }
   onCreateNewUsersClick(): void {
   const newUser = new User();
@@ -118,7 +107,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     if (user.id) {
       this.copieObject(this.userToModify.get(user.id), user);
       this.userToModify.delete(user.id);
-      console.log(user);
     } else {
       this.usersMatTable.data.splice(this.usersMatTable.data.indexOf(user), 1);
     }

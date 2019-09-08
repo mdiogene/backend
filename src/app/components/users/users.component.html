@@ -57,7 +57,7 @@
         <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Password' }} </mat-header-cell>
         <mat-cell *matCellDef="let user">
           <div *ngIf="user!=null">
-          <div *ngIf="!user.isOnUpdate"> {{user.password}} </div>
+            <div *ngIf="!user.isOnUpdate"> <input type="password" [(ngModel)]="user.password"> </div>
             <input class="form-control w-120" type="password"
                  *ngIf="user.isOnUpdate"
                  [(ngModel)]="user.password"

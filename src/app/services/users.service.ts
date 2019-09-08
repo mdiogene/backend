@@ -47,12 +47,8 @@ export class UsersService {
     this.userRegistered = false;
     this.fs.firestore.app.auth().createUserWithEmailAndPassword(user.email, user.password)
       .then((value) => {
-
-       // this.userAuthUid = value.user.uid;
        const userAuth = firebase.auth().currentUser;
         user.userId = value.user.uid;
-           console.log('idTokenUtilisateur est :');
-           console.log(user.userId);
         this.addUser(user);
        userAuth.updateProfile({
           displayName: user.prenom + ' ' + user.name
@@ -70,13 +66,8 @@ export class UsersService {
 
 
   private addUser(user: User): void {
-
-    // this.createUserWithEmailAndPassword(user);
     this.id = 0;
     user.id = 0;
-    console.log('au debut users a la valeur de :');
-    console.log(user);
-
     if (this.users) {
       for (const userForId of this.users) {
         if (userForId && userForId.id > this.id) {
@@ -86,11 +77,10 @@ export class UsersService {
       user.id = this.id + 1;
 
     }
-    //  user.userId = this.userAuthUid;
 
      this.fs.collection('Users').doc(user.userId).set(Object.assign({}, user));
      if (!this.usersMap.has(user.email)) {
-       this.usersMap.set(user.email, user)
+       this.usersMap.set(user.email, user);
        this.users.unshift(user);
       }
   }
@@ -98,7 +88,8 @@ export class UsersService {
   updateUser(user: User): void {
 
     this.fs.collection('Users').doc(user.userId)
-      .set(Object.assign({ name: user.name, email: user.email, prenom: user.prenom, password: user.password, isAdmin: user.isAdmin, urlPicture: user.urlPicture}));
+      .set(Object.assign({ name: user.name, isOnline: user.isOnline, email: user.email,
+        prenom: user.prenom, password: user.password, isAdmin: user.isAdmin, urlPicture: user.urlPicture}));
     this.users[this.users.indexOf(user)] = user;
     this.emitUsersSubject();
 
