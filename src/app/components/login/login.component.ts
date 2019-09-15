@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {LoginService} from '../../services/login.service';
 import {Router} from '@angular/router';
 
@@ -8,13 +8,14 @@ import {Router} from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   selectedVal: string;
   responseMessage = '';
   responseMessageType = '';
   emailInput: string;
   passwordInput: string;
   userDetails: any;
+  userLoggedIn: boolean;
 
 
   constructor(
@@ -41,33 +42,11 @@ export class LoginComponent implements OnInit {
   }
 
   // SignOut Firebase Session and Clean LocalStorage
-  logoutUser() {
-    this.authService.logout()
-      .then(res => {
-        console.log(res);
-        this.userDetails = undefined;
-        localStorage.removeItem('user');
-        this.router.navigate(['/login']);
-      }, err => {
-        this.showMessage('danger', err.message);
-      });
-  }
 
   // Login user with  provided Email/ Password
   loginUser() {
     this.responseMessage = '';
-    this.authService.login(this.emailInput, this.passwordInput)
-      .then(res => {
-        console.log(res);
-        console.log(this.authService.userLoggedIn);
-        this.showMessage('success', 'Successfully Logged In!');
-        this.isUserLoggedIn();
-        this.authService.userLoggedIn = true;
-        this.router.navigate(['/users']);
-
-      }, err => {
-        this.showMessage('danger', err.message);
-      });
+    this.authService.login(this.emailInput, this.passwordInput);
   }
 
 
@@ -80,6 +59,10 @@ export class LoginComponent implements OnInit {
       }, err => {
         this.showMessage('danger', err.message);
       });
+  }
+
+  ngOnDestroy(): void {
+    this.userDetails = null;
   }
   // // Register user with  provided Email/ Password
   // registerUser() {

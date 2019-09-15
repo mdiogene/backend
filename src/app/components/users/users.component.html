@@ -1,5 +1,5 @@
-<div>
-  <label name="displayedName">{{displayedName}}</label>
+<div class="listeUsers">
+  <label name="displayedName">{{getDisplayedNames()}}</label>
   <div class="mat-title">
     <h1>{{ 'Utilisateurs'}}</h1>
     <label name="labelInfo" class="labelInfo" *ngIf="infoToUser">{{infoToUser}} </label>
@@ -57,7 +57,7 @@
         <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Password' }} </mat-header-cell>
         <mat-cell *matCellDef="let user">
           <div *ngIf="user!=null">
-            <div *ngIf="!user.isOnUpdate"> <input type="password" [(ngModel)]="user.password"> </div>
+          <div *ngIf="!user.isOnUpdate"> {{user.password}} </div>
             <input class="form-control w-120" type="password"
                  *ngIf="user.isOnUpdate"
                  [(ngModel)]="user.password"

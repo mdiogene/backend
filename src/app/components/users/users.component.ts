@@ -30,7 +30,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   displayedName: string;
 
 
-  constructor(private usersService: UsersService, private loginService: LoginService, private router: Router) { }
+  constructor(private usersService: UsersService, private loginService: LoginService) { }
 
   ngOnInit() {
 
@@ -54,17 +54,17 @@ export class UsersComponent implements OnInit, OnDestroy {
     );
 
     this.usersService.getAllUsers();
-
-    this.getDisplayedNames();
   }
 
-  getDisplayedNames() {
+  getDisplayedNames(): string {
+    // console.log(this.usersService.getCurrentUserEmail());
     if (this.usersService.getCurrentUserEmail()) {
       this.usersService.getUserByEmail(this.usersService.getCurrentUserEmail());
       this.displayedName = 'Logged user : ' + this.userByEmail.prenom + ' ' + this.userByEmail.name;
     } else {
       this.displayedName = '';
     }
+    return this.displayedName;
   }
   onCreateNewUsersClick(): void {
   const newUser = new User();
@@ -74,7 +74,7 @@ export class UsersComponent implements OnInit, OnDestroy {
  }
 
   onEditButtonClick(user: User) {
-    console.log(user);
+
     this.userToModify.set(user.id, this.cloneObject(user));
    user.isOnUpdate = true;
   }
@@ -91,7 +91,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
   onSaveButtonClick(user: User) {
     this.iniTializeData(user);
-    this.loginService.localUserEmail;
     this.usersService.getUserByEmail(this.loginService.localUserEmail);
          user.isOnUpdate = false;
       if (user.id) {

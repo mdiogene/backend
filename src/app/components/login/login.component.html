@@ -1,3 +1,5 @@
+
+<div class="containerLogin">
 <form #f="ngForm">
   <div class="form-group">
      <h1>{{ 'Bienvenue à la page d\'administration de la Main Tendue!' }}</h1>
@@ -13,4 +15,4 @@
       <button type="submit" [disabled]="f.invalid" (click)="loginUser()" class="btn btn-success margin-right-20">{{ 'Login' }}</button>
     </div>
 </form>
-
+</div>

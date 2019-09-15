@@ -1,20 +1,24 @@
+.containerLogin{
+  min-width: 60%;
+  margin-left: 20%;
+  margin-right: 20%;
+}
 
 .btn {
-  width: 120px;
+  width: 100%;
   height: 40px;
+  align: center;
 }
 
 .btn-success {
   background-color: #84bd00;
   border-color: #84bd00;
-  margin-left: 1%;
 }
 
 
 .margin-right-20 {
   margin-right: 20px;
   margin-bottom: 2%;
-  margin-top: 2%;
   color: white;
 }
 

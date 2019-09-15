@@ -1,6 +1,10 @@
-.mat-body{
-  max-width: 80%;
+.container{
+  background: aqua;
+  min-width: 80%;
   margin-left: 10%;
+  margin-right: 10%;
+  height: 1000px;
+
 }
 
 a {
@@ -27,5 +31,5 @@ li {
   float: right;
 }
 .mat-title {
-  align-items: center;
+  margin-left: 45%;
 }

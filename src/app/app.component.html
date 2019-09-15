@@ -1,28 +1,26 @@
-<div class="mat-body">
+<div class="container">
+<div>
   <div class="mat-title">
-    <img height="5%" width="5%" src="assets/img/mnt.png">
+    <img height="18%" width="18%" src="assets/img/mnt.png">
   </div>
 <div class="mat-tab-nav-bar">
 <nav class="nav">
 
     <ul class="nav nav-pills">
-      <li *ngIf="userLoggedIn" class="nav-item active">
-        <a class="nav-link" routerLink="/users" routerLinkActive="active">{{ 'Users' }}</a>
-      </li>
-      <li *ngIf="!userLoggedIn" class="nav-item active float-right">
-        <a class="nav-link" routerLink="/login" routerLinkActive="active">{{ 'Login' }}</a>
-      </li>
-
     <li *ngIf="userLoggedIn" class="nav-item active float-right">
-      <a class="nav-link" (click)="authService.afterLogout()" routerLinkActive="active">{{ 'Logout' }}</a>
+      <a class="nav-link" (click)="logoutUser()" routerLinkActive="active">{{ 'Logout' }}</a>
     </li>
   </ul>
 </nav>
 </div>
-<div class="container">
-  <router-outlet>
-
+  <router-outlet *ngIf="!userLoggedIn">
+    <app-login></app-login>
   </router-outlet>
+
+  <router-outlet *ngIf="userLoggedIn">
+    <app-users></app-users>
+  </router-outlet>
+
 
 </div>
 

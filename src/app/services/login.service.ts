@@ -68,7 +68,6 @@ export class LoginService {
         this.userLoggedIn = false;
         localStorage.removeItem('user');
         this.emitUserLoggedInSubject();
-        this.router.navigate(['/login']);
       }, err => {
         console.log('danger', err.message);
       });

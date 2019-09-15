@@ -8,6 +8,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 
 // Add the Firebase services that you want to use
 import 'firebase/auth';
+import {LoginService} from './login.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,10 +24,11 @@ export class UsersService {
   userByEmail: User;
   loggedUserEmail: string;
 
-  constructor(public fs: AngularFirestore) {}
+  constructor(public fs: AngularFirestore, private loginService: LoginService) {}
 
   getCurrentUserEmail(): string {
-    this.loggedUserEmail = this.fs.firestore.app.auth().currentUser.email;
+    // this.loggedUserEmail = this.fs.firestore.app.auth().currentUser.email;
+    this.loggedUserEmail = this.loginService.localUserEmail;
     return this.loggedUserEmail;
   }
 
@@ -92,7 +94,6 @@ export class UsersService {
         prenom: user.prenom, password: user.password, isAdmin: user.isAdmin, urlPicture: user.urlPicture}));
     this.users[this.users.indexOf(user)] = user;
     this.emitUsersSubject();
-
   }
 
   getUserByEmail(email: string) {
