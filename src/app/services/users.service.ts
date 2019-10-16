@@ -90,7 +90,7 @@ export class UsersService {
   updateUser(user: User): void {
 
     this.fs.collection('Users').doc(user.userId)
-      .set(Object.assign({ name: user.name, isOnline: user.isOnline, email: user.email,
+      .set(Object.assign({ name: user.name, isOnline: user.isOnline, email: user.email, userId: user.userId,
         prenom: user.prenom, password: user.password, isAdmin: user.isAdmin, urlPicture: user.urlPicture}));
     this.users[this.users.indexOf(user)] = user;
     this.emitUsersSubject();
@@ -107,6 +107,7 @@ export class UsersService {
     this.fs.collection('Users').get()
       .subscribe(usersDoc => {
           usersDoc.forEach(doc => {
+        //    this.updateUser(<User>doc.data(), doc.id)
             let user: User;
             user = <User>doc.data();
             if (!this.usersMap.has(user.email)) {
