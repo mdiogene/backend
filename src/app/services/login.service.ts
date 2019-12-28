@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {auth} from 'firebase';
-import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 
 
@@ -16,8 +15,7 @@ export class LoginService {
   userLoggedInSubject = new Subject<boolean>();
   localUserEmailSubject = new Subject<string>();
   constructor(
-    public angularFireAuth: AngularFireAuth,
-    private router: Router
+    public angularFireAuth: AngularFireAuth
   ) {
     this.angularFireAuth.authState.subscribe(userResponse => {
       if (userResponse) {

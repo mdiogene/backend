@@ -1,5 +1,5 @@
 <div class="listeUsers">
-  <label name="displayedName">{{getDisplayedNames()}}</label>
+  <!--<label name="displayedName">{{getDisplayedNames()}}</label>-->
   <div class="mat-title">
     <h1>{{ 'Utilisateurs'}}</h1>
     <label name="labelInfo" class="labelInfo" *ngIf="infoToUser">{{infoToUser}} </label>
@@ -66,7 +66,34 @@
           </div>
         </mat-cell>
       </ng-container>s
+
+      <!--<ng-container matColumnDef="{{displayedColumnsUsers[4]}}">-->
+        <!--<mat-header-cell *matHeaderCellDef class="titleTableHeader" mat-sort-header> {{ 'Id Firebase' }} </mat-header-cell>-->
+        <!--<mat-cell *matCellDef="let user" >-->
+          <!--<div *ngIf="user!=null">-->
+            <!--<div *ngIf="!user.isOnUpdate"> {{user.userId}} </div>-->
+            <!--<input class="form-control w-120" type="text"-->
+                   <!--*ngIf="user.isOnUpdate"-->
+                   <!--[(ngModel)]="user.userId"-->
+                   <!--placeholder="Id Firebase">-->
+          <!--</div>-->
+        <!--</mat-cell>-->
+      <!--</ng-container>-->
       <ng-container matColumnDef="{{displayedColumnsUsers[4]}}">
+        <mat-header-cell *matHeaderCellDef class="titleTableHeader" mat-sort-header> {{ 'Url Photo' }} </mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <div *ngIf="user!=null">
+            <div *ngIf="!user.isOnUpdate"> {{user.urlPhoto}} </div>
+            <input class="form-control w-120" type="text"
+                   *ngIf="user.isOnUpdate"
+                   [(ngModel)]="user.urlPhoto"
+                   required="true"
+                   placeholder="Url Photo">
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="{{displayedColumnsUsers[5]}}">
         <mat-header-cell *matHeaderCellDef class="titleTableHeader" mat-sort-header> {{ 'Administrateur' }} </mat-header-cell>
         <mat-cell *matCellDef="let user" >
           <div *ngIf="user!=null">
@@ -80,21 +107,9 @@
                      [checked]="user.isAdmin ? user.isAdmin : false"
                      [(ngModel)]="user.isAdmin">
             </div>
-        </div>
+          </div>
         </mat-cell>
       </ng-container>
-
-      <ng-container matColumnDef="{{displayedColumnsUsers[5]}}">
-        <mat-header-cell *matHeaderCellDef class="titleTableHeader" mat-sort-header> {{ 'Url Photo' }} </mat-header-cell>
-        <mat-cell *matCellDef="let user">
-            <div *ngIf="!user.isOnUpdate"> {{user.urlPicture}} </div>
-            <input type="text"
-                   *ngIf="user.isOnUpdate"
-                   [(ngModel)]="user.urlPicture"
-                   placeholder="URL" >
-        </mat-cell>
-      </ng-container>
-
       <ng-container matColumnDef="{{displayedColumnsUsers[6]}}">
         <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Actions' }} </mat-header-cell>
         <mat-cell *matCellDef="let user">

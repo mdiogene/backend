@@ -3,8 +3,8 @@ import {User} from '../../model/User';
 import {Subscription} from 'rxjs';
 import {UsersService} from '../../services/users.service';
 import {MatTableDataSource} from '@angular/material';
-import {Router} from '@angular/router';
 import {LoginService} from '../../services/login.service';
+import {UserAPILMTService} from '../../services/user-apilmt.service';
 
 
 
@@ -16,7 +16,7 @@ import {LoginService} from '../../services/login.service';
 export class UsersComponent implements OnInit, OnDestroy {
 
 
-  userToModify = new Map<number, User>();
+  userToModify = new Map<string, User>();
   displayedColumnsUsers: string[] = ['Nom', 'Prénom', 'Email', 'Password', 'Admin', 'URL', 'Actions'];
   userByEmail: User;
   users: User[] = [];
@@ -30,18 +30,20 @@ export class UsersComponent implements OnInit, OnDestroy {
   displayedName: string;
 
 
-  constructor(private usersService: UsersService, private loginService: LoginService) { }
+  constructor(private usersService: UsersService,
+              private loginService: LoginService,
+              private userAPILMTService: UserAPILMTService) { }
 
   ngOnInit() {
 
-    this.usersSubscription = this.usersService.usersSubject.subscribe(
+    this.usersSubscription = this.userAPILMTService.usersSubject.subscribe(
       (users: User[]) => {
         this.usersMatTable.data = users;
         this.usersMatTable._updateChangeSubscription();
        }
     );
 
-    this.userByEmailSubscription = this.usersService.userByEmailSubject.subscribe(
+    this.userByEmailSubscription = this.userAPILMTService.userByEmailSubject.subscribe(
       (user: User) => {
         this.userByEmail = user;
       }
@@ -53,13 +55,12 @@ export class UsersComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.usersService.getAllUsers();
+    this.userAPILMTService.getAllUsers();
   }
 
   getDisplayedNames(): string {
-    // console.log(this.usersService.getCurrentUserEmail());
-    if (this.usersService.getCurrentUserEmail()) {
-      this.usersService.getUserByEmail(this.usersService.getCurrentUserEmail());
+    if (this.loginService.localUserEmail) {
+      this.userAPILMTService.getUserByEmail(this.loginService.localUserEmail);
       this.displayedName = 'Logged user : ' + this.userByEmail.prenom + ' ' + this.userByEmail.name;
     } else {
       this.displayedName = '';
@@ -75,7 +76,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   onEditButtonClick(user: User) {
 
-    this.userToModify.set(user.id, this.cloneObject(user));
+    this.userToModify.set(user._links.self.href, this.cloneObject(user));
    user.isOnUpdate = true;
   }
 
@@ -90,22 +91,23 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
   }
   onSaveButtonClick(user: User) {
-    this.iniTializeData(user);
-    this.usersService.getUserByEmail(this.loginService.localUserEmail);
+    // this.iniTializeData(user);
+   // this.usersService.getUserByEmail(this.loginService.localUserEmail);
          user.isOnUpdate = false;
-      if (user.id) {
-        this.usersService.updateUser(user);
-        this.userToModify.delete(user.id);
+      if (user._links) {
+        // this.usersService.updateUser(user);
+        this.userAPILMTService.updateUser(user);
+       // this.userToModify.delete(user.id);
       } else {
-        this.usersService. createUserWithEmailAndPassword (user);
+        this.userAPILMTService. createUserWithEmailAndPassword (user);
       }
    }
 
   onCancelButtonClick(user: User) {
     user.isOnUpdate = false;
-    if (user.id) {
-      this.copieObject(this.userToModify.get(user.id), user);
-      this.userToModify.delete(user.id);
+    if (user._links.self.href) {
+      this.copieObject(this.userToModify.get(user._links.self.href), user);
+      this.userToModify.delete(user._links.self.href);
     } else {
       this.usersMatTable.data.splice(this.usersMatTable.data.indexOf(user), 1);
     }

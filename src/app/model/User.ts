@@ -1,5 +1,6 @@
+import {RestFullObject} from './RestFullObject';
 
-export class User {
+export class User extends RestFullObject {
   id: number;
   userId: string;
   name: string;
@@ -8,11 +9,12 @@ export class User {
   password: string;
   isOnUpdate: boolean;
   isOnline: boolean;
-  urlPicture: string;
+  urlPhoto: string;
   isAdmin: boolean;
 
   constructor(id?: number, userId?: string, name?: string, prenom?: string,
-              email?: string, password?: string, urlPicture?: string, isAdmin?: boolean) {
+              email?: string, password?: string, urlPicture?: string, isAdmin?: boolean, _links?: any) {
+    super(_links);
     this.id = id;
     this.userId = this.userId;
     this.name = name;
@@ -21,7 +23,7 @@ export class User {
     this.password = password;
     this.isOnUpdate = false;
     this.isOnline = false;
-    this.urlPicture = urlPicture;
+    this.urlPhoto = urlPicture;
     this.isAdmin = isAdmin;
   }
 }

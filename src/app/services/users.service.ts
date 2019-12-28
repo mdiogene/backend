@@ -91,7 +91,7 @@ export class UsersService {
 
     this.fs.collection('Users').doc(user.userId)
       .set(Object.assign({ name: user.name, isOnline: user.isOnline, email: user.email, userId: user.userId,
-        prenom: user.prenom, password: user.password, isAdmin: user.isAdmin, urlPicture: user.urlPicture}));
+        prenom: user.prenom, password: user.password, isAdmin: user.isAdmin, urlPicture: user.urlPhoto}));
     this.users[this.users.indexOf(user)] = user;
     this.emitUsersSubject();
   }

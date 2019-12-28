@@ -9,7 +9,7 @@ import {CdkTableModule} from '@angular/cdk/table';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
-import {firebaseConfig} from '../environments/environment';
+import {apiLMT, firebaseConfig} from '../environments/environment';
 import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuth} from '@angular/fire/auth';
 import { LoginComponent } from './components/login/login.component';
@@ -32,7 +32,8 @@ const AppRoutes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(AppRoutes),
     FormsModule,
-    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireModule.initializeApp(firebaseConfig)
+    // AngularFireModule.initializeApp(apiLMT)
   ],
   providers: [
     AngularFireAuth,
