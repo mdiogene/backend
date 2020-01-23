@@ -3,7 +3,6 @@ import {LoginService} from './services/login.service';
 
 import {Subscription} from 'rxjs';
 import {UsersService} from './services/users.service';
-import {User} from './model/User';
 import {Router} from '@angular/router';
 
 @Component({

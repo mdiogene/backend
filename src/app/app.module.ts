@@ -13,9 +13,11 @@ import {apiLMT, firebaseConfig} from '../environments/environment';
 import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuth} from '@angular/fire/auth';
 import { LoginComponent } from './components/login/login.component';
+import { MaraudesComponent } from './components/maraudes/maraudes.component';
 
 const AppRoutes: Routes = [
   { path: 'users', component: UsersComponent},
+  { path: 'maraudes', component: MaraudesComponent},
   { path: 'login', component: LoginComponent}
 ];
 
@@ -24,6 +26,7 @@ const AppRoutes: Routes = [
     AppComponent,
     UsersComponent,
     LoginComponent,
+    MaraudesComponent,
   ],
   imports: [
     BrowserModule,

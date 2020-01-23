@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {auth} from 'firebase';
 import {Subject} from 'rxjs';
+import {Router} from '@angular/router';
 
 
 @Injectable({
@@ -15,7 +16,8 @@ export class LoginService {
   userLoggedInSubject = new Subject<boolean>();
   localUserEmailSubject = new Subject<string>();
   constructor(
-    public angularFireAuth: AngularFireAuth
+    public angularFireAuth: AngularFireAuth,
+    private router: Router
   ) {
     this.angularFireAuth.authState.subscribe(userResponse => {
       if (userResponse) {
@@ -24,6 +26,8 @@ export class LoginService {
         if (localStorage.user.operationType === 'signIn') {
           this.localUserEmail = userResponse.email;
           this.userLoggedIn = true;
+          this.router.navigate(['/users']);
+
         }
         this.emitLocalUserEmailnSubject();
         this.emitUserLoggedInSubject();
