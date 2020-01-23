@@ -1,0 +1,76 @@
+<div class="">
+
+  <div class="mat-title">
+    <h1>{{ 'Maraudes'}}</h1>
+    <button class="btn btn-success btn-ajouter" (click)="onCreateNewMaraudeClick()">{{'Nouveau' }}</button>
+  </div>
+
+  <mat-table class="table" [dataSource] = "maraudesMatTable">
+
+    <ng-container matColumnDef="{{displayedColumnsMaraudes[0]}}">
+      <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Numero' }} </mat-header-cell>
+      <mat-cell *matCellDef="let maraude" >
+        <div>
+
+
+          <input autofocus class="form-control w-120" type="text"
+                 *ngIf="maraude.isOnUpdate"
+                 [(ngModel)]="maraude.numero"
+                 required="true"
+                 placeholder="Numero">
+        </div>
+      </mat-cell>
+    </ng-container>
+
+  <ng-container matColumnDef="{{displayedColumnsMaraudes[1]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Lieu' }} </mat-header-cell>
+    <mat-cell *matCellDef="let maraude" >
+      <div>
+
+
+        <input autofocus class="form-control w-120" type="text"
+               *ngIf="maraude.isOnUpdate"
+               [(ngModel)]="maraude.lieuNom"
+               required="true"
+               placeholder="Lieu">
+      </div>
+    </mat-cell>
+  </ng-container>
+
+    <ng-container matColumnDef="{{displayedColumnsMaraudes[2]}}">
+      <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Date' }} </mat-header-cell>
+      <mat-cell *matCellDef="let maraude" >
+        <div>
+
+
+          <input autofocus class="form-control w-120" type="text"
+                 *ngIf="maraude.isOnUpdate"
+                 [(ngModel)]="maraude.date"
+                 required="true"
+                 placeholder="Date">
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="{{displayedColumnsMaraudes[3]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Participants Max' }} </mat-header-cell>
+    <mat-cell *matCellDef="let maraude" >
+      <div>
+
+        <input autofocus class="form-control w-120" type="text"
+               *ngIf="maraude.isOnUpdate"
+               [(ngModel)]="maraude.participantsMax"
+               required="true"
+               placeholder="Participant Max">
+      </div>
+    </mat-cell>
+  </ng-container>
+
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumnsMaraudes"></mat-header-row>
+    <mat-row *matRowDef="let maraude; columns: displayedColumnsMaraudes;"></mat-row>
+  </mat-table>
+</div>
+
+
