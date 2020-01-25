@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private authService: LoginService,
+    public authService: LoginService,
     public router: Router
   ) {
     this.selectedVal = 'login';
@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginUser() {
     this.responseMessage = '';
     this.authService.login(this.emailInput, this.passwordInput);
+    // this.router.navigate(['/navbar']);
   }
 
 
