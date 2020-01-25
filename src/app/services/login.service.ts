@@ -26,7 +26,6 @@ export class LoginService {
         if (localStorage.user.operationType === 'signIn') {
           this.localUserEmail = userResponse.email;
           this.userLoggedIn = true;
-          this.router.navigate(['/users']);
 
         }
         this.emitLocalUserEmailnSubject();
@@ -54,6 +53,8 @@ export class LoginService {
         this.localUserEmail = userStatusIsOnline.user.email;
         this.emitLocalUserEmailnSubject();
         this.emitUserLoggedInSubject();
+        localStorage.setItem('userLoggedIn', JSON.stringify(true));
+        this.router.navigate(['/users']);
     });
   }
 
@@ -69,6 +70,7 @@ export class LoginService {
       .then(res => {
         this.userLoggedIn = false;
         localStorage.removeItem('user');
+        localStorage.setItem('userLoggedIn', JSON.stringify(false));
         this.emitUserLoggedInSubject();
       }, err => {
         console.log('danger', err.message);
@@ -76,7 +78,8 @@ export class LoginService {
   }
 
   isUserLoggedIn() {
-    return JSON.parse(localStorage.getItem('user'));
+    // return JSON.parse(localStorage.getItem('user'));
+   return localStorage.getItem('userLoggedIn');
   }
 
   async  loginWithGoogle() {

@@ -19,7 +19,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userLoggedInSubscrition = this.authService.userLoggedInSubject.subscribe(userLoggedIn => {
-      this.userLoggedIn = userLoggedIn;
+
+     this.userLoggedIn = (Boolean)(JSON.stringify(localStorage.getItem('userLoggedIn')));
     });
   }
 
@@ -29,7 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   logoutUser() {
     this.authService.afterLogout();
-
-    this.router.navigate(['/']);
+    localStorage.removeItem('userLoggedIn');
+    this.router.navigate(['/login']);
   }
 }

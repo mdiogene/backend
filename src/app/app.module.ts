@@ -10,15 +10,17 @@ import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
 import {apiLMT, firebaseConfig} from '../environments/environment';
-import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreModule} from '@angular/fire/firestore';
+import {AngularFirestore, AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuth} from '@angular/fire/auth';
 import { LoginComponent } from './components/login/login.component';
 import { MaraudesComponent } from './components/maraudes/maraudes.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 const AppRoutes: Routes = [
   { path: 'users', component: UsersComponent},
   { path: 'maraudes', component: MaraudesComponent},
-  { path: 'login', component: LoginComponent}
+  { path: 'login', component: LoginComponent},
+  { path: 'navbar', component: NavbarComponent}
 ];
 
 @NgModule({
@@ -27,6 +29,7 @@ const AppRoutes: Routes = [
     UsersComponent,
     LoginComponent,
     MaraudesComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,

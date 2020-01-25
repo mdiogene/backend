@@ -1,3 +1,4 @@
+
 <div class="listeUsers">
   <!--<label name="displayedName">{{getDisplayedNames()}}</label>-->
   <div class="mat-title">
@@ -65,7 +66,7 @@
                  placeholder="Mot de passe">
           </div>
         </mat-cell>
-      </ng-container>s
+      </ng-container>
 
       <!--<ng-container matColumnDef="{{displayedColumnsUsers[4]}}">-->
         <!--<mat-header-cell *matHeaderCellDef class="titleTableHeader" mat-sort-header> {{ 'Id Firebase' }} </mat-header-cell>-->
@@ -147,9 +148,9 @@
         </mat-cell>
       </ng-container>
 
-
       <mat-header-row *matHeaderRowDef="displayedColumnsUsers"></mat-header-row>
-      <mat-row *matRowDef="let user; columns: displayedColumnsUsers;"></mat-row>
+      <mat-row *matRowDef="let maraude; columns: displayedColumnsUsers;"></mat-row>
+
     </mat-table>
 </div>
 

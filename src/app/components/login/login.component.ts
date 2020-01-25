@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   emailInput: string;
   passwordInput: string;
   userDetails: any;
-  userLoggedIn: boolean;
+  userLoggedIn: any;
 
 
   constructor(
@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginUser() {
     this.responseMessage = '';
     this.authService.login(this.emailInput, this.passwordInput);
+    this.userLoggedIn = localStorage.getItem('userLoggedIn');
   }
 
 
