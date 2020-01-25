@@ -1,26 +1,33 @@
+<!---- <div class="mat-title">
+        <img height="18%" width="18%" src="assets/img/mnt.png">
+    </div>-->
+
+<!--<app-login></app-login>
 <div class="container">
-<div>
-  <div class="mat-title">
-    <img height="18%" width="18%" src="assets/img/mnt.png">
-  </div>
-<div class="mat-tab-nav-bar">
-<nav class="nav">
-
-    <ul class="nav nav-pills">
-    <li *ngIf="userLoggedIn" class="nav-item active float-right">
-      <a class="nav-link" (click)="logoutUser()" routerLinkActive="active">{{ 'Logout' }}</a>
-    </li>
-  </ul>
-</nav>
-</div>
-  <router-outlet *ngIf="!userLoggedIn">
+    <router-outlet *ngIf="!userLoggedIn"></router-outlet>
+</div>-->
+<!--<router-outlet>
     <app-login></app-login>
-  </router-outlet>
+</router-outlet>-->
 
-  <router-outlet *ngIf="userLoggedIn">
-    <app-users></app-users>
-  </router-outlet>
+<!--<div class="mat-tab-nav-bar">
+    <nav class="nav">
 
+        <ul class="nav nav-pills">
+            <li *ngIf="userLoggedIn" class="nav-item active float-right">
+                <a class="nav-link" (click)="logoutUser()" routerLinkActive="active">{{ 'Logout' }}</a>
+            </li>
+        </ul>
+    </nav>
+</div>-->
 
-</div>
-</div>
+<router-outlet *ngIf="!userLoggedIn">
+    <app-login></app-login>
+</router-outlet>
+<!--<router-outlet *ngIf="!userLoggedIn">
+    
+</router-outlet>-->
+
+<router-outlet *ngIf="userLoggedIn">
+    <app-navbar></app-navbar>
+</router-outlet>
