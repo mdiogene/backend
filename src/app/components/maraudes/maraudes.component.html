@@ -1,4 +1,4 @@
-<div class="">
+<div *ngIf="userLoggedIn">
 
   <div class="mat-title">
     <h1>{{ 'Maraudes'}}</h1>
@@ -30,7 +30,7 @@
 
         <input autofocus class="form-control w-120" type="text"
                *ngIf="maraude.isOnUpdate"
-               [(ngModel)]="maraude.lieuNom"
+               [(ngModel)]="maraude.commentaire"
                required="true"
                placeholder="Lieu">
       </div>
