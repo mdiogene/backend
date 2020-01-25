@@ -1,6 +1,9 @@
-  <router-outlet>
+<div (ngModel)="userLoggedIn" *ngIf="!userLoggedIn">
+  <app-login></app-login>
+</div>
+
+<router-outlet (ngModel)="userLoggedIn" *ngIf="userLoggedIn">
     <app-navbar></app-navbar>
-  </router-outlet>
-  <router-outlet *ngIf="!userLoggedIn">
-    <app-login></app-login>
-  </router-outlet>
+</router-outlet>
+
+

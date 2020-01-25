@@ -36,6 +36,8 @@ export class LoginService {
         localStorage.setItem('user', null);
       }
     });
+    this.userLoggedIn = (Boolean)(localStorage.getItem('userLoggedIn'));
+    this.emitUserLoggedInSubject();
   }
 
   emitUserLoggedInSubject() {
@@ -54,6 +56,7 @@ export class LoginService {
         this.emitLocalUserEmailnSubject();
         this.emitUserLoggedInSubject();
         localStorage.setItem('userLoggedIn', JSON.stringify(true));
+        this.userLoggedIn = (Boolean)(localStorage.getItem('userLoggedIn'));
         this.router.navigate(['/users']);
     });
   }
@@ -68,10 +71,11 @@ export class LoginService {
     this.logout();
     this.logout()
       .then(res => {
-        this.userLoggedIn = false;
         localStorage.removeItem('user');
-        localStorage.setItem('userLoggedIn', JSON.stringify(false));
+        localStorage.removeItem('userLoggedIn');
+        this.userLoggedIn = false;
         this.emitUserLoggedInSubject();
+        this.router.navigate(['/']);
       }, err => {
         console.log('danger', err.message);
       });

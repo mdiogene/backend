@@ -1,10 +1,35 @@
-.container {
-   // background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
+/*.container {
+    background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
     background-size: cover;
     background-repeat: repeat;
     height: 100%;
     font-family: 'Numans', sans-serif;
+}*/
+
+a {
+    color: dimgray;
+    text-decoration: none;
 }
+
+li {
+    display: inline;
+    min-height: 40px;
+    text-decoration: none;
+    list-style: none;
+    margin-left: 20px;
+}
+
+.nav-item .active {
+    background-color: beige;
+    width: 80px;
+    height: 40px;
+    padding: 15px;
+}
+
+.float-right {
+    float: right;
+}
+
 .mat-title {
-  margin-left: 45%;
+    margin-left: 45%;
 }
