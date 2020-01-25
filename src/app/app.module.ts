@@ -22,6 +22,14 @@ const AppRoutes: Routes = [
   { path: 'login', component: LoginComponent},
 //  { path: 'navbar', component: NavbarComponent},
 
+
+import { MaraudesComponent } from './components/maraudes/maraudes.component';
+
+const AppRoutes: Routes = [
+  { path: 'users', component: UsersComponent},
+  { path: 'maraudes', component: MaraudesComponent},
+  { path: 'login', component: LoginComponent}
+
 ];
 
 @NgModule({
@@ -31,6 +39,8 @@ const AppRoutes: Routes = [
     LoginComponent,
     DonsComponent,
     NavbarComponent,
+
+    MaraudesComponent,
   ],
   imports: [
     BrowserModule,

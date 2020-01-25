@@ -15,11 +15,17 @@ export class LoginService {
 
   userLoggedInSubject = new Subject<boolean>();
   localUserEmailSubject = new Subject<string>();
+
   localUser: any;
   setUser: any;
   updateUser: any;
   constructor(public router: Router,
     public angularFireAuth: AngularFireAuth
+	
+  constructor(
+    public angularFireAuth: AngularFireAuth,
+    private router: Router
+
   ) {
     this.angularFireAuth.authState.subscribe(userResponse => {
       if (userResponse) {
@@ -28,6 +34,8 @@ export class LoginService {
         if (localStorage.user.operationType === 'signIn') {
           this.localUserEmail = userResponse.email;
           this.userLoggedIn = true;
+          this.router.navigate(['/users']);
+
         }
         this.emitLocalUserEmailnSubject();
         this.emitUserLoggedInSubject();
