@@ -17,12 +17,6 @@ import { DonsComponent } from './components/dons/dons.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AppRoutingModule } from './app-routing.module';
 
-const AppRoutes: Routes = [
-  { path: 'users', component: UsersComponent},
-  { path: 'login', component: LoginComponent},
-//  { path: 'navbar', component: NavbarComponent},
-
-
 import { MaraudesComponent } from './components/maraudes/maraudes.component';
 
 const AppRoutes: Routes = [
