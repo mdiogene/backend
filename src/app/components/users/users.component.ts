@@ -24,6 +24,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   usersSubscription: Subscription;
   userByEmailSubscription: Subscription;
   localUserEmailSubscription: Subscription;
+  userLoggedInSubscrition: Subscription;
+  userLoggedIn: boolean;
   signedInUserEmail: string;
   infoToUser: string;
   infoToUserAdminOrNot: string;
@@ -54,6 +56,14 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.signedInUserEmail = email;
       }
     );
+
+      if(localStorage.getItem('userLoggedIn')){
+        this.userLoggedIn = true;
+      } else {
+        this.userLoggedIn = false;
+      }
+
+      console.log(this.userLoggedIn);
 
     this.userAPILMTService.getAllUsers();
   }

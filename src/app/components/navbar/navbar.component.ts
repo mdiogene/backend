@@ -10,20 +10,15 @@ import {LoginService} from '../../services/login.service';
 export class NavbarComponent implements OnInit {
 
   constructor(public router: Router,
-    private authService: LoginService,
+    private authService: LoginService
     ) { }
 
   ngOnInit() {
   }
-
- /* logout() {
-    this.router.navigate(['/login']);
-
-  }*/
-
-  logoutuser() {
-    this.authService.logoutuser();
-     // this.router.navigate(['/login']);
-    }
+  logoutUser() {
+    this.authService.afterLogout();
+    // localStorage.removeItem('userLoggedIn');
+    // this.router.navigate(['/']);
+  }
 
 }

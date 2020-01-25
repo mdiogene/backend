@@ -66,7 +66,40 @@
     </mat-cell>
   </ng-container>
 
+    <ng-container matColumnDef="{{displayedColumnsMaraudes[4]}}">
+      <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Actions' }} </mat-header-cell>
+      <mat-cell *matCellDef="let maraude">
+        <div *ngIf="maraude!=null">
+          <div class="twoButtonsDivContainer">
+            <button type="button"
+                    class="btn btn-success buttonMarginRight"
+                    (click)="onSaveButtonClick(maraude)"
+                    *ngIf="maraude.isOnUpdate">
+              {{'Save'}}
+            </button>
+            <button type="button"
+                    class="btn btn-warning"
+                    (click)="onCancelButtonClick(maraude)"
+                    *ngIf="maraude.isOnUpdate">
+              {{'Cancel'}}
+            </button>
+            <button type="button"
+                    class="btn btn-primary buttonMarginRight"
+                    (click)="onEditButtonClick(maraude)"
+                    *ngIf="!maraude.isOnUpdate">
+              {{'Editer'}}
+            </button>
 
+            <button type="button"
+                    class="btn btn-danger"
+                    (click)="onDeleteButtonClick(maraude)"
+                    *ngIf="!maraude.isOnUpdate">
+              {{'Delete'}}
+            </button>
+          </div>
+        </div>
+      </mat-cell>
+    </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumnsMaraudes"></mat-header-row>
     <mat-row *matRowDef="let maraude; columns: displayedColumnsMaraudes;"></mat-row>

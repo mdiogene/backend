@@ -15,11 +15,9 @@ export class LoginService {
 
   userLoggedInSubject = new Subject<boolean>();
   localUserEmailSubject = new Subject<string>();
-  localUser: any;
-  setUser: any;
-  updateUser: any;
-  constructor(public router: Router,
-    public angularFireAuth: AngularFireAuth
+  constructor(
+    public angularFireAuth: AngularFireAuth,
+    private router: Router
   ) {
     this.angularFireAuth.authState.subscribe(userResponse => {
       if (userResponse) {
@@ -28,6 +26,7 @@ export class LoginService {
         if (localStorage.user.operationType === 'signIn') {
           this.localUserEmail = userResponse.email;
           this.userLoggedIn = true;
+
         }
         this.emitLocalUserEmailnSubject();
         this.emitUserLoggedInSubject();
@@ -37,6 +36,8 @@ export class LoginService {
         localStorage.setItem('user', null);
       }
     });
+    this.userLoggedIn = (Boolean)(localStorage.getItem('userLoggedIn'));
+    this.emitUserLoggedInSubject();
   }
 
   emitUserLoggedInSubject() {
@@ -54,18 +55,12 @@ export class LoginService {
         this.localUserEmail = userStatusIsOnline.user.email;
         this.emitLocalUserEmailnSubject();
         this.emitUserLoggedInSubject();
+        localStorage.setItem('userLoggedIn', JSON.stringify(true));
+        this.userLoggedIn = (Boolean)(localStorage.getItem('userLoggedIn'));
+        this.router.navigate(['/users']);
     });
   }
 
-  // Partie Logout
-  logoutuser() {
-    this.angularFireAuth.auth.signOut().then(() => {
-     // this.localUser.isOnline = false;
-     // this.updateUser(this.localUser);
-     // this.setUser(this.localUser);
-      this.router.navigateByUrl('/login');
-    });
-  }
   async logout() {
     this.userLoggedIn = false;
 
@@ -76,16 +71,19 @@ export class LoginService {
     this.logout();
     this.logout()
       .then(res => {
-        this.userLoggedIn = false;
         localStorage.removeItem('user');
+        localStorage.removeItem('userLoggedIn');
+        this.userLoggedIn = false;
         this.emitUserLoggedInSubject();
+        this.router.navigate(['/']);
       }, err => {
         console.log('danger', err.message);
       });
   }
 
   isUserLoggedIn() {
-    return JSON.parse(localStorage.getItem('user'));
+    // return JSON.parse(localStorage.getItem('user'));
+   return localStorage.getItem('userLoggedIn');
   }
 
   async  loginWithGoogle() {

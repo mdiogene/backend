@@ -8,7 +8,7 @@ export class Don extends RestFullObject {
     user_don: string;
 
     // tslint:disable-next-line:whitespace
-    constructor(id?: number, userid?: number,date?: number, description?: string, user_don?: string) {
+    constructor(id?: number, userid?: number,date?: number, description?: string, user_don?: string, _links?: any) {
         super(_links);
         this.id = id;
         this.userid = this.userid;

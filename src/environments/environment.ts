@@ -6,13 +6,13 @@ export const environment = {
   production: false
 };
 
-export const apiLMT = {
-  url: 'http://94.23.204.130:8080/lamaintenduapi/'
+export const apiLMT1 = {
+  url: 'http://94.23.204.130:8080/lamaintenduapi'
 };
 
-// export const apiLMT = {
-//    url: 'http://94.23.204.130:8280/lmt'
-// };
+export const apiLMT = {
+   url: 'http://94.23.204.130:8280/lmt'
+};
 // Config FireBase
 export const firebaseConfig = {
   //   apiKey: 'AIzaSyAYopQkdj7IyhpJck42Zp_ZI-jIctYa0YM',
