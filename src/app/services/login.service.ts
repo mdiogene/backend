@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {AngularFireAuth} from '@angular/fire/auth';
 import {auth} from 'firebase';
 import {Subject} from 'rxjs';
+import {Router} from '@angular/router';
 
 
 @Injectable({
@@ -14,7 +15,10 @@ export class LoginService {
 
   userLoggedInSubject = new Subject<boolean>();
   localUserEmailSubject = new Subject<string>();
-  constructor(
+  localUser: any;
+  setUser: any;
+  updateUser: any;
+  constructor(public router: Router,
     public angularFireAuth: AngularFireAuth
   ) {
     this.angularFireAuth.authState.subscribe(userResponse => {
@@ -53,6 +57,15 @@ export class LoginService {
     });
   }
 
+  // Partie Logout
+  logoutuser() {
+    this.angularFireAuth.auth.signOut().then(() => {
+     // this.localUser.isOnline = false;
+     // this.updateUser(this.localUser);
+     // this.setUser(this.localUser);
+      this.router.navigateByUrl('/login');
+    });
+  }
   async logout() {
     this.userLoggedIn = false;
 
