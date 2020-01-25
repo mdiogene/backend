@@ -62,9 +62,6 @@ export class UsersComponent implements OnInit, OnDestroy {
       } else {
         this.userLoggedIn = false;
       }
-
-      console.log(this.userLoggedIn);
-
     this.userAPILMTService.getAllUsers();
   }
 

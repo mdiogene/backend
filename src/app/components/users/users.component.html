@@ -12,14 +12,10 @@
 <div *ngIf="userLoggedIn">
     <div class="listeUsers">
         <!--<label name="displayedName">{{getDisplayedNames()}}</label>-->
-        <div class="text-left">
+        <div class="mat-title">
             <label name="labelInfo" class="labelInfo" *ngIf="infoToUser">{{infoToUser}} </label>
             <button type="button" class="btn btn-info btn-ajouter" (click)="onCreateNewUsersClick()">{{'Nouveau' }}</button>
         </div>
-        <!---- <div class="mat-title">
-            <label name="labelInfo" class="labelInfo" *ngIf="infoToUser">{{infoToUser}} </label>
-            <button class="btn btn-success btn-ajouter" (click)="onCreateNewUsersClick()">{{'Nouveau' }}</button>
-        </div>-->
         <label class="labelInfo" name="labelInfoToUserAdminOrNot" *ngIf="infoToUserAdminOrNot">{{infoToUserAdminOrNot}} </label>
         <mat-table class="table" [dataSource]="usersMatTable">
 
@@ -112,7 +108,7 @@
                             <button type="button" class="btn btn-warning" (click)="onCancelButtonClick(user)" *ngIf="user.isOnUpdate">
                 {{'Cancel'}}
               </button>
-                            <button type="button" class="btn btn-primary " (click)="onEditButtonClick(user)" *ngIf="!user.isOnUpdate">
+                            <button type="button" class="btn btn-primary buttonMarginRight" (click)="onEditButtonClick(user)" *ngIf="!user.isOnUpdate">
                 {{'Editer'}}
               </button>
 
@@ -123,6 +119,7 @@
                     </div>
                 </mat-cell>
             </ng-container>
+
 
             <mat-header-row *matHeaderRowDef="displayedColumnsUsers"></mat-header-row>
             <mat-row *matRowDef="let user; columns: displayedColumnsUsers;"></mat-row>
