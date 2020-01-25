@@ -1,36 +1,38 @@
 .btn-success {
-  background-color: #84bd00;
-  width: 80px;
-  height: 30px;}
+    background-color: #84bd00;
+    margin-right: 10px;
+    width: 80px;
+    height: 30px;
+}
 
 .btn-ajouter {
-  margin-bottom: 2%;
-  margin-left: 90%;
+    margin-bottom: 2%;
+    margin-left: 90%;
 }
 
 .btn-danger {
-  background-color: brown;
-  width: 80px;
-  height: 30px;
+    background-color: brown;
+    /*width: 80px;
+    height: 30px;*/
 }
-
-
 
 .btn-primary {
-  background-color: chocolate;
-  width: 80px;
-  height: 30px;
+    // background-color: chocolate;
+    margin-right: 10px;
+    /* width: 80px;
+    height: 30px;*/
 }
 
-.mat-title{
-  margin-left: 35%;
-}
-.btn-warning{
-  background-color: cornsilk;
-  width: 80px;
-  height: 30px;
+.mat-title {
+    margin-left: 35%;
 }
 
-.listeUsers{
-  margin: 5%;
+.btn-warning {
+    background-color: cornsilk;
+    width: 80px;
+    height: 30px;
+}
+
+.listeUsers {
+    // margin: 5%;
 }
