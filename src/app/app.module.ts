@@ -13,10 +13,15 @@ import {apiLMT, firebaseConfig} from '../environments/environment';
 import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuth} from '@angular/fire/auth';
 import { LoginComponent } from './components/login/login.component';
+import { DonsComponent } from './components/dons/dons.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { AppRoutingModule } from './app-routing.module';
 
 const AppRoutes: Routes = [
   { path: 'users', component: UsersComponent},
-  { path: 'login', component: LoginComponent}
+  { path: 'login', component: LoginComponent},
+//  { path: 'navbar', component: NavbarComponent},
+
 ];
 
 @NgModule({
@@ -24,6 +29,8 @@ const AppRoutes: Routes = [
     AppComponent,
     UsersComponent,
     LoginComponent,
+    DonsComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,7 +39,8 @@ const AppRoutes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(AppRoutes),
     FormsModule,
-    AngularFireModule.initializeApp(firebaseConfig)
+    AngularFireModule.initializeApp(firebaseConfig),
+    AppRoutingModule
     // AngularFireModule.initializeApp(apiLMT)
   ],
   providers: [
