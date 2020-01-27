@@ -1,109 +1,84 @@
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4 text-lg-center">Gestion Maraudes</h1>
+    </div>
+</div>
+
 <div *ngIf="userLoggedIn">
 
-  <div class="mat-title">
-    <h1>{{ 'Maraudes'}}</h1>
-    <button class="btn btn-success btn-ajouter" (click)="onCreateNewMaraudeClick()">{{'Nouveau' }}</button>
-  </div>
+    <div class="mat-title">
+        <button type="button" class="btn btn-info btn-ajouter" (click)="onCreateNewMaraudeClick()">{{'Nouveau' }}</button>
+    </div>
 
-  <mat-table class="table" [dataSource] = "maraudesMatTable">
+    <mat-table class="table" [dataSource]="maraudesMatTable">
 
-    <ng-container matColumnDef="{{displayedColumnsMaraudes[0]}}">
-      <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Numero' }} </mat-header-cell>
-      <mat-cell *matCellDef="let maraude" >
-        <div>
-
-
-          <input autofocus class="form-control w-120" type="text"
-                 *ngIf="maraude.isOnUpdate"
-                 [(ngModel)]="maraude.numero"
-                 required="true"
-                 placeholder="Numero">
-        </div>
-      </mat-cell>
-    </ng-container>
-
-  <ng-container matColumnDef="{{displayedColumnsMaraudes[1]}}">
-    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Lieu' }} </mat-header-cell>
-    <mat-cell *matCellDef="let maraude" >
-      <div>
+        <ng-container matColumnDef="{{displayedColumnsMaraudes[0]}}">
+            <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Numero' }} </mat-header-cell>
+            <mat-cell *matCellDef="let maraude">
+                <div>
 
 
-        <input autofocus class="form-control w-120" type="text"
-               *ngIf="maraude.isOnUpdate"
-               [(ngModel)]="maraude.commentaire"
-               required="true"
-               placeholder="Lieu">
-      </div>
-    </mat-cell>
-  </ng-container>
+                    <input autofocus class="form-control w-120" type="text" *ngIf="maraude.isOnUpdate" [(ngModel)]="maraude.numero" required="true" placeholder="Numero">
+                </div>
+            </mat-cell>
+        </ng-container>
 
-    <ng-container matColumnDef="{{displayedColumnsMaraudes[2]}}">
-      <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Date' }} </mat-header-cell>
-      <mat-cell *matCellDef="let maraude" >
-        <div>
+        <ng-container matColumnDef="{{displayedColumnsMaraudes[1]}}">
+            <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Lieu' }} </mat-header-cell>
+            <mat-cell *matCellDef="let maraude">
+                <div>
 
 
-          <input autofocus class="form-control w-120" type="text"
-                 *ngIf="maraude.isOnUpdate"
-                 [(ngModel)]="maraude.date"
-                 required="true"
-                 placeholder="Date">
-        </div>
-      </mat-cell>
-    </ng-container>
+                    <input autofocus class="form-control w-120" type="text" *ngIf="maraude.isOnUpdate" [(ngModel)]="maraude.commentaire" required="true" placeholder="Lieu">
+                </div>
+            </mat-cell>
+        </ng-container>
 
-    <ng-container matColumnDef="{{displayedColumnsMaraudes[3]}}">
-    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Participants Max' }} </mat-header-cell>
-    <mat-cell *matCellDef="let maraude" >
-      <div>
+        <ng-container matColumnDef="{{displayedColumnsMaraudes[2]}}">
+            <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Date' }} </mat-header-cell>
+            <mat-cell *matCellDef="let maraude">
+                <div>
 
-        <input autofocus class="form-control w-120" type="text"
-               *ngIf="maraude.isOnUpdate"
-               [(ngModel)]="maraude.participantsMax"
-               required="true"
-               placeholder="Participant Max">
-      </div>
-    </mat-cell>
-  </ng-container>
 
-    <ng-container matColumnDef="{{displayedColumnsMaraudes[4]}}">
-      <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Actions' }} </mat-header-cell>
-      <mat-cell *matCellDef="let maraude">
-        <div *ngIf="maraude!=null">
-          <div class="twoButtonsDivContainer">
-            <button type="button"
-                    class="btn btn-success buttonMarginRight"
-                    (click)="onSaveButtonClick(maraude)"
-                    *ngIf="maraude.isOnUpdate">
+                    <input autofocus class="form-control w-120" type="text" *ngIf="maraude.isOnUpdate" [(ngModel)]="maraude.date" required="true" placeholder="Date">
+                </div>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="{{displayedColumnsMaraudes[3]}}">
+            <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Participants Max' }} </mat-header-cell>
+            <mat-cell *matCellDef="let maraude">
+                <div>
+
+                    <input autofocus class="form-control w-120" type="text" *ngIf="maraude.isOnUpdate" [(ngModel)]="maraude.participantsMax" required="true" placeholder="Participant Max">
+                </div>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="{{displayedColumnsMaraudes[4]}}">
+            <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Actions' }} </mat-header-cell>
+            <mat-cell *matCellDef="let maraude">
+                <div *ngIf="maraude!=null">
+                    <div class="twoButtonsDivContainer">
+                        <button type="button" class="btn btn-success buttonMarginRight" (click)="onSaveButtonClick(maraude)" *ngIf="maraude.isOnUpdate">
               {{'Save'}}
             </button>
-            <button type="button"
-                    class="btn btn-warning"
-                    (click)="onCancelButtonClick(maraude)"
-                    *ngIf="maraude.isOnUpdate">
+                        <button type="button" class="btn btn-warning" (click)="onCancelButtonClick(maraude)" *ngIf="maraude.isOnUpdate">
               {{'Cancel'}}
             </button>
-            <button type="button"
-                    class="btn btn-primary buttonMarginRight"
-                    (click)="onEditButtonClick(maraude)"
-                    *ngIf="!maraude.isOnUpdate">
+                        <button type="button" class="btn btn-primary buttonMarginRight" (click)="onEditButtonClick(maraude)" *ngIf="!maraude.isOnUpdate">
               {{'Editer'}}
             </button>
 
-            <button type="button"
-                    class="btn btn-danger"
-                    (click)="onDeleteButtonClick(maraude)"
-                    *ngIf="!maraude.isOnUpdate">
+                        <button type="button" class="btn btn-danger" (click)="onDeleteButtonClick(maraude)" *ngIf="!maraude.isOnUpdate">
               {{'Delete'}}
             </button>
-          </div>
-        </div>
-      </mat-cell>
-    </ng-container>
+                    </div>
+                </div>
+            </mat-cell>
+        </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumnsMaraudes"></mat-header-row>
-    <mat-row *matRowDef="let maraude; columns: displayedColumnsMaraudes;"></mat-row>
-  </mat-table>
+        <mat-header-row *matHeaderRowDef="displayedColumnsMaraudes"></mat-header-row>
+        <mat-row *matRowDef="let maraude; columns: displayedColumnsMaraudes;"></mat-row>
+    </mat-table>
 </div>
-
-
