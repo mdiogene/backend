@@ -19,7 +19,7 @@
         <label class="labelInfo" name="labelInfoToUserAdminOrNot" *ngIf="infoToUserAdminOrNot">{{infoToUserAdminOrNot}} </label>
         <mat-table class="table" [dataSource]="usersMatTable">
 
-            <ng-container matColumnDef="{{displayedColumnsUsers[0]}}">
+            <ng-container matColumnDef="{{displayedColumnsUsers[0]}}" sticky>
                 <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Name' }} </mat-header-cell>
                 <mat-cell *matCellDef="let user">
                     <div *ngIf="user!=null">
