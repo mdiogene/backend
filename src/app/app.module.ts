@@ -33,10 +33,10 @@ const AppRoutes: Routes = [
     LoginComponent,
     DonsComponent,
     NavbarComponent,
-
     MaraudesComponent,
   ],
   imports: [
+
     BrowserModule,
     MatTableModule,
     CdkTableModule,

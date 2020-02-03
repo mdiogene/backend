@@ -7,23 +7,23 @@
 
   <mat-table class="table" [dataSource] = "maraudesMatTable">
 
-    <ng-container matColumnDef="{{displayedColumnsMaraudes[0]}}">
-      <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Numero' }} </mat-header-cell>
-      <mat-cell *matCellDef="let maraude" >
-        <div>
+    <!--<ng-container matColumnDef="{{displayedColumnsMaraudes[0]}}">-->
+      <!--<mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Numero' }} </mat-header-cell>-->
+      <!--<mat-cell *matCellDef="let maraude" >-->
+        <!--<div>-->
 
 
-          <input autofocus class="form-control w-120" type="text"
-                 *ngIf="maraude.isOnUpdate"
-                 [(ngModel)]="maraude.numero"
-                 required="true"
-                 placeholder="Numero">
-        </div>
-      </mat-cell>
-    </ng-container>
+          <!--<input autofocus class="form-control w-120" type="text"-->
+                 <!--*ngIf="maraude.isOnUpdate"-->
+                 <!--[(ngModel)]="maraude.numero"-->
+                 <!--required="true"-->
+                 <!--placeholder="Numero">-->
+        <!--</div>-->
+      <!--</mat-cell>-->
+    <!--</ng-container>-->
 
-  <ng-container matColumnDef="{{displayedColumnsMaraudes[1]}}">
-    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Lieu' }} </mat-header-cell>
+  <ng-container matColumnDef="{{displayedColumnsMaraudes[0]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Commentaire' }} </mat-header-cell>
     <mat-cell *matCellDef="let maraude" >
       <div>
 
@@ -37,7 +37,7 @@
     </mat-cell>
   </ng-container>
 
-    <ng-container matColumnDef="{{displayedColumnsMaraudes[2]}}">
+    <ng-container matColumnDef="{{displayedColumnsMaraudes[1]}}">
       <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Date' }} </mat-header-cell>
       <mat-cell *matCellDef="let maraude" >
         <div>
@@ -52,7 +52,7 @@
       </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="{{displayedColumnsMaraudes[3]}}">
+    <ng-container matColumnDef="{{displayedColumnsMaraudes[2]}}">
     <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Participants Max' }} </mat-header-cell>
     <mat-cell *matCellDef="let maraude" >
       <div>
@@ -66,7 +66,7 @@
     </mat-cell>
   </ng-container>
 
-    <ng-container matColumnDef="{{displayedColumnsMaraudes[4]}}">
+    <ng-container matColumnDef="{{displayedColumnsMaraudes[3]}}">
       <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Actions' }} </mat-header-cell>
       <mat-cell *matCellDef="let maraude">
         <div *ngIf="maraude!=null">

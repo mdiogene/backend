@@ -21,7 +21,7 @@ export class MaraudeApilmtService {
     }
   }
 
-  getMaraudes(): void {
+  getAllMaraudes(): void {
     // this.loadingService.showLoading();
     this.maraudes = null;
     this.http.get<Maraude[]>(this.maraudeAPILMTUrl).subscribe(

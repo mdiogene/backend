@@ -1,21 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
-
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-.table {}
 
-.titleTableHeader {}
+.table {
+}
+
+.titleTableHeader {
+}
 
 .mat-header-row {
-    background-color: rgb(50, 223, 208);
-    color: rgb(20, 16, 16);
-    font-size: 20px;
-    vertical-align: middle;
-    border: thin;
+  background-color: rgb(50, 223, 208);
+  color: rgb(20, 16, 16);
+  font-size: 20px;
+  vertical-align: middle;
+  border: thin;
 }
 
 .mat-header-cell {
-    color: black;
-    font-size: medium;
+  color: black;
+  font-size: medium;
 }
 
 
@@ -30,21 +32,25 @@
 }*/
 
 
-/*body,
+
+#particles-js {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background: url("/assets/img/bg1.jpg");
+  background-size: cover;
+  justify-content: center;
+  position: absolute;
+  // display: block;
+  top: 0;
+  z-index: 0;
+}
+
+body,
 html {
-    padding-top: 20rem;
-    background: url('/assets/img/loginpage.jpg');
+  margin: 0;
+  padding: 0;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
-}*/
-
-
-/*body,
-html {
-    padding: 0;
-    background: url('/assets/img/loginpage.jpg');
-    background-size: cover;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-}*/
+}

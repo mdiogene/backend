@@ -10,7 +10,7 @@ import {MaraudeApilmtService} from '../../services/maraude-apilmt.service';
 })
 export class MaraudesComponent implements OnInit, OnDestroy {
   userLoggedIn: boolean;
-  displayedColumnsMaraudes: string[] = ['Numero', 'Lieu', 'Date', 'ParticipantsMax', 'Actions'];
+  displayedColumnsMaraudes: string[] = ['Commenatire', 'Date', 'ParticipantsMax', 'Actions'];
   maraudeToModify = new Map<string, Maraude>();
   maraude = new Maraude();
   maraudes: Maraude[] = [];
@@ -20,7 +20,7 @@ export class MaraudesComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.maraudesMatTable.data = this.maraudes;
 
-    if(localStorage.getItem('userLoggedIn')){
+    if (localStorage.getItem('userLoggedIn')) {
       this.userLoggedIn = true;
     } else {
       this.userLoggedIn = false;

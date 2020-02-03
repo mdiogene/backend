@@ -1,3 +1,6 @@
+<div id="container">
+<div id="particles-js">
+
 <div (ngModel)="userLoggedIn" *ngIf="!userLoggedIn">
   <app-login></app-login>
 </div>
@@ -5,5 +8,5 @@
 <router-outlet (ngModel)="userLoggedIn" *ngIf="userLoggedIn">
     <app-navbar></app-navbar>
 </router-outlet>
-
-
+</div>
+</div>
