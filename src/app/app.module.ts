@@ -18,11 +18,13 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { MaraudesComponent } from './components/maraudes/maraudes.component';
+import { LieuComponent } from './components/lieu/lieu.component';
 
 const AppRoutes: Routes = [
   { path: 'users', component: UsersComponent},
   { path: 'maraudes', component: MaraudesComponent},
-  { path: 'login', component: LoginComponent}
+  { path: 'login', component: LoginComponent},
+  { path: 'lieux', component: LieuComponent}
 
 ];
 
@@ -34,6 +36,7 @@ const AppRoutes: Routes = [
     DonsComponent,
     NavbarComponent,
     MaraudesComponent,
+    LieuComponent,
   ],
   imports: [
 

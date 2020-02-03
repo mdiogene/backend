@@ -10,11 +10,12 @@ import {User} from '../model/User';
   providedIn: 'root'
 })
 export class MaraudeApilmtService {
-  private maraudeAPILMTUrl = `${apiLMT.url}/maraude`;
+  private maraudeAPILMTUrl = `${apiLMT.url}/maraudes`;
   maraudesSubject = new Subject<Maraude[]>();
   maraudes: Maraude[] = [];
   public alertService: AlertService;
   constructor(private http: HttpClient) { }
+
   emitMaraudesSubject() {
     if (this.maraudes) {
       this.maraudesSubject.next(Array.from(this.maraudes));

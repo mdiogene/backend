@@ -21,36 +21,20 @@
 }
 
 
-/*#container {
-    padding-top: 20rem;
-    background: url('/assets/img/loginpage.jpg');
-    background-size: cover;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    min-height: 200%;
-    margin: 0;
-}*/
-
-
-
-#particles-js {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  background: url("/assets/img/bg1.jpg");
+body{
+  background: url("assets/img/bg.jpg");
   background-size: cover;
-  justify-content: center;
-  position: absolute;
-  // display: block;
-  top: 0;
-  z-index: 0;
 }
-
-body,
-html {
-  margin: 0;
-  padding: 0;
-    background-size: cover;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
+#particles-js {
+  height: 100vh;
+  //justify-content: center;
+  //
+  //position: absolute;
+  display: block;
+  //justify-content: center;
+  //padding-left: 5%;
+  //padding-right: 5% ;
+  top: 0;
+  backgrosund-size: cover;
+  //z-index: 0;
 }
