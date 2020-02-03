@@ -14,17 +14,8 @@ import { Don } from '../model/don';
 })
 export class DonApilmtService {
   private donAPILMTUrl = `${apiLMT.url}/don`;
-  users: User[] = [];
-  usersSubject = new Subject<User[]>();
-  userSubject = new Subject<User>();
-  userByEmailSubject = new Subject<User>();
-  user = new User();
-  userByEmail: User;
-  loggedUserEmail;
   dons: Don[] = [];
   donsSubject = new Subject<Don[]>();
-  donSubject = new Subject<Don>();
-  don = new Don();
   handleError: any;
 
 
@@ -33,40 +24,24 @@ export class DonApilmtService {
     public loadingService: LoadingService,
     public alertService: AlertService) { }
 
-    emitUserSubject() {
-                this.userSubject.next(this.user);
-                this.loadingService.hideLoading();
-              }
-
     emitDonsSubject() {
-      this.donsSubject.next(this.dons);
-      this.loadingService.hideLoading();
+      if (this.dons) {
+        this.donsSubject.next(Array.from(this.dons));
+      }
     }
-
-    emitUsersSubject() {
-                if (this.users) {
-                  this.usersSubject.next(Array.from(this.users));
-                }
-                this.loadingService.hideLoading();
-              }
-    emitUserByEmailSubject() {
-                this.userByEmailSubject.next(this.userByEmail);
-                this.loadingService.hideLoading();
-              }
 
 
   getDon() {
-    this.loadingService.showLoading();
-    this.http.get<any>(this.donAPILMTUrl).subscribe(
+    this.dons = null;
+    this.http.get<Don[]>(this.donAPILMTUrl).subscribe(
       next => {
-        const dons = next._embedded.dons;
-        if (dons && dons.length > 0) {
-          this.dons = next._embedded.dons;
+        const dons = next;
+        if (next) {
+          this.dons = dons;
         }
         this.emitDonsSubject();
       },
       error => {
-        console.log(error);
         this.handleError(error);
       }
     );
