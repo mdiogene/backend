@@ -1,25 +1,25 @@
-<nav class="navbar navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light ">
     <a class="navbar-brand" routerLink="/">
         <img src="/assets/img/logo-main-tendue-5.png" class="d-inline-block align-top" alt="">
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+    <div class="collapse navbar-collapse  align-items-center" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto mx-auto text-center">
             <li class="nav-item active">
-                <a class="nav-link" routerLink="/users">Users <span class="sr-only">Users</span></a>
+                <a class="nav-link" id="navcolor" routerLink="/users">USERS <span class="sr-only">Users</span></a>
             </li>
-          <li class="nav-item active">
-            <a class="nav-link" routerLink="/maraudes">Maraudes <span class="sr-only">Maraudes</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Dons</a>
-          </li>
-            <li class="nav-item">
-                <a class="nav-link" style="cursor: pointer;" (click)="logoutUser()">Logout</a>
+            <li class="nav-item active">
+                <a class="nav-link" id="navcolor" routerLink="/maraudes">MARAUDES <span class="sr-only">Maraudes</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" id="navcolor" href="#">DONS</a>
+            </li>
+            <li class="nav-item" id="logout">
+                <button type="button" class="btn btn-outline-success" style="cursor: pointer;" (click)="logoutUser()">Logout</button>
+                <!---- <a class="nav-link" style="cursor: pointer;" (click)="logoutUser()">Logout</a>-->
             </li>
         </ul>
     </div>
 </nav>
-

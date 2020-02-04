@@ -1,31 +1,42 @@
-a {
-  color: black;
-  text-decoration: none;
-}
-
-li {
-  display: inline;
-  min-height: 40px;
-  text-decoration: none;
-  list-style: none;
-  margin-left: 20px;
-}
-
-.nav-item .active {
-  background-color: beige;
-  width: 80px;
-  height: 40px;
-  padding: 15px;
-}
-
-.float-right {
-  float: right;
-}
-
-.container {
-  // background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
-  background-size: cover;
-  background-repeat: repeat;
-  height: 100%;
-  font-family: 'Numans', sans-serif;
-}
+    a {
+        color: black;
+        text-decoration: none;
+    }
+    
+    li {
+        display: inline;
+        min-height: 40px;
+        text-decoration: none;
+        list-style: none;
+        margin-left: 20px;
+    }
+    
+    .nav-item .active {
+        background-color: rgb(3, 50, 56);
+        width: 80px;
+        height: 40px;
+        padding: 15px;
+    }
+    
+    .float-right {
+        float: right;
+    }
+    
+    .container {
+        // background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
+        background-size: cover;
+        background-repeat: repeat;
+        height: 100%;
+        font-family: 'Numans', sans-serif;
+    }
+    
+    #logout {
+        margin-left: 150%;
+    }
+    
+    #navcolor {
+        color: rgb(3, 45, 51);
+        // font-size: larger;
+        font-weight: bold;
+        margin-right: 10%;
+    }
