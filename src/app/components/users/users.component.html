@@ -89,7 +89,7 @@
                 <mat-cell *matCellDef="let user">
                     <div *ngIf="user!=null">
                         <div *ngIf="!user.isOnUpdate">
-                            <input type="checkbox" [disabled]=t rue [(checked)]="user.isAdmin">
+                            <input type="checkbox" [disabled]=true [(checked)]="user.isAdmin">
                         </div>
                         <div *ngIf="user.isOnUpdate">
                             <input type="checkbox" [checked]="user.isAdmin ? user.isAdmin : false" [(ngModel)]="user.isAdmin">
