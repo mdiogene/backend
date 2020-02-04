@@ -1,10 +1,8 @@
-/*.container {
-    background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
+.container {
+  //  background-image: url('http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg');
     background-size: cover;
-    background-repeat: repeat;
-    height: 100%;
     font-family: 'Numans', sans-serif;
-}*/
+}
 
 a {
     color: dimgray;
@@ -33,3 +31,13 @@ li {
 .mat-title {
     margin-left: 45%;
 }
+//
+//#particles-js {
+//  height: 100vh;
+//  justify-content: center;
+//  position: absolute;
+//  display: block;
+//  top: 0;
+//  z-index: 0;
+//  background-size: cover;
+//}

@@ -1,0 +1,73 @@
+<!--<div *ngIf="userLoggedIn">-->
+
+  <div class="mat-title">
+    <h1>{{ 'Lieux'}}</h1>
+    <button class="btn btn-success btn-ajouter" (click)="onCreateNewLieuxClick()">{{'Nouveau' }}</button>
+  </div>
+  <mat-table class="table" [dataSource] = "lieuxMatTable">
+    <!--<ng-container matColumnDef="{{displayedColumnsLieux[0]}}">-->
+      <!--<mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Numero' }} </mat-header-cell>-->
+      <!--<mat-cell *matCellDef="let lieu" >-->
+        <!--<div>-->
+          <!--<div *ngIf="!lieu.isOnUpdate"> {{lieu.id}} </div>-->
+
+          <!--<input autofocus class="form-control w-120" type="text"-->
+                 <!--*ngIf="lieu.isOnUpdate"-->
+                 <!--[(ngModel)]="lieu.id"-->
+                 <!--required="true"-->
+                 <!--placeholder="Lieu">-->
+        <!--</div>-->
+      <!--</mat-cell>-->
+    <!--</ng-container>-->
+    <ng-container matColumnDef="{{displayedColumnsLieux[0]}}">
+      <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Nom Lieu' }} </mat-header-cell>
+      <mat-cell *matCellDef="let lieu" >
+        <div>
+          <div *ngIf="!lieu.isOnUpdate"> {{lieu.lieuName}} </div>
+          <input autofocus class="form-control w-120" type="text"
+                 *ngIf="lieu.isOnUpdate"
+                 [(ngModel)]="lieu.lieuName"
+                 required="true"
+                 placeholder="Lieu">
+        </div>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="{{displayedColumnsLieux[1]}}">
+      <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Actions' }} </mat-header-cell>
+      <mat-cell *matCellDef="let lieu">
+        <div *ngIf="lieu!=null">
+          <div class="twoButtonsDivContainer">
+            <button type="button"
+                    class="btn btn-success buttonMarginRight"
+                    (click)="onSaveButtonClick(lieu)"
+                    *ngIf="lieu.isOnUpdate">
+              {{'Save'}}
+            </button>
+            <button type="button"
+                    class="btn btn-warning"
+                    (click)="onCancelButtonClick(lieu)"
+                    *ngIf="lieu.isOnUpdate">
+              {{'Cancel'}}
+            </button>
+            <button type="button"
+                    class="btn btn-primary buttonMarginRight"
+                    (click)="onEditButtonClick(lieu)"
+                    *ngIf="!lieu.isOnUpdate">
+              {{'Editer'}}
+            </button>
+
+            <button type="button"
+                    class="btn btn-danger"
+                    (click)="onDeleteButtonClick(lieu)"
+                    *ngIf="!lieu.isOnUpdate">
+              {{'Delete'}}
+            </button>
+          </div>
+        </div>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumnsLieux"></mat-header-row>
+    <mat-row *matRowDef="let lieu; columns: displayedColumnsLieux;"></mat-row>
+  </mat-table>
+<!--</div>-->

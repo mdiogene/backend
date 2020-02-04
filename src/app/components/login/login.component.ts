@@ -1,6 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {LoginService} from '../../services/login.service';
 import {Router} from '@angular/router';
+import { ParticlesConfig } from '../../../particles-config';
+declare let particlesJS: any;
 
 
 @Component({
@@ -26,6 +28,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
 
+    this.invokeParticles();
+  }
+
+  public invokeParticles(): void {
+    particlesJS('particles-js', ParticlesConfig, function() {});
   }
   // Comman Method to Show Message and Hide after 2 seconds
   showMessage(type, msg) {
