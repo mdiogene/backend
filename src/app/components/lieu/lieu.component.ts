@@ -28,7 +28,7 @@ export class LieuComponent implements OnInit {
         this.lieuxMatTable._updateChangeSubscription();
       }
     );
-  this.lieuAPILMTService.getAllLieux();
+    this.lieuAPILMTService.getAllLieux();
   }
 
   onCreateNewLieuxClick() {

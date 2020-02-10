@@ -18,19 +18,20 @@ export class MaraudeApilmtService {
 
   emitMaraudesSubject() {
     if (this.maraudes) {
-      this.maraudesSubject.next(Array.from(this.maraudes));
+      this.maraudesSubject.next(this.maraudes);
     }
   }
 
   getAllMaraudes(): void {
     // this.loadingService.showLoading();
     this.maraudes = null;
-    this.http.get<Maraude[]>(this.maraudeAPILMTUrl).subscribe(
+    this.http.get<any>(this.maraudeAPILMTUrl).subscribe(
       next => {
         const maraudes = next;
         if (next) {
-          this.maraudes = maraudes;
+          this.maraudes = maraudes._embedded.maraudes;
         }
+        console.log(this.maraudes);
         this.emitMaraudesSubject();
       },
       error => {

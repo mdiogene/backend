@@ -57,7 +57,7 @@ export class UsersComponent implements OnInit, OnDestroy {
       }
     );
 
-      if(localStorage.getItem('userLoggedIn')){
+      if (localStorage.getItem('userLoggedIn')) {
         this.userLoggedIn = true;
       } else {
         this.userLoggedIn = false;

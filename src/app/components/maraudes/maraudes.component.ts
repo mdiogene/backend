@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Maraude} from '../../model/Maraude';
 import {MatTableDataSource} from '@angular/material';
 import {MaraudeApilmtService} from '../../services/maraude-apilmt.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-maraudes',
@@ -10,24 +11,34 @@ import {MaraudeApilmtService} from '../../services/maraude-apilmt.service';
 })
 export class MaraudesComponent implements OnInit, OnDestroy {
   userLoggedIn: boolean;
-  displayedColumnsMaraudes: string[] = ['Commenatire', 'Date', 'ParticipantsMax', 'Actions'];
+  displayedColumnsMaraudes: string[] = ['Lieu', 'Date', 'ParticipantsMax', 'Actions'];
   maraudeToModify = new Map<string, Maraude>();
   maraude = new Maraude();
   maraudes: Maraude[] = [];
+  maraudesSubscription: Subscription;
   maraudesMatTable: MatTableDataSource<Maraude>  = new MatTableDataSource<Maraude>(this.maraudes);
   constructor(private maraudesAPILMTService: MaraudeApilmtService) { }
 
   ngOnInit() {
-    this.maraudesMatTable.data = this.maraudes;
 
     if (localStorage.getItem('userLoggedIn')) {
       this.userLoggedIn = true;
     } else {
       this.userLoggedIn = false;
     }
+    this.maraudesSubscription = this.maraudesAPILMTService.maraudesSubject.subscribe(
+      (maraudes: Maraude[]) => {
+        console.log(maraudes);
+        this.maraudesMatTable.data = maraudes;
+        this.maraudesMatTable._updateChangeSubscription();
+      }
+    );
+this.maraudesAPILMTService.getAllMaraudes();
+    // console.log(this.maraudes);
   }
 
   ngOnDestroy(): void {
+    this.maraudesSubscription.unsubscribe();
   }
 
   onCreateNewMaraudeClick() {
