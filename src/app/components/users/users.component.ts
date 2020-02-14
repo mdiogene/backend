@@ -5,6 +5,10 @@ import {UsersService} from '../../services/users.service';
 import {MatTableDataSource} from '@angular/material';
 import {LoginService} from '../../services/login.service';
 import {UserAPILMTService} from '../../services/user-apilmt.service';
+import {Role} from '../../model/Role';
+import {RoleApilmtService} from '../../services/role-apilmt.service';
+import {UserToSaveInDB} from '../../model/UserToSaveInDB';
+import {UserRole} from '../../model/UserRole';
 
 
 
@@ -17,30 +21,49 @@ export class UsersComponent implements OnInit, OnDestroy {
 
 
   userToModify = new Map<string, User>();
-  displayedColumnsUsers: string[] = ['Nom', 'Prénom', 'Email', 'Password', 'Admin', 'URL', 'Actions'];
+  displayedColumnsUsers: string[] = ['Nom', 'Prénom', 'Email', 'Password', 'TelNumber', 'Role', 'Vehicule', 'URL', 'Actions'];
   userByEmail: User;
   users: User[] = [];
+  roles: Role[] = [];
   usersMatTable: MatTableDataSource<User>  = new MatTableDataSource<User>(this.users);
   usersSubscription: Subscription;
   userByEmailSubscription: Subscription;
   localUserEmailSubscription: Subscription;
-  userLoggedInSubscrition: Subscription;
+  // userLoggedInSubscrition: Subscription;
   userLoggedIn: boolean;
   signedInUserEmail: string;
   infoToUser: string;
   infoToUserAdminOrNot: string;
   displayedName: string;
-
+  rolesSubscription: Subscription;
+  userTaSaveInDb: UserToSaveInDB;
+  userRole: Role;
+  userRoleMap: Map<number, Role>  = new Map();
+roleById: Role;
+  roleSubscription: Subscription;
+  roleId: number;
+  roleIdSubscription: Subscription;
+  userIdRoleIdMap: Map<number, number>  = new Map();
+  userRoles: UserRole[] = [];
+  userRolesSubscription: Subscription;
+  roleIdRoleMap: Map<number, Role>  = new Map();
 
   constructor(private usersService: UsersService,
               private loginService: LoginService,
-              private userAPILMTService: UserAPILMTService) { }
+              private userAPILMTService: UserAPILMTService,
+              private roleAPILMTService: RoleApilmtService) { }
 
   ngOnInit() {
 
     this.usersSubscription = this.userAPILMTService.usersSubject.subscribe(
       (users: User[]) => {
-        this.usersMatTable.data = users;
+        this.users = users;
+        this.onDataReceived(users);
+        this.users.forEach(user => {
+          this.users[this.users.indexOf(user)].role = this.userRoleMap.get(user.id);
+        });
+        console.log(this.users);
+        this.usersMatTable.data = this.users;
         this.usersMatTable._updateChangeSubscription();
        }
     );
@@ -62,7 +85,36 @@ export class UsersComponent implements OnInit, OnDestroy {
       } else {
         this.userLoggedIn = false;
       }
+    this.rolesSubscription = this.roleAPILMTService.rolesSubject.subscribe(
+      (roles: Role[]) => {
+        this.roles = roles;
+   //     this.onRolesReceived(this.roles);
+      }
+    );
+
+
+    this.roleSubscription = this.roleAPILMTService.roleSubject.subscribe(
+      (role: Role) => {
+        this.roleById = role;
+      }
+    );
+
+    this.roleIdSubscription = this.userAPILMTService.roleIdSubject.subscribe(
+      (idRole: number) => {
+        this.roleId = idRole;
+
+      }
+    );
+
+    this.userRolesSubscription = this.userAPILMTService.userRolesSubject.subscribe(
+      (userRoles: UserRole[]) => {
+        this.userRoles = userRoles;
+
+      }
+    );
+    this.roleAPILMTService.getAllRoles();
     this.userAPILMTService.getAllUsers();
+    this.userAPILMTService.getAllUserRoles();
   }
 
   getDisplayedNames(): string {
@@ -81,6 +133,26 @@ export class UsersComponent implements OnInit, OnDestroy {
   this.usersMatTable._updateChangeSubscription();
  }
 
+  onDataReceived(users: User[]): void {
+    this.userAPILMTService.getAllUserRoles();
+    this.userRoles.forEach( userRole => {
+      this.userIdRoleIdMap.set(userRole.userId, userRole.roleId);
+    });
+    console.log(this.userIdRoleIdMap);
+
+    this.onRolesReceived(this.roles);
+    users.forEach(user => {
+      const idRole = this.userIdRoleIdMap.get(user.id);
+      this.userRoleMap.set(user.id, this.roleIdRoleMap.get(idRole));
+    });
+  }
+  onRolesReceived(roles: Role[]): void {
+    this.roleAPILMTService.getAllRoles();
+    this.roles.forEach(role => {
+      this.roleIdRoleMap.set(role.id, role);
+    });
+    console.log(this.roleIdRoleMap);
+  }
   onEditButtonClick(user: User) {
 
     this.userToModify.set(user._links.self.href, this.cloneObject(user));
@@ -92,14 +164,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.usersMatTable._updateChangeSubscription();
   }
 
-  iniTializeData(user: User) {
-    if (!user.isAdmin) {
-      user.isAdmin = false;
-    }
-  }
   onSaveButtonClick(user: User) {
-    // this.iniTializeData(user);
-   // this.usersService.getUserByEmail(this.loginService.localUserEmail);
          user.isOnUpdate = false;
       if (user._links) {
         // this.usersService.updateUser(user);
@@ -120,6 +185,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     }
     this.usersMatTable._updateChangeSubscription();
   }
+
 
   cloneObject(src): User {
     const target = new User();
@@ -143,5 +209,9 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.usersSubscription.unsubscribe();
+  }
+
+  onRoleChanged(role: Role) {
+    this.userRole = role;
   }
 }

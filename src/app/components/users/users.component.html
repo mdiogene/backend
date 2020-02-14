@@ -1,7 +1,9 @@
+<script
+  src="../../../../../../../../Documents/Limagrain/Projet/MyFlow/frontend/src/app/components/edit-job-talend/edit-job-talend.component.ts"></script>
 <div class="jumbotron jumbotron-fluid">
-    <div class="container">
-        <h1 class="display-4 text-lg-center">Gestion Utilisateurs</h1>
-    </div>
+  <div class="container">
+    <h1 class="display-4 text-lg-center">Gestion Utilisateurs</h1>
+  </div>
 </div>
 
 <!--<div class="text-left">
@@ -10,121 +12,158 @@
 </div>-->
 
 <div *ngIf="userLoggedIn">
-    <div class="listeUsers">
-        <!--<label name="displayedName">{{getDisplayedNames()}}</label>-->
-        <div class="mat-title">
-            <label name="labelInfo" class="labelInfo" *ngIf="infoToUser">{{infoToUser}} </label>
-            <button type="button" class="btn btn-info btn-ajouter" (click)="onCreateNewUsersClick()">{{'Nouveau' }}</button>
-        </div>
-        <label class="labelInfo" name="labelInfoToUserAdminOrNot" *ngIf="infoToUserAdminOrNot">{{infoToUserAdminOrNot}} </label>
-        <mat-table class="table" [dataSource]="usersMatTable">
+  <div class="listeUsers">
+    <!--<label name="displayedName">{{getDisplayedNames()}}</label>-->
+    <div class="mat-title">
+      <label name="labelInfo" class="labelInfo" *ngIf="infoToUser">{{infoToUser}} </label>
+      <button type="button" class="btn btn-info btn-ajouter" (click)="onCreateNewUsersClick()">{{'Nouveau' }}</button>
+    </div>
+    <label class="labelInfo" name="labelInfoToUserAdminOrNot"
+           *ngIf="infoToUserAdminOrNot">{{infoToUserAdminOrNot}} </label>
+    <mat-table class="table" [dataSource]="usersMatTable">
 
-            <ng-container matColumnDef="{{displayedColumnsUsers[0]}}">
-                <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Name' }} </mat-header-cell>
-                <mat-cell *matCellDef="let user">
-                    <div *ngIf="user!=null">
-                        <div *ngIf="!user.isOnUpdate "> {{user.name}} </div>
+      <ng-container matColumnDef="{{displayedColumnsUsers[0]}}">
+        <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Name' }} </mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <div *ngIf="user!=null">
+            <div *ngIf="!user.isOnUpdate "> {{user.name}} </div>
 
-                        <input autofocus class="form-control w-120" type="text" *ngIf="user.isOnUpdate" [(ngModel)]="user.name" required="true" placeholder="Nom">
-                    </div>
-                </mat-cell>
-            </ng-container>
+            <input autofocus class="form-control w-120" type="text" *ngIf="user.isOnUpdate" [(ngModel)]="user.name"
+                   required="true" placeholder="Nom">
+          </div>
+        </mat-cell>
+      </ng-container>
 
-            <ng-container matColumnDef="{{displayedColumnsUsers[1]}}">
-                <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Prénom' }} </mat-header-cell>
-                <mat-cell *matCellDef="let user">
-                    <div *ngIf="user!=null">
-                        <div *ngIf="!user.isOnUpdate"> {{user.prenom}} </div>
+      <ng-container matColumnDef="{{displayedColumnsUsers[1]}}">
+        <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Prénom' }} </mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <div *ngIf="user!=null">
+            <div *ngIf="!user.isOnUpdate"> {{user.prenom}} </div>
 
-                        <input class="form-control w-120" type="text" *ngIf="user.isOnUpdate" [(ngModel)]="user.prenom" required="true" placeholder="Prénom">
-                    </div>
-                </mat-cell>
-            </ng-container>
+            <input class="form-control w-120" type="text" *ngIf="user.isOnUpdate" [(ngModel)]="user.prenom"
+                   required="true" placeholder="Prénom">
+          </div>
+        </mat-cell>
+      </ng-container>
 
-            <ng-container matColumnDef="{{displayedColumnsUsers[2]}}">
-                <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Email' }} </mat-header-cell>
-                <mat-cell *matCellDef="let user">
-                    <div *ngIf="user!=null">
-                        <div *ngIf="!user.isOnUpdate"> {{user.email}} </div>
-                        <input class="form-control w-120" type="text" *ngIf="user.isOnUpdate" [(ngModel)]="user.email" required="true" placeholder="Email">
-                    </div>
-                </mat-cell>
-            </ng-container>
+      <ng-container matColumnDef="{{displayedColumnsUsers[2]}}">
+        <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Email' }} </mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <div *ngIf="user!=null">
+            <div *ngIf="!user.isOnUpdate"> {{user.email}} </div>
+            <input class="form-control w-120" type="text" *ngIf="user.isOnUpdate" [(ngModel)]="user.email"
+                   required="true" placeholder="Email">
+          </div>
+        </mat-cell>
+      </ng-container>
 
 
-            <ng-container matColumnDef="{{displayedColumnsUsers[3]}}">
-                <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Password' }} </mat-header-cell>
-                <mat-cell *matCellDef="let user">
-                    <div *ngIf="user!=null">
-                        <div *ngIf="!user.isOnUpdate"> {{'***********'}} </div>
-                        <input class="form-control w-120" type="password" *ngIf="user.isOnUpdate" [(ngModel)]="user.password" required="true" placeholder="Mot de passe">
-                    </div>
-                </mat-cell>
-            </ng-container>
+      <ng-container matColumnDef="{{displayedColumnsUsers[3]}}">
+        <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Password' }} </mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <div *ngIf="user!=null">
+            <div *ngIf="!user.isOnUpdate"> {{'***********'}} </div>
+            <input class="form-control w-120" type="password" *ngIf="user.isOnUpdate" [(ngModel)]="user.password"
+                   required="true" placeholder="Mot de passe">
+          </div>
+        </mat-cell>
+      </ng-container>
 
-            <!--<ng-container matColumnDef="{{displayedColumnsUsers[4]}}">-->
-            <!--<mat-header-cell *matHeaderCellDef class="titleTableHeader" mat-sort-header> {{ 'Id Firebase' }} </mat-header-cell>-->
-            <!--<mat-cell *matCellDef="let user" >-->
-            <!--<div *ngIf="user!=null">-->
-            <!--<div *ngIf="!user.isOnUpdate"> {{user.userId}} </div>-->
-            <!--<input class="form-control w-120" type="text"-->
-            <!--*ngIf="user.isOnUpdate"-->
-            <!--[(ngModel)]="user.userId"-->
-            <!--placeholder="Id Firebase">-->
+      <ng-container matColumnDef="{{displayedColumnsUsers[4]}}">
+        <mat-header-cell *matHeaderCellDef class="titleTableHeader"
+                         mat-sort-header> {{ 'Téléphone' }} </mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <div *ngIf="user!=null">
+            <div *ngIf="!user.isOnUpdate"> {{user.tel}} </div>
+            <input class="form-control w-120" type="text"
+                   *ngIf="user.isOnUpdate"
+                   [(ngModel)]="user.tel"
+                   placeholder="Téléphone">
+          </div>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="{{displayedColumnsUsers[5]}}">
+        <mat-header-cell *matHeaderCellDef class="titleTableHeader"
+                         mat-sort-header> {{ 'Vehicule' }} </mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <div *ngIf="user!=null">
+            <div *ngIf="!user.isOnUpdate">
+              <input type="checkbox" [disabled]=true [(checked)]="user.vehicule">
+            </div>
+            <div *ngIf="user.isOnUpdate">
+              <input type="checkbox" [checked]="user.vehicule ? user.vehicule : false" [(ngModel)]="user.vehicule">
+            </div>
+          </div>
+        </mat-cell>
+      </ng-container>
+      <!--<div class="form-group">-->
+        <!--<label for="bu">{{ 'editJobTalend.businessUnit' | translate }} :</label>-->
+        <!--<select [compareWith]="compareById" id="bu" class="form-control" [(ngModel)]="jobTalend.businessUnit" name="bu" required>-->
+          <!--<option *ngFor="let bu of businessUnitList" [ngValue]="bu">{{bu.label}}</option>-->
+        <!--</select>-->
+      <!--</div>-->
+      <ng-container matColumnDef="{{displayedColumnsUsers[6]}}">
+        <mat-header-cell *matHeaderCellDef class="titleTableHeader"
+                         mat-sort-header> {{ 'Role' }} </mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <div *ngIf="user!=null">
+            <div *ngIf="!user.isOnUpdate"> {{ user.role.roleName }} </div>
+            <!--<div *ngIf="!user.isOnUpdate">-->
+              <!--<select id="role1" [(ngModel)]="user.role" name="role1">-->
+                <!--<option [ngValue]="user.role" [selected]="true">{{ user.role.roleName}}</option>-->
+              <!--</select>-->
             <!--</div>-->
-            <!--</mat-cell>-->
-            <!--</ng-container>-->
-            <ng-container matColumnDef="{{displayedColumnsUsers[4]}}">
-                <mat-header-cell *matHeaderCellDef class="titleTableHeader" mat-sort-header> {{ 'Url Photo' }} </mat-header-cell>
-                <mat-cell *matCellDef="let user">
-                    <div *ngIf="user!=null">
-                        <div *ngIf="!user.isOnUpdate"> {{user.urlPhoto}} </div>
-                        <input class="form-control w-120" type="text" *ngIf="user.isOnUpdate" [(ngModel)]="user.urlPhoto" required="true" placeholder="Url Photo">
-                    </div>
-                </mat-cell>
-            </ng-container>
+            <div *ngIf="user.isOnUpdate">
+              <select id="role" [(ngModel)]="user.role" name="role">
+                <option *ngFor="let role of roles" [ngValue]="role">{{ role.roleName}}</option>
+              </select>
+            </div>
+          </div>
+        </mat-cell>
+      </ng-container>
 
-            <ng-container matColumnDef="{{displayedColumnsUsers[5]}}">
-                <mat-header-cell *matHeaderCellDef class="titleTableHeader" mat-sort-header> {{ 'Administrateur' }} </mat-header-cell>
-                <mat-cell *matCellDef="let user">
-                    <div *ngIf="user!=null">
-                        <div *ngIf="!user.isOnUpdate">
-                            <input type="checkbox" [disabled]=true [(checked)]="user.isAdmin">
-                        </div>
-                        <div *ngIf="user.isOnUpdate">
-                            <input type="checkbox" [checked]="user.isAdmin ? user.isAdmin : false" [(ngModel)]="user.isAdmin">
-                        </div>
-                    </div>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="{{displayedColumnsUsers[6]}}">
-                <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Actions' }} </mat-header-cell>
-                <mat-cell *matCellDef="let user">
-                    <div *ngIf="user!=null">
-                        <div class="twoButtonsDivContainer">
-                            <button type="button" class="btn btn-success buttonMarginRight" (click)="onSaveButtonClick(user)" *ngIf="user.isOnUpdate" [disabled]="!user.email || user.email.trim() == ''">
+      <ng-container matColumnDef="{{displayedColumnsUsers[7]}}">
+        <mat-header-cell *matHeaderCellDef class="titleTableHeader"
+                         mat-sort-header> {{ 'Url Photo' }} </mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <div *ngIf="user!=null">
+            <div *ngIf="!user.isOnUpdate"> {{user.urlPhoto}} </div>
+            <input class="form-control w-120" type="text" *ngIf="user.isOnUpdate" [(ngModel)]="user.urlPhoto"
+                   required="true" placeholder="Url Photo">
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="{{displayedColumnsUsers[8]}}">
+        <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Actions' }} </mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <div *ngIf="user!=null">
+            <div class="twoButtonsDivContainer">
+              <button type="button" class="btn btn-success buttonMarginRight" (click)="onSaveButtonClick(user)"
+                      *ngIf="user.isOnUpdate" [disabled]="!user.email || user.email.trim() == ''">
                 {{'Save'}}
               </button>
-                            <button type="button" class="btn btn-warning" (click)="onCancelButtonClick(user)" *ngIf="user.isOnUpdate">
+              <button type="button" class="btn btn-warning" (click)="onCancelButtonClick(user)" *ngIf="user.isOnUpdate">
                 {{'Cancel'}}
               </button>
-                            <button type="button" class="btn btn-primary buttonMarginRight" (click)="onEditButtonClick(user)" *ngIf="!user.isOnUpdate">
+              <button type="button" class="btn btn-primary buttonMarginRight" (click)="onEditButtonClick(user)"
+                      *ngIf="!user.isOnUpdate">
                 {{'Editer'}}
               </button>
 
-                            <button type="button" class="btn btn-danger" (click)="onDeleteButtonClick(user)" *ngIf="!user.isOnUpdate">
+              <button type="button" class="btn btn-danger" (click)="onDeleteButtonClick(user)" *ngIf="!user.isOnUpdate">
                 {{'Delete'}}
               </button>
-                        </div>
-                    </div>
-                </mat-cell>
-            </ng-container>
+            </div>
+          </div>
+        </mat-cell>
+      </ng-container>
 
 
-            <mat-header-row *matHeaderRowDef="displayedColumnsUsers"></mat-header-row>
-            <mat-row *matRowDef="let user; columns: displayedColumnsUsers;"></mat-row>
+      <mat-header-row *matHeaderRowDef="displayedColumnsUsers"></mat-header-row>
+      <mat-row *matRowDef="let user; columns: displayedColumnsUsers;"></mat-row>
 
-        </mat-table>
-    </div>
+    </mat-table>
+  </div>
 
 </div>

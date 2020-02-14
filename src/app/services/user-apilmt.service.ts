@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {apiLMT} from '../../environments/environment';
 import {User} from '../model/User';
 import {Subject} from 'rxjs';
@@ -8,6 +8,10 @@ import {AlertService} from './alert-service.service';
 import {LoadingService} from './loading-service.service';
 import {AngularFirestore} from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
+import {RoleApilmtService} from './role-apilmt.service';
+import {Role} from '../model/Role';
+import {UserToSaveInDB} from '../model/UserToSaveInDB';
+import {UserRole} from '../model/UserRole';
 
 @Injectable({
   providedIn: 'root'
@@ -15,18 +19,27 @@ import * as firebase from 'firebase/app';
 export class UserAPILMTService {
 
   private userAPILMTUrl = `${apiLMT.url}/users`;
+  private userRolesAPILMTUrl = `${apiLMT.url}/userRoles`;
   users: User[] = [];
   usersSubject = new Subject<User[]>();
+  roleIdSubject = new Subject<number>();
   userSubject = new Subject<User>();
   userByEmailSubject = new Subject<User>();
   user = new User();
   userByEmail: User;
-  loggedUserEmail;
+  userRoleEnregistre: UserRole;
+  userRoles: UserRole[] = [];
+  role: Role;
+  userToSaveInDb = new UserToSaveInDB();
+  userRolesSubject = new Subject<UserRole[]>();
+
   constructor(private http: HttpClient,
               public fs: AngularFirestore,
               public loginService: LoginService,
+              public roleService: RoleApilmtService,
               public loadingService: LoadingService,
-              public alertService: AlertService) { }
+              public alertService: AlertService) {
+  }
 
   emitUserSubject() {
     this.userSubject.next(this.user);
@@ -45,10 +58,27 @@ export class UserAPILMTService {
     this.loadingService.hideLoading();
   }
 
-  getCurrentUserEmail(): string {
-    this.loggedUserEmail = this.loginService.localUserEmail;
-    return this.loggedUserEmail;
+  private emitUserRolesSubject() {
+    this.userRolesSubject.next(Array.from(this.userRoles));
+    this.loadingService.hideLoading();
   }
+
+  getAllUserRoles(): void {
+    this.loadingService.showLoading();
+    this.http.get<any>(this.userRolesAPILMTUrl).subscribe(
+      next => {
+        const userRoles = next._embedded.userRoles;
+        if (userRoles) {
+          this.userRoles = userRoles;
+        }
+      },
+      error => {
+        this.handleError(error);
+      }
+    );
+    this.emitUserRolesSubject();
+  }
+
 
   getAllUsers(): void {
     this.loadingService.showLoading();
@@ -67,28 +97,15 @@ export class UserAPILMTService {
     );
   }
 
-  createUserWithEmailAndPassword (user: User) {
+  createUserWithEmailAndPassword(user: User) {
 
-    console.log(user);
-    // this.userRegistered = false;
     this.fs.firestore.app.auth().createUserWithEmailAndPassword(user.email, user.password)
       .then((value) => {
-
-        console.log('user0');
-        console.log(user);
-         user.userId = value.user.uid;
-         this.addUser(user);
-
-        console.log('user1');
-        console.log(user);
-         const userAuth = firebase.auth().currentUser;
-        // userAuth.updateProfile({
-        //   displayName: user.prenom + ' ' + user.name
-        // });
-        userAuth.sendEmailVerification().then(function() {
-
-          console.log('email sent to ' + this.userAuth.email + '.');
-        }).catch(function() {
+        user.userId = value.user.uid;
+        this.addUser(user);
+        const userAuth = firebase.auth().currentUser;
+        userAuth.sendEmailVerification().then(function () {
+        }).catch(function () {
           // An error happened.
         });
       });
@@ -97,10 +114,24 @@ export class UserAPILMTService {
 
   addUser(user: User): void {
     this.loadingService.showLoading();
+
     this.http.post<User>(this.userAPILMTUrl, user).subscribe(
       next => {
         this.users[this.users.indexOf(user)] = next;
+
         this.users.unshift(next);
+
+        const userRole = new UserRole();
+        userRole.roleId = user.role.id;
+        userRole.userId = next.id;
+        this.http.post<UserRole>(this.userRolesAPILMTUrl, userRole).subscribe(
+          next => {
+            this.userRoleEnregistre = next;
+          this.emitUserRolesSubject();
+            },
+          error => {
+            this.handleError(error);
+          });
         this.emitUsersSubject();
       },
       error => {
@@ -110,14 +141,12 @@ export class UserAPILMTService {
   }
 
   updateUser(user: User): void {
-    console.log(user);
     this.loadingService.showLoading();
     if (user._links) {
       this.http.put<User>(user._links.self.href, user).subscribe(
         next => {
           this.users[this.users.indexOf(user)] = next;
           this.emitUserSubject();
-          console.log(next);
         },
         error => {
           this.handleError(error);
@@ -125,6 +154,7 @@ export class UserAPILMTService {
       );
     }
   }
+
   getUserByEmail(email: string): void {
     this.loadingService.showLoading();
     this.userByEmail = null;
@@ -137,7 +167,7 @@ export class UserAPILMTService {
           this.emitUserByEmailSubject();
         },
         error => {
-           this.handleError(error);
+          this.handleError(error);
         }
       );
     }
@@ -155,11 +185,25 @@ export class UserAPILMTService {
           this.emitUserSubject();
         },
         error => {
-           this.handleError(error);
+          this.handleError(error);
         }
       );
     }
   }
+
+
+  construireUserToSaveInDB(user: User, role: Role): void {
+    this.userToSaveInDb.email = user.email;
+    this.userToSaveInDb.name = user.name;
+    this.userToSaveInDb.prenom = user.prenom;
+    this.userToSaveInDb.password = user.password;
+    this.userToSaveInDb.tel = user.tel;
+    this.userToSaveInDb.userId = user.userId;
+    this.userToSaveInDb.vehicule = user.vehicule;
+    this.userToSaveInDb.urlPhoto = user.urlPhoto;
+    this.userToSaveInDb.role = role;
+  }
+
   handleError(error): void {
     this.loadingService.hideLoading();
     this.alertService.error(error.message);

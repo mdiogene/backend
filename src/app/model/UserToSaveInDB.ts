@@ -1,31 +1,32 @@
 import {RestFullObject} from './RestFullObject';
 import {Role} from './Role';
 
-export class User extends RestFullObject {
+
+export class UserToSaveInDB extends RestFullObject {
+
   userId: string;
   name: string;
   prenom: string;
   email: string;
   password: string;
-  isOnUpdate: boolean;
   vehicule: boolean;
   tel: string;
   urlPhoto: string;
-  role: Role;
+  role: Role = new Role();
 
-  constructor(id?: number, userId?: string, name?: string, prenom?: string,
-              email?: string, password?: string, telNumber?: string, vehicule?: boolean, urlPicture?: string, role?: Role, _links?: any) {
+  constructor(userId?: string, name?: string, prenom?: string,
+              email?: string, password?: string, tel?: string, vehicule?: boolean, role?: Role, urlPicture?: string, _links?: any) {
     super(_links);
-    this.id = id;
+
     this.userId = this.userId;
     this.name = name;
     this.prenom = prenom;
     this.email = email;
     this.password = password;
-    this.isOnUpdate = false;
-    this.tel = telNumber;
+
+    this.tel = tel;
     this.urlPhoto = urlPicture;
-    this.role = role;
+  this.role = role;
     this.vehicule = vehicule;
   }
 }

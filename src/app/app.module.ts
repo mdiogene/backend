@@ -19,11 +19,15 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { MaraudesComponent } from './components/maraudes/maraudes.component';
 import { LieuComponent } from './components/lieu/lieu.component';
+import { RoleComponent } from './components/role/role.component';
+import { LoadingComponent } from './components/loading/loading.component';
 
 const AppRoutes: Routes = [
   { path: 'users', component: UsersComponent},
   { path: 'maraudes', component: MaraudesComponent},
   { path: 'login', component: LoginComponent},
+  { path: 'role', component: RoleComponent},
+  { path: 'loading', component: LoadingComponent},
   { path: 'lieu', component: LieuComponent}
 
 ];
@@ -37,6 +41,8 @@ const AppRoutes: Routes = [
     NavbarComponent,
     MaraudesComponent,
     LieuComponent,
+    RoleComponent,
+    LoadingComponent,
   ],
   imports: [
 

@@ -27,7 +27,6 @@ export class UsersService {
   constructor(public fs: AngularFirestore, private loginService: LoginService) {}
 
   getCurrentUserEmail(): string {
-    // this.loggedUserEmail = this.fs.firestore.app.auth().currentUser.email;
     this.loggedUserEmail = this.loginService.localUserEmail;
     return this.loggedUserEmail;
   }
@@ -88,12 +87,11 @@ export class UsersService {
   }
 
   updateUser(user: User): void {
-
-    this.fs.collection('Users').doc(user.userId)
-      .set(Object.assign({ name: user.name, isOnline: user.isOnline, email: user.email, userId: user.userId,
-        prenom: user.prenom, password: user.password, isAdmin: user.isAdmin, urlPicture: user.urlPhoto}));
-    this.users[this.users.indexOf(user)] = user;
-    this.emitUsersSubject();
+    // this.fs.collection('Users').doc(user.userId)
+    //   .set(Object.assign({ name: user.name, role: user.role, email: user.email, userId: user.userId,
+    //     prenom: user.prenom, password: user.password, telNumber: user.telNumber, urlPicture: user.urlPhoto}));
+    // this.users[this.users.indexOf(user)] = user;
+    // this.emitUsersSubject();
   }
 
   getUserByEmail(email: string) {
@@ -115,7 +113,6 @@ export class UsersService {
               this.users.unshift(<User>doc.data());
             }
           });
-
           this.emitUsersSubject();
         },
         () => {
@@ -136,3 +133,4 @@ export class UsersService {
     this.emitUsersSubject();
    }
 }
+
