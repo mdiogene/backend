@@ -1,0 +1,64 @@
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4 text-lg-center">Gestion Roles</h1>
+  </div>
+</div>
+
+
+<div class="mat-title">
+
+  <button class="btn btn-success btn-ajouter" (click)="onCreateNewRolesClick()">{{'Nouveau' }}</button>
+</div>
+<mat-table class="table" [dataSource] = "rolesMatTable">
+  <ng-container matColumnDef="{{displayedColumnsRoles[0]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Nom Role' }} </mat-header-cell>
+    <mat-cell *matCellDef="let role" >
+      <div>
+        <div *ngIf="!role.isOnUpdate"> {{role.roleName}} </div>
+        <input autofocus class="form-control w-120" type="text"
+               *ngIf="role.isOnUpdate"
+               [(ngModel)]="role.roleName"
+               required="true"
+               placeholder="Role">
+      </div>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="{{displayedColumnsRoles[1]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Actions' }} </mat-header-cell>
+    <mat-cell *matCellDef="let role">
+      <div *ngIf="role!=null">
+        <div class="twoButtonsDivContainer">
+          <button type="button"
+                  class="btn btn-success buttonMarginRight"
+                  (click)="onSaveButtonClick(role)"
+                  *ngIf="role.isOnUpdate">
+            {{'Save'}}
+          </button>
+          <button type="button"
+                  class="btn btn-warning"
+                  (click)="onCancelButtonClick(role)"
+                  *ngIf="role.isOnUpdate">
+            {{'Cancel'}}
+          </button>
+          <button type="button"
+                  class="btn btn-primary buttonMarginRight"
+                  (click)="onEditButtonClick(role)"
+                  *ngIf="!role.isOnUpdate">
+            {{'Editer'}}
+          </button>
+
+          <button type="button"
+                  class="btn btn-danger"
+                  (click)="onDeleteButtonClick(role)"
+                  *ngIf="!role.isOnUpdate">
+            {{'Delete'}}
+          </button>
+        </div>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumnsRoles"></mat-header-row>
+  <mat-row *matRowDef="let role; columns: displayedColumnsRoles;"></mat-row>
+</mat-table>
+
