@@ -1,5 +1,3 @@
-<script
-  src="../../../../../../../../Documents/Limagrain/Projet/MyFlow/frontend/src/app/components/edit-job-talend/edit-job-talend.component.ts"></script>
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
     <h1 class="display-4 text-lg-center">Gestion Utilisateurs</h1>
@@ -102,12 +100,7 @@
                          mat-sort-header> {{ 'Role' }} </mat-header-cell>
         <mat-cell *matCellDef="let user">
           <div *ngIf="user!=null">
-            <div *ngIf="!user.isOnUpdate"> {{ user.role.roleName }} </div>
-            <!--<div *ngIf="!user.isOnUpdate">-->
-              <!--<select id="role1" [(ngModel)]="user.role" name="role1">-->
-                <!--<option [ngValue]="user.role" [selected]="true">{{ user.role.roleName}}</option>-->
-              <!--</select>-->
-            <!--</div>-->
+            <div *ngIf="!user.isOnUpdate"> {{user.role ? user.role.roleName : '' }} </div>
             <div *ngIf="user.isOnUpdate">
               <select id="role" [(ngModel)]="user.role" name="role">
                 <option *ngFor="let role of roles" [ngValue]="role">{{ role.roleName}}</option>

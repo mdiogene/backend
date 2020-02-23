@@ -39,7 +39,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   userTaSaveInDb: UserToSaveInDB;
   userRole: Role;
   userRoleMap: Map<number, Role>  = new Map();
-roleById: Role;
+  roleById: Role;
   roleSubscription: Subscription;
   roleId: number;
   roleIdSubscription: Subscription;
@@ -58,14 +58,10 @@ roleById: Role;
     this.usersSubscription = this.userAPILMTService.usersSubject.subscribe(
       (users: User[]) => {
         this.users = users;
-        this.onDataReceived(users);
-        this.users.forEach(user => {
-          this.users[this.users.indexOf(user)].role = this.userRoleMap.get(user.id);
-        });
-        console.log(this.users);
         this.usersMatTable.data = this.users;
         this.usersMatTable._updateChangeSubscription();
-       }
+      }
+
     );
 
     this.userByEmailSubscription = this.userAPILMTService.userByEmailSubject.subscribe(
@@ -88,7 +84,7 @@ roleById: Role;
     this.rolesSubscription = this.roleAPILMTService.rolesSubject.subscribe(
       (roles: Role[]) => {
         this.roles = roles;
-   //     this.onRolesReceived(this.roles);
+       // this.onRolesReceived(this.roles);
       }
     );
 
@@ -109,12 +105,10 @@ roleById: Role;
     this.userRolesSubscription = this.userAPILMTService.userRolesSubject.subscribe(
       (userRoles: UserRole[]) => {
         this.userRoles = userRoles;
-
       }
     );
     this.roleAPILMTService.getAllRoles();
     this.userAPILMTService.getAllUsers();
-    this.userAPILMTService.getAllUserRoles();
   }
 
   getDisplayedNames(): string {
@@ -132,48 +126,66 @@ roleById: Role;
   this.usersMatTable.data.unshift(newUser);
   this.usersMatTable._updateChangeSubscription();
  }
-
-  onDataReceived(users: User[]): void {
-    this.userAPILMTService.getAllUserRoles();
-    this.userRoles.forEach( userRole => {
-      this.userIdRoleIdMap.set(userRole.userId, userRole.roleId);
-    });
-    console.log(this.userIdRoleIdMap);
-
-    this.onRolesReceived(this.roles);
-    users.forEach(user => {
-      const idRole = this.userIdRoleIdMap.get(user.id);
-      this.userRoleMap.set(user.id, this.roleIdRoleMap.get(idRole));
-    });
-  }
-  onRolesReceived(roles: Role[]): void {
-    this.roleAPILMTService.getAllRoles();
-    this.roles.forEach(role => {
-      this.roleIdRoleMap.set(role.id, role);
-    });
-    console.log(this.roleIdRoleMap);
-  }
+  //
+  // onDataReceived(): void {
+  //   // this.userAPILMTService.getAllUserRoles();
+  //   this.userRoles.forEach( userRole => {
+  //     this.userIdRoleIdMap.set(userRole.userId, userRole.roleId);
+  //   });
+  //   console.log(this.userIdRoleIdMap);
+  //
+  //   this.onRolesReceived(this.roles);
+  //   this.users.forEach(user => {
+  //     const idRole = this.userIdRoleIdMap.get(user.id);
+  //     this.userRoleMap.set(user.id, this.roleIdRoleMap.get(idRole));
+  //   });
+  // }
+  //
+  // onUsersReceived() {
+  //   // this.roleAPILMTService.getAllRoles();
+  //   // this.userAPILMTService.getAllUsers();
+  //   this.userAPILMTService.getAllUserRoles();
+  //   this.users.forEach(user => {
+  //     this.users[this.users.indexOf(user)].role = this.userRoleMap.get(user.id);
+  //   });
+  //   this.usersMatTable.data = this.users;
+  //   this.usersMatTable._updateChangeSubscription();
+  // }
+  // onRolesReceived(roles: Role[]): void {
+  //   this.roleAPILMTService.getAllRoles();
+  //   this.roles.forEach(role => {
+  //     this.roleIdRoleMap.set(role.id, role);
+  //   });
+  //   console.log(this.roleIdRoleMap);
+  // }
   onEditButtonClick(user: User) {
 
     this.userToModify.set(user._links.self.href, this.cloneObject(user));
    user.isOnUpdate = true;
+  // this.onSaveButtonClick(user);
   }
 
   onDeleteButtonClick(user: User) {
-    this.usersService.deleteUser(user);
+    this.userAPILMTService.deleteUser(user);
     this.usersMatTable._updateChangeSubscription();
   }
 
   onSaveButtonClick(user: User) {
          user.isOnUpdate = false;
       if (user._links) {
-        // this.usersService.updateUser(user);
+        console.log(user);
         this.userAPILMTService.updateUser(user);
-       // this.userToModify.delete(user.id);
+        this.userToModify.delete(user._links.self.href);
       } else {
         this.userAPILMTService. createUserWithEmailAndPassword (user);
       }
-   }
+// this.userAPILMTService.getAllUsers();
+    // this.onDataReceived();
+    // this.onUsersReceived();
+    // this.usersMatTable.data = this.users;
+    // this.usersMatTable._updateChangeSubscription();
+
+  }
 
   onCancelButtonClick(user: User) {
     user.isOnUpdate = false;
@@ -209,9 +221,5 @@ roleById: Role;
 
   ngOnDestroy(): void {
     this.usersSubscription.unsubscribe();
-  }
-
-  onRoleChanged(role: Role) {
-    this.userRole = role;
   }
 }

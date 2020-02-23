@@ -3,6 +3,8 @@ import {Maraude} from '../../model/Maraude';
 import {MatTableDataSource} from '@angular/material';
 import {MaraudeApilmtService} from '../../services/maraude-apilmt.service';
 import {Subscription} from 'rxjs';
+import {LieuApilmtService} from '../../services/lieu-apilmt.service';
+import {Lieu} from '../../model/Lieu';
 
 @Component({
   selector: 'app-maraudes',
@@ -11,13 +13,15 @@ import {Subscription} from 'rxjs';
 })
 export class MaraudesComponent implements OnInit, OnDestroy {
   userLoggedIn: boolean;
-  displayedColumnsMaraudes: string[] = ['Lieu', 'Date', 'ParticipantsMax', 'Actions'];
+  displayedColumnsMaraudes: string[] = ['Lieu', 'Participants', 'Date', 'Duree', 'Commentaire', 'Actions'];
   maraudeToModify = new Map<string, Maraude>();
   maraude = new Maraude();
   maraudes: Maraude[] = [];
   maraudesSubscription: Subscription;
+  lieux: Lieu[] = [];
+  lieuxSubscription: Subscription;
   maraudesMatTable: MatTableDataSource<Maraude>  = new MatTableDataSource<Maraude>(this.maraudes);
-  constructor(private maraudesAPILMTService: MaraudeApilmtService) { }
+  constructor(private maraudesAPILMTService: MaraudeApilmtService, private lieuxAPILMTService: LieuApilmtService) { }
 
   ngOnInit() {
 
@@ -33,8 +37,15 @@ export class MaraudesComponent implements OnInit, OnDestroy {
         this.maraudesMatTable._updateChangeSubscription();
       }
     );
+
+    this.lieuxSubscription = this.lieuxAPILMTService.lieuxSubject.subscribe(
+      (lieux: Lieu[]) => {
+        console.log(lieux);
+        this.lieux = lieux;
+      }
+    );
 this.maraudesAPILMTService.getAllMaraudes();
-    // console.log(this.maraudes);
+this.lieuxAPILMTService.getAllLieux();
   }
 
   ngOnDestroy(): void {

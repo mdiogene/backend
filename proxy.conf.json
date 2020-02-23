@@ -1,0 +1,7 @@
+{
+  "/lamaintenduapi": {
+    "target": "http://94.23.204.130:8080",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

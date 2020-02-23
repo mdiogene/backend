@@ -5,6 +5,7 @@ import {Maraude} from '../model/Maraude';
 import {Subject} from 'rxjs';
 import {AlertService} from './alert-service.service';
 import {User} from '../model/User';
+import {LoadingService} from './loading-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,8 @@ export class MaraudeApilmtService {
   private maraudeAPILMTUrl = `${apiLMT.url}/maraudes`;
   maraudesSubject = new Subject<Maraude[]>();
   maraudes: Maraude[] = [];
-  public alertService: AlertService;
-  constructor(private http: HttpClient) { }
+
+  constructor(private alertService: AlertService, private loadingService: LoadingService, private http: HttpClient) { }
 
   emitMaraudesSubject() {
     if (this.maraudes) {
@@ -23,7 +24,7 @@ export class MaraudeApilmtService {
   }
 
   getAllMaraudes(): void {
-    // this.loadingService.showLoading();
+    this.loadingService.showLoading();
     this.maraudes = null;
     this.http.get<any>(this.maraudeAPILMTUrl).subscribe(
       next => {
@@ -43,7 +44,7 @@ export class MaraudeApilmtService {
 
   // Création de la Maraude
   addMaraude(maraude: Maraude): void {
-    // this.loadingService.showLoading();
+    this.loadingService.showLoading();
     this.http.post<Maraude>(this.maraudeAPILMTUrl, maraude).subscribe(
       next => {
         this.maraudes[this.maraudes.indexOf(maraude)] = next;
@@ -58,13 +59,13 @@ export class MaraudeApilmtService {
 
 
   handleError(error): void {
-    // this.loadingService.hideLoading();
+    this.loadingService.hideLoading();
     this.alertService.error(error.message);
   }
 
   updateMaraude(maraude: Maraude): void {
     console.log(maraude);
-    // this.loadingService.showLoading();
+    this.loadingService.showLoading();
     if (maraude._links) {
       this.http.put<Maraude>(maraude._links.self.href, maraude).subscribe(
         next => {

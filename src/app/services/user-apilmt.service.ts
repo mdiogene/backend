@@ -118,22 +118,9 @@ export class UserAPILMTService {
     this.http.post<User>(this.userAPILMTUrl, user).subscribe(
       next => {
         this.users[this.users.indexOf(user)] = next;
-
         this.users.unshift(next);
-
-        const userRole = new UserRole();
-        userRole.roleId = user.role.id;
-        userRole.userId = next.id;
-        this.http.post<UserRole>(this.userRolesAPILMTUrl, userRole).subscribe(
-          next => {
-            this.userRoleEnregistre = next;
-          this.emitUserRolesSubject();
-            },
-          error => {
-            this.handleError(error);
-          });
         this.emitUsersSubject();
-      },
+        },
       error => {
         this.handleError(error);
       }
@@ -145,8 +132,10 @@ export class UserAPILMTService {
     if (user._links) {
       this.http.put<User>(user._links.self.href, user).subscribe(
         next => {
+          console.log('dans update service');
+          console.log(next);
           this.users[this.users.indexOf(user)] = next;
-          this.emitUserSubject();
+          this.emitUsersSubject();
         },
         error => {
           this.handleError(error);
@@ -191,6 +180,33 @@ export class UserAPILMTService {
     }
   }
 
+  deleteUser(user: User) {
+    const email = this.fs.firestore.app.auth().currentUser.email;
+    this.getUserByEmail(email);
+    // this.fs.collection('Users').doc(user.userId).delete();
+    this.loadingService.showLoading();
+    if (user._links) {
+      this.http.delete<User>(user._links.self.href).subscribe(
+        next => {
+          console.log('user deleted !');
+          console.log(next);
+
+          this.users.splice( this.users.indexOf(user), 1);
+          this.emitUsersSubject();
+          },
+        error => {
+          this.handleError(error);
+        }
+      );
+    }
+
+    this.fs.firestore.app.auth().signInWithEmailAndPassword(user.email, user.password).then(userToDelete => {
+      userToDelete.user.delete();
+      console.log('user deleted !');
+      console.log('In firebase !');
+    });
+    // this.fs.firestore.app.auth().signInWithEmailAndPassword(this.userByEmail.email, this.userByEmail.password );
+  }
 
   construireUserToSaveInDB(user: User, role: Role): void {
     this.userToSaveInDb.email = user.email;
