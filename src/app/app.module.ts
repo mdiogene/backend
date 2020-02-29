@@ -21,6 +21,10 @@ import { MaraudesComponent } from './components/maraudes/maraudes.component';
 import { LieuComponent } from './components/lieu/lieu.component';
 import { RoleComponent } from './components/role/role.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
+import { BsDatepickerModule } from 'ngx-bootstrap';
+
 
 const AppRoutes: Routes = [
   { path: 'users', component: UsersComponent},
@@ -53,7 +57,10 @@ const AppRoutes: Routes = [
     RouterModule.forRoot(AppRoutes),
     FormsModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    AppRoutingModule
+    AppRoutingModule,
+    BsDatepickerModule.forRoot(),
+    AngularDateTimePickerModule,
+    BrowserAnimationsModule
     // AngularFireModule.initializeApp(apiLMT)
   ],
   providers: [
