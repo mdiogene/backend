@@ -19,13 +19,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations/';
 // tslint:disable-next-line:label-position
 export class MaraudesComponent implements OnInit, OnDestroy {
   date: Date = new Date();
-  settings = {
-    bigBanner: true,
-    timePicker: false,
-    format: 'dd-MM-yyyy',
-    defaultOpen: false,
-    closeOnSelect: true
-  };
+  mytime: Date = new Date();
   model: any;
   userLoggedIn: boolean;
   displayedColumnsMaraudes: string[] = ['Lieu', 'Participants', 'Date', 'Duree', 'Commentaire', 'Actions'];

@@ -24,6 +24,7 @@ import { LoadingComponent } from './components/loading/loading.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 import { BsDatepickerModule } from 'ngx-bootstrap';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 
 
 const AppRoutes: Routes = [
@@ -59,6 +60,7 @@ const AppRoutes: Routes = [
     AngularFireModule.initializeApp(firebaseConfig),
     AppRoutingModule,
     BsDatepickerModule.forRoot(),
+    TimepickerModule.forRoot(),
     AngularDateTimePickerModule,
     BrowserAnimationsModule
     // AngularFireModule.initializeApp(apiLMT)

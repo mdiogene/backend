@@ -44,7 +44,7 @@
             <div>
 
                 <div *ngIf="!maraude.isOnUpdate"> {{maraude.date}} </div>
-                <input autofocus type="text" #datepickerMDY="bsDatepicker" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" *ngIf="maraude.isOnUpdate" [(ngModel)]="maraude.date" required="true" placeholder="Datepicker" class="form-control" bsDatepicker>
+                <input autofocus type="text" #datepickerMDY="bsDatepicker" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" *ngIf="maraude.isOnUpdate" [(ngModel)]="maraude.date" required="true" placeholder="Date" class="form-control" bsDatepicker>
 
 
             </div>
@@ -58,7 +58,7 @@
             <div>
 
                 <div *ngIf="!maraude.isOnUpdate"> {{maraude.duree}} </div>
-                <input autofocus class="form-control w-120" type="text" *ngIf="maraude.isOnUpdate" [(ngModel)]="maraude.duree" required="true" placeholder="Date">
+                <input autofocus class="form-control w-120" type="text" *ngIf="maraude.isOnUpdate" [(ngModel)]="maraude.duree" required="true" placeholder="Durée">
             </div>
         </mat-cell>
     </ng-container>
