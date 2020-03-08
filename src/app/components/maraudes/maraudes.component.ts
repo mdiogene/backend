@@ -5,13 +5,22 @@ import {MaraudeApilmtService} from '../../services/maraude-apilmt.service';
 import {Subscription} from 'rxjs';
 import {LieuApilmtService} from '../../services/lieu-apilmt.service';
 import {Lieu} from '../../model/Lieu';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations/';
 
 @Component({
   selector: 'app-maraudes',
   templateUrl: './maraudes.component.html',
   styleUrls: ['./maraudes.component.scss']
 })
+
+// tslint:disable-next-line:no-unused-expression
+// tslint:disable-next-line:label-position
+// tslint:disable-next-line:no-unused-expression
+// tslint:disable-next-line:label-position
 export class MaraudesComponent implements OnInit, OnDestroy {
+  date: Date = new Date();
+  mytime: Date = new Date();
+  model: any;
   userLoggedIn: boolean;
   displayedColumnsMaraudes: string[] = ['Lieu', 'Participants', 'Date', 'Duree', 'Commentaire', 'Actions'];
   maraudeToModify = new Map<string, Maraude>();
