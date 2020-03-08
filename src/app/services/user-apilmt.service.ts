@@ -128,7 +128,7 @@ export class UserAPILMTService {
   }
 
   updateUser(user: User): void {
-    this.loadingService.showLoading();
+    // this.loadingService.showLoading();
     if (user._links) {
       this.http.put<User>(user._links.self.href, user).subscribe(
         next => {

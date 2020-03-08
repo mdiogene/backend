@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Lieu} from '../model/Lieu';
 import {apiLMT} from '../../environments/environment';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {LoadingService} from './loading-service.service';
 import {AlertService} from './alert-service.service';
 import {Subject} from 'rxjs';
@@ -11,15 +11,17 @@ import {Subject} from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class LieuApilmtService {
+
   private lieuAPILMTUrl = `${apiLMT.url}/lieus`;
   lieux: Lieu[] = [];
   // lieu: Lieu;
   lieuxSubject = new Subject<Lieu[]>();
   // lieuSubject = new Subject<Lieu>();
 
-
   getAllLieux(): void {
+    this.loadingService.hideLoading();
     this.lieux = null;
     this.http.get<any>(this.lieuAPILMTUrl).subscribe(
       next => {
@@ -44,7 +46,7 @@ export class LieuApilmtService {
   }
 
   addLieu(lieu: Lieu): void {
-    // this.loadingService.showLoading();
+    this.loadingService.showLoading();
     this.http.post<Lieu>(this.lieuAPILMTUrl, lieu).subscribe(
       next => {
         this.lieux[this.lieux.indexOf(lieu)] = next;
@@ -58,7 +60,7 @@ export class LieuApilmtService {
   }
 
   handleError(error): void {
-    // this.loadingService.hideLoading();
+    this.loadingService.hideLoading();
     this.alertService.error(error.message);
   }
   constructor(private http: HttpClient,

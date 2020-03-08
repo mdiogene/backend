@@ -6,7 +6,7 @@ export const environment = {
   production: false
 };
 
-export const apiLMT = {
+export const apiLMT2 = {
   url: 'http://94.23.204.130:8080/lamaintenduapi'
 };
 
@@ -14,7 +14,7 @@ export const apiLMT1 = {
   url: 'http://localhost:8080/lamaintenduapi',
  };
 
-export const apiLMT2 = {
+export const apiLMT = {
    url: 'http://94.23.204.130:8280/lmt'
 };
 // Config FireBase
