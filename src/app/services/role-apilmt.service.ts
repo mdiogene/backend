@@ -59,7 +59,6 @@ export class RoleApilmtService {
     this.loadingService.showLoading();
     this.http.post<Role>(this.roleAPILmtUrl, role).subscribe(
       next => {
-        this.roles[this.roles.indexOf(role)] = next;
         this.roles.unshift(next);
         this.emitRolesSubject();
       },

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {apiLMT} from '../../environments/environment';
+import {apiLMT, apiLMTput} from '../../environments/environment';
 import {User} from '../model/User';
 import {Subject} from 'rxjs';
 import {LoginService} from './login.service';
@@ -19,6 +19,7 @@ import {UserRole} from '../model/UserRole';
 export class UserAPILMTService {
 
   private userAPILMTUrl = `${apiLMT.url}/users`;
+  private userAPILMTUrlPut = `${apiLMTput.url}/users`;
   private userRolesAPILMTUrl = `${apiLMT.url}/userRoles`;
   users: User[] = [];
   usersSubject = new Subject<User[]>();
@@ -82,7 +83,7 @@ export class UserAPILMTService {
 
   getAllUsers(): void {
     this.loadingService.showLoading();
-    this.http.get<any>(this.userAPILMTUrl).subscribe(
+    this.http.get<any>(this.userAPILMTUrlPut).subscribe(
       next => {
         const users = next._embedded.users;
         if (users && users.length > 0) {
@@ -115,7 +116,7 @@ export class UserAPILMTService {
   addUser(user: User): void {
     this.loadingService.showLoading();
 
-    this.http.post<User>(this.userAPILMTUrl, user).subscribe(
+    this.http.post<User>(this.userAPILMTUrlPut, user).subscribe(
       next => {
         this.users[this.users.indexOf(user)] = next;
         this.users.unshift(next);
@@ -130,6 +131,8 @@ export class UserAPILMTService {
   updateUser(user: User): void {
     // this.loadingService.showLoading();
     if (user._links) {
+      console.log('dans update service test url');
+      console.log(user._links.self.href);
       this.http.put<User>(user._links.self.href, user).subscribe(
         next => {
           console.log('dans update service');
@@ -148,7 +151,7 @@ export class UserAPILMTService {
     this.loadingService.showLoading();
     this.userByEmail = null;
     if (email) {
-      this.http.get<User>(this.userAPILMTUrl + '/search/findByEmail?email=' + email).subscribe(
+      this.http.get<User>(this.userAPILMTUrlPut + '/search/findByEmail?email=' + email).subscribe(
         next => {
           if (next) {
             this.userByEmail = next;
@@ -202,8 +205,6 @@ export class UserAPILMTService {
 
     this.fs.firestore.app.auth().signInWithEmailAndPassword(user.email, user.password).then(userToDelete => {
       userToDelete.user.delete();
-      console.log('user deleted !');
-      console.log('In firebase !');
     });
     // this.fs.firestore.app.auth().signInWithEmailAndPassword(this.userByEmail.email, this.userByEmail.password );
   }

@@ -41,13 +41,24 @@
     <ng-container matColumnDef="{{displayedColumnsMaraudes[2]}}">
         <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Date' }} </mat-header-cell>
         <mat-cell *matCellDef="let maraude">
-            <div>
-
-                <div *ngIf="!maraude.isOnUpdate"> {{maraude.date}} </div>
-                <input autofocus type="text" #datepickerMDY="bsDatepicker" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" *ngIf="maraude.isOnUpdate" [(ngModel)]="maraude.date" required="true" placeholder="Date" class="form-control" bsDatepicker>
+          <!--<form>-->
+            <div class="form-group">
+              <input type="datetime-local" class="form-control" [readOnly]="!maraude.isOnUpdate" *ngIf="!maraude.isOnUpdate"  [ngModel]="maraude.date">
+              <!--{{maraude.date}} </input>-->
+              <input autofocus type="datetime-local"
+                     class="form-control"
+                     *ngIf="maraude.isOnUpdate"
+                     [(ngModel)]="maraude.date"
+                     required="true"
+                     placeholder="Date">
+              <!--class="form-control"-->
+              <!--bsDatepicker>-->
+                     <!--#datepickerMDY="bsDatepicker"-->
+                     <!--[bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"-->
 
 
             </div>
+            <!--<form>-->
         </mat-cell>
     </ng-container>
 

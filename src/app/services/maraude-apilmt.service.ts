@@ -21,6 +21,7 @@ export class MaraudeApilmtService {
     if (this.maraudes) {
       this.maraudesSubject.next(this.maraudes);
     }
+    this.loadingService.hideLoading();
   }
 
   getAllMaraudes(): void {
@@ -47,7 +48,6 @@ export class MaraudeApilmtService {
     this.loadingService.showLoading();
     this.http.post<Maraude>(this.maraudeAPILMTUrl, maraude).subscribe(
       next => {
-        this.maraudes[this.maraudes.indexOf(maraude)] = next;
         this.maraudes.unshift(next);
         this.emitMaraudesSubject();
       },
@@ -71,7 +71,6 @@ export class MaraudeApilmtService {
         next => {
           this.maraudes[this.maraudes.indexOf(maraude)] = next;
           this.emitMaraudesSubject();
-          console.log(next);
         },
         error => {
           this.handleError(error);

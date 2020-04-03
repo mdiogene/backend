@@ -13,14 +13,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations/';
   styleUrls: ['./maraudes.component.scss']
 })
 
-// tslint:disable-next-line:no-unused-expression
-// tslint:disable-next-line:label-position
-// tslint:disable-next-line:no-unused-expression
-// tslint:disable-next-line:label-position
 export class MaraudesComponent implements OnInit, OnDestroy {
-  date: Date = new Date();
-  mytime: Date = new Date();
-  model: any;
+
   userLoggedIn: boolean;
   displayedColumnsMaraudes: string[] = ['Lieu', 'Participants', 'Date', 'Duree', 'Commentaire', 'Actions'];
   maraudeToModify = new Map<string, Maraude>();
@@ -49,7 +43,6 @@ export class MaraudesComponent implements OnInit, OnDestroy {
 
     this.lieuxSubscription = this.lieuxAPILMTService.lieuxSubject.subscribe(
       (lieux: Lieu[]) => {
-        console.log(lieux);
         this.lieux = lieux;
       }
     );
@@ -73,7 +66,6 @@ this.lieuxAPILMTService.getAllLieux();
     maraude.isOnUpdate = false;
     if (maraude._links) {
       this.maraudesAPILMTService.updateMaraude(maraude);
-      // this.maraudeToModify.delete(maraude.id);
     } else {
       this.maraudesAPILMTService.addMaraude(maraude);
     }

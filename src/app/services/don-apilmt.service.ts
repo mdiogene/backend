@@ -28,6 +28,7 @@ export class DonApilmtService {
       if (this.dons) {
         this.donsSubject.next(Array.from(this.dons));
       }
+      this.loadingService.hideLoading();
     }
 
 

@@ -15,7 +15,10 @@ export const apiLMT1 = {
  };
 
 export const apiLMT = {
-   url: 'http://94.23.204.130:8280/lmt'
+  url: 'http://94.23.204.130:8280/lmt'
+};
+export const apiLMTput = {
+   url: 'http://94.23.204.130:8280/lmtput'
 };
 // Config FireBase
 export const firebaseConfig = {

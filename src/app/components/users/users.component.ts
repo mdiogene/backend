@@ -9,7 +9,10 @@ import {Role} from '../../model/Role';
 import {RoleApilmtService} from '../../services/role-apilmt.service';
 import {UserToSaveInDB} from '../../model/UserToSaveInDB';
 import {UserRole} from '../../model/UserRole';
-
+// import {sha1} from '@angular/compiler/src/i18n/digest';
+// import {sha1} from '@angular/compiler/src/i18n/digest';
+import * as crypto from 'crypto-js';
+import {sha1} from '@angular/compiler/src/i18n/digest';
 
 
 @Component({
@@ -177,6 +180,11 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.userAPILMTService.updateUser(user);
         this.userToModify.delete(user._links.self.href);
       } else {
+        console.log(user.password);
+        user.password =  user.password;
+        console.log(user.password);
+        // user.password = sha1(user.password);
+        console.log(user.password);
         this.userAPILMTService. createUserWithEmailAndPassword (user);
       }
 // this.userAPILMTService.getAllUsers();
