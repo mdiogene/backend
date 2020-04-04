@@ -13,6 +13,7 @@ import {UserRole} from '../../model/UserRole';
 // import {sha1} from '@angular/compiler/src/i18n/digest';
 import * as crypto from 'crypto-js';
 import {sha1} from '@angular/compiler/src/i18n/digest';
+import {Md5} from 'ts-md5';
 
 
 @Component({
@@ -129,38 +130,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   this.usersMatTable.data.unshift(newUser);
   this.usersMatTable._updateChangeSubscription();
  }
-  //
-  // onDataReceived(): void {
-  //   // this.userAPILMTService.getAllUserRoles();
-  //   this.userRoles.forEach( userRole => {
-  //     this.userIdRoleIdMap.set(userRole.userId, userRole.roleId);
-  //   });
-  //   console.log(this.userIdRoleIdMap);
-  //
-  //   this.onRolesReceived(this.roles);
-  //   this.users.forEach(user => {
-  //     const idRole = this.userIdRoleIdMap.get(user.id);
-  //     this.userRoleMap.set(user.id, this.roleIdRoleMap.get(idRole));
-  //   });
-  // }
-  //
-  // onUsersReceived() {
-  //   // this.roleAPILMTService.getAllRoles();
-  //   // this.userAPILMTService.getAllUsers();
-  //   this.userAPILMTService.getAllUserRoles();
-  //   this.users.forEach(user => {
-  //     this.users[this.users.indexOf(user)].role = this.userRoleMap.get(user.id);
-  //   });
-  //   this.usersMatTable.data = this.users;
-  //   this.usersMatTable._updateChangeSubscription();
-  // }
-  // onRolesReceived(roles: Role[]): void {
-  //   this.roleAPILMTService.getAllRoles();
-  //   this.roles.forEach(role => {
-  //     this.roleIdRoleMap.set(role.id, role);
-  //   });
-  //   console.log(this.roleIdRoleMap);
-  // }
+
   onEditButtonClick(user: User) {
 
     this.userToModify.set(user._links.self.href, this.cloneObject(user));
@@ -176,23 +146,12 @@ export class UsersComponent implements OnInit, OnDestroy {
   onSaveButtonClick(user: User) {
          user.isOnUpdate = false;
       if (user._links) {
-        console.log(user);
         this.userAPILMTService.updateUser(user);
         this.userToModify.delete(user._links.self.href);
       } else {
-        console.log(user.password);
-        user.password =  user.password;
-        console.log(user.password);
-        // user.password = sha1(user.password);
-        console.log(user.password);
+        user.password =  Md5.hashStr(user.password).toString();
         this.userAPILMTService. createUserWithEmailAndPassword (user);
       }
-// this.userAPILMTService.getAllUsers();
-    // this.onDataReceived();
-    // this.onUsersReceived();
-    // this.usersMatTable.data = this.users;
-    // this.usersMatTable._updateChangeSubscription();
-
   }
 
   onCancelButtonClick(user: User) {

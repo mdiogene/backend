@@ -25,6 +25,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 import { BsDatepickerModule } from 'ngx-bootstrap';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { DialogConfirmationDialogComponent } from './components/dialog-confirmation-dialog/dialog-confirmation-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
+
 
 
 const AppRoutes: Routes = [
@@ -33,9 +36,9 @@ const AppRoutes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'role', component: RoleComponent},
   { path: 'loading', component: LoadingComponent},
-  { path: 'lieu', component: LieuComponent}
-
-];
+  { path: 'lieu', component: LieuComponent},
+  { path: 'dialog', component: DialogConfirmationDialogComponent}
+  ];
 
 @NgModule({
   declarations: [
@@ -48,6 +51,7 @@ const AppRoutes: Routes = [
     LieuComponent,
     RoleComponent,
     LoadingComponent,
+    DialogConfirmationDialogComponent,
   ],
   imports: [
 
@@ -64,6 +68,9 @@ const AppRoutes: Routes = [
     AngularDateTimePickerModule,
     BrowserAnimationsModule
     // AngularFireModule.initializeApp(apiLMT)
+  ],
+  exports : [
+    MatDialogModule
   ],
   providers: [
     AngularFireAuth,

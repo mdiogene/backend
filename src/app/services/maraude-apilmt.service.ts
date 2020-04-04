@@ -6,6 +6,8 @@ import {Subject} from 'rxjs';
 import {AlertService} from './alert-service.service';
 import {User} from '../model/User';
 import {LoadingService} from './loading-service.service';
+import {DialogConfirmationDialogComponent} from '../components/dialog-confirmation-dialog/dialog-confirmation-dialog.component';
+import {MatDialog} from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +17,14 @@ export class MaraudeApilmtService {
   maraudesSubject = new Subject<Maraude[]>();
   maraudes: Maraude[] = [];
 
-  constructor(private alertService: AlertService, private loadingService: LoadingService, private http: HttpClient) { }
+  constructor(private alertService: AlertService,
+              private loadingService: LoadingService,
+              private http: HttpClient,
+              private dialog: MatDialog) { }
 
   emitMaraudesSubject() {
     if (this.maraudes) {
-      this.maraudesSubject.next(this.maraudes);
+      this.maraudesSubject.next(Array.from(this.maraudes));
     }
     this.loadingService.hideLoading();
   }
@@ -33,7 +38,7 @@ export class MaraudeApilmtService {
         if (next) {
           this.maraudes = maraudes._embedded.maraudes;
         }
-        console.log(this.maraudes);
+        // console.log(this.maraudes);
         this.emitMaraudesSubject();
       },
       error => {
@@ -48,15 +53,26 @@ export class MaraudeApilmtService {
     this.loadingService.showLoading();
     this.http.post<Maraude>(this.maraudeAPILMTUrl, maraude).subscribe(
       next => {
+        this.maraudes[this.maraudes.indexOf(maraude)] = next;
         this.maraudes.unshift(next);
+        const info = 'Maraude crée';
+        this.openDialog(info);
         this.emitMaraudesSubject();
       },
       error => {
+        const info = 'Maraude pas crée réessayer';
         this.handleError(error);
+        this.openDialog(info);
       }
     );
   }
 
+  openDialog(information: string): void {
+    const dialogRef = this.dialog.open(DialogConfirmationDialogComponent, {
+      width: '400px',
+      data: {information: information}
+    });
+  }
 
   handleError(error): void {
     this.loadingService.hideLoading();

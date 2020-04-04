@@ -2,6 +2,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {LoginService} from '../../services/login.service';
 import {Router} from '@angular/router';
 import { ParticlesConfig } from '../../../particles-config';
+import {Md5} from 'ts-md5';
+import {DialogConfirmationDialogComponent} from '../dialog-confirmation-dialog/dialog-confirmation-dialog.component';
+import {MatDialog} from '@angular/material';
 declare let particlesJS: any;
 
 
@@ -22,7 +25,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     public authService: LoginService,
-    public router: Router
+    public router: Router,
+    private dialog: MatDialog
   ) {
     this.selectedVal = 'login';
   }
@@ -53,11 +57,23 @@ export class LoginComponent implements OnInit, OnDestroy {
   // Login user with  provided Email/ Password
   loginUser() {
     this.responseMessage = '';
-    this.authService.login(this.emailInput, this.passwordInput);
+    const pass = Md5.hashStr(this.passwordInput).toString();
+    this.authService.login(this.emailInput, pass).then(result => {
+      // this.openDialog();
+    });
 
   }
 
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogConfirmationDialogComponent, {
+      width: '400px',
+      data: {information: 'Utilisateur connecté'}
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      this.router.navigate(['/users']);
+    });
+  }
   googleLogin() {
     this.authService.loginWithGoogle()
       .then(res => {

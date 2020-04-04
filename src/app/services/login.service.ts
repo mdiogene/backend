@@ -3,6 +3,8 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import {auth} from 'firebase';
 import {Subject} from 'rxjs';
 import {Router} from '@angular/router';
+import {MatDialog} from '@angular/material';
+import {DialogConfirmationDialogComponent} from '../components/dialog-confirmation-dialog/dialog-confirmation-dialog.component';
 
 
 @Injectable({
@@ -17,7 +19,8 @@ export class LoginService {
   localUserEmailSubject = new Subject<string>();
   constructor(
     public angularFireAuth: AngularFireAuth,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) {
     this.angularFireAuth.authState.subscribe(userResponse => {
       if (userResponse) {
@@ -53,14 +56,25 @@ export class LoginService {
       return await this.angularFireAuth.auth.signInWithEmailAndPassword(email, password).then(userStatusIsOnline => {
         this.userLoggedIn = true;
         this.localUserEmail = userStatusIsOnline.user.email;
+        const info = 'Utilisateur connecté avec succès ...';
+        this.openDialog(info);
         this.emitLocalUserEmailnSubject();
         this.emitUserLoggedInSubject();
         localStorage.setItem('userLoggedIn', JSON.stringify(true));
         this.userLoggedIn = (Boolean)(localStorage.getItem('userLoggedIn'));
-        this.router.navigate(['/users']);
-    });
+
+    }).catch(error => {
+        const info = 'Email et ou password incorrecte, réessayer ...';
+        this.openDialog(info);
+      });
   }
 
+  openDialog(information: string): void {
+    const dialogRef = this.dialog.open(DialogConfirmationDialogComponent, {
+      width: '400px',
+      data: {information: information}
+    });
+  }
   async logout() {
     this.userLoggedIn = false;
 

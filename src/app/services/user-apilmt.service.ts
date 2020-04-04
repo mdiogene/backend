@@ -12,6 +12,8 @@ import {RoleApilmtService} from './role-apilmt.service';
 import {Role} from '../model/Role';
 import {UserToSaveInDB} from '../model/UserToSaveInDB';
 import {UserRole} from '../model/UserRole';
+import {DialogConfirmationDialogComponent} from '../components/dialog-confirmation-dialog/dialog-confirmation-dialog.component';
+import {MatDialog} from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -33,13 +35,15 @@ export class UserAPILMTService {
   role: Role;
   userToSaveInDb = new UserToSaveInDB();
   userRolesSubject = new Subject<UserRole[]>();
+userAdded = false;
 
   constructor(private http: HttpClient,
               public fs: AngularFirestore,
               public loginService: LoginService,
               public roleService: RoleApilmtService,
               public loadingService: LoadingService,
-              public alertService: AlertService) {
+              public alertService: AlertService,
+              private dialog: MatDialog) {
   }
 
   emitUserSubject() {
@@ -83,7 +87,7 @@ export class UserAPILMTService {
 
   getAllUsers(): void {
     this.loadingService.showLoading();
-    this.http.get<any>(this.userAPILMTUrlPut).subscribe(
+    this.http.get<any>(this.userAPILMTUrl).subscribe(
       next => {
         const users = next._embedded.users;
         if (users && users.length > 0) {
@@ -107,6 +111,8 @@ export class UserAPILMTService {
         const userAuth = firebase.auth().currentUser;
         userAuth.sendEmailVerification().then(function () {
         }).catch(function () {
+          const info = 'Email et ou password incorrecte, réessayer ...';
+          this.openDialog(info);
           // An error happened.
         });
       });
@@ -118,14 +124,24 @@ export class UserAPILMTService {
 
     this.http.post<User>(this.userAPILMTUrlPut, user).subscribe(
       next => {
+        localStorage.setItem('userAdded', JSON.stringify(true));
         this.users[this.users.indexOf(user)] = next;
         this.users.unshift(next);
+        const info = 'Utilisateur crée';
+        this.openDialog(info);
         this.emitUsersSubject();
         },
       error => {
+        const info = 'Utilisateur n\'a pas été crée réessayer ....';
         this.handleError(error);
-      }
+        this.openDialog(info);    }
     );
+  }
+  openDialog(information: string): void {
+    const dialogRef = this.dialog.open(DialogConfirmationDialogComponent, {
+      width: '400px',
+      data: {information: information}
+    });
   }
 
   updateUser(user: User): void {
