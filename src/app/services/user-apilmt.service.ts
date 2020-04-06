@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {apiLMT, apiLMTput} from '../../environments/environment';
+import {apiLMT} from '../../environments/environment';
 import {User} from '../model/User';
 import {Subject} from 'rxjs';
 import {LoginService} from './login.service';
@@ -21,7 +21,7 @@ import {MatDialog} from '@angular/material';
 export class UserAPILMTService {
 
   private userAPILMTUrl = `${apiLMT.url}/users`;
-  private userAPILMTUrlPut = `${apiLMTput.url}/users`;
+  // private userAPILMTUrlPut = `${apiLMTput.url}/users`;
   private userRolesAPILMTUrl = `${apiLMT.url}/userRoles`;
   users: User[] = [];
   usersSubject = new Subject<User[]>();
@@ -122,7 +122,7 @@ userAdded = false;
   addUser(user: User): void {
     this.loadingService.showLoading();
 
-    this.http.post<User>(this.userAPILMTUrlPut, user).subscribe(
+    this.http.post<User>(this.userAPILMTUrl, user).subscribe(
       next => {
         localStorage.setItem('userAdded', JSON.stringify(true));
         this.users[this.users.indexOf(user)] = next;
@@ -167,7 +167,7 @@ userAdded = false;
     this.loadingService.showLoading();
     this.userByEmail = null;
     if (email) {
-      this.http.get<User>(this.userAPILMTUrlPut + '/search/findByEmail?email=' + email).subscribe(
+      this.http.get<User>(this.userAPILMTUrl + '/search/findByEmail?email=' + email).subscribe(
         next => {
           if (next) {
             this.userByEmail = next;
