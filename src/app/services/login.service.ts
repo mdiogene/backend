@@ -56,6 +56,7 @@ export class LoginService {
       return await this.angularFireAuth.auth.signInWithEmailAndPassword(email, password).then(userStatusIsOnline => {
         this.userLoggedIn = true;
         this.localUserEmail = userStatusIsOnline.user.email;
+        localStorage.setItem('localUserEmail', JSON.stringify(this.localUserEmail));
         const info = 'Utilisateur connecté avec succès ...';
         this.openDialog(info);
         this.emitLocalUserEmailnSubject();

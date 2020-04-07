@@ -6,19 +6,19 @@ export const environment = {
   production: false
 };
 
-export const apiLMT2 = {
-  url: 'http://94.23.204.130:8080/lamaintenduapi'
+export const apiLMT = {
+  url: 'https://94.23.204.130:8080/lamaintenduapi'
 };
 
 export const apiLMT1 = {
-  url: 'http://localhost:8080/lamaintenduapi',
+  url: 'https://localhost:8080/lamaintenduapi',
  };
 
-export const apiLMT = {
-  url: 'http://94.23.204.130:8280/lmt'
+export const apiLMT2 = {
+  url: 'https://94.23.204.130:8280/lmt'
 };
 export const apiLMTput = {
-   url: 'http://94.23.204.130:8280/lmtput'
+   url: 'https://94.23.204.130:8280/lmtput'
 };
 // Config FireBase
 export const firebaseConfig = {
