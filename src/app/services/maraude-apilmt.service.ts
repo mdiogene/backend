@@ -79,11 +79,19 @@ export class MaraudeApilmtService {
     this.alertService.error(error.message);
   }
 
+  getUrlForUpdateAndDelete(url: string, objectToAdd: string, urlToAdd: string): string {
+    const urlObject = url.substring(url.indexOf(objectToAdd), url.length );
+    const vraiUrl = urlToAdd + '/' + urlObject;
+    return vraiUrl;
+  }
+
   updateMaraude(maraude: Maraude): void {
     console.log(maraude);
     this.loadingService.showLoading();
     if (maraude._links) {
-      this.http.put<Maraude>(maraude._links.self.href, maraude).subscribe(
+      const urlHref = this.getUrlForUpdateAndDelete(maraude._links.self.href, 'maraudes', `${apiLMT.url}`);
+
+      this.http.put<Maraude>(urlHref, maraude).subscribe(
         next => {
           this.maraudes[this.maraudes.indexOf(maraude)] = next;
           this.emitMaraudesSubject();

@@ -2,12 +2,12 @@ export const environment = {
   production: false
 };
 
-export const apiLMT2 = {
-  url: 'https://94.23.204.130:8280/lmt'
+export const apiLMT = {
+  url: 'https://94.23.204.130:8243/lmt'
 };
 
 
-export const apiLMT = {
+export const apiLMT2 = {
   url: 'https://94.23.204.130:8080/lamaintenduapi'
 };
 

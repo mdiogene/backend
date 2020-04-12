@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {apiLMT} from '../../environments/environment';
+import {apiLMT, apiLMT3} from '../../environments/environment';
 import {User} from '../model/User';
 import {Subject} from 'rxjs';
 import {LoginService} from './login.service';
@@ -109,11 +109,11 @@ userAdded = false;
         user.userId = value.user.uid;
         this.addUser(user);
         const userAuth = firebase.auth().currentUser;
-        userAuth.sendEmailVerification().then(function () {
-        }).catch(function () {
-          const info = 'Email et ou password incorrecte, réessayer ...';
+        userAuth.sendEmailVerification().then(resultOk => {
+
+        }).catch(resultFail => {
+          const info = 'Email et/ou password incorrecte, réessayer ...';
           this.openDialog(info);
-          // An error happened.
         });
       });
 
@@ -137,6 +137,7 @@ userAdded = false;
         this.openDialog(info);    }
     );
   }
+
   openDialog(information: string): void {
     const dialogRef = this.dialog.open(DialogConfirmationDialogComponent, {
       width: '400px',
@@ -147,9 +148,8 @@ userAdded = false;
   updateUser(user: User): void {
     // this.loadingService.showLoading();
     if (user._links) {
-      console.log('dans update service test url');
-      console.log(user._links.self.href);
-      this.http.put<User>(user._links.self.href, user).subscribe(
+      const urlHref = this.getUrlForUpdateAndDelete(user._links.self.href, 'users', `${apiLMT.url}`);
+      this.http.put<User>(urlHref, user).subscribe(
         next => {
           console.log('dans update service');
           console.log(next);
@@ -161,6 +161,12 @@ userAdded = false;
         }
       );
     }
+  }
+
+  getUrlForUpdateAndDelete(url: string, objectToAdd: string, urlToAdd: string): string {
+      const urlObject = url.substring(url.indexOf(objectToAdd), url.length );
+      const vraiUrl = urlToAdd + '/' + urlObject;
+      return vraiUrl;
   }
 
   getUserByEmail(email: string): void {
@@ -205,7 +211,9 @@ userAdded = false;
     // this.fs.collection('Users').doc(user.userId).delete();
     this.loadingService.showLoading();
     if (user._links) {
-      this.http.delete<User>(user._links.self.href).subscribe(
+      const urlHref = this.getUrlForUpdateAndDelete(user._links.self.href, 'users', `${apiLMT.url}`);
+
+      this.http.delete<User>(urlHref).subscribe(
         next => {
           console.log('user deleted !');
           console.log(next);

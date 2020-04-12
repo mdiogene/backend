@@ -130,7 +130,9 @@ export class UsersComponent implements OnInit, OnDestroy {
   onCreateNewUsersClick(): void {
     const newUser = new User();
     newUser.isOnUpdate = true;
-    const localUserEmail = (String)(localStorage.getItem('localUserEmail'));
+    let localUserEmail = (localStorage.getItem('localUserEmail'));
+    const end = localUserEmail.length - 1;
+    localUserEmail = localUserEmail.substring(1, end);
     this.userAPILMTService.getUserByEmail(localUserEmail);
     console.log('email of logged user :');
     console.log(localUserEmail);
