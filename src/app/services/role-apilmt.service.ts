@@ -5,6 +5,8 @@ import {HttpClient} from '@angular/common/http';
 import {LoadingService} from './loading-service.service';
 import {AlertService} from './alert-service.service';
 import {Subject} from 'rxjs';
+import {DialogConfirmationDialogComponent} from '../components/dialog-confirmation-dialog/dialog-confirmation-dialog.component';
+import {MatDialog} from '@angular/material';
 
 
 
@@ -22,7 +24,8 @@ export class RoleApilmtService {
 
   constructor(private http: HttpClient,
               public loadingService: LoadingService,
-              public alertService: AlertService) { }
+              public alertService: AlertService,
+              private dialog: MatDialog) { }
 
   getAllRoles(): void {
     this.roles = null;
@@ -118,8 +121,55 @@ export class RoleApilmtService {
         this.handleError(error);
       }
     );
+  }
 
+  updateRole(role: Role): void {
+    this.loadingService.showLoading();
+    if (role._links) {
+      const urlHref = this.getUrlForUpdateAndDelete(role._links.self.href, 'roles', `${apiLMT.url}`);
+      this.http.put<Role>(urlHref, role).subscribe(
+        next => {
+          console.log('dans update service');
+          console.log(next);
+          this.roles[this.roles.indexOf(role)] = next;
+          this.emitRolesSubject();
+        },
+        error => {
+          this.handleError(error);
+        }
+      );
+    }
+  }
 
+deleteRole(role: Role) {
+  if (role._links) {
+    const urlHref = this.getUrlForUpdateAndDelete(role._links.self.href, 'roles', `${apiLMT.url}`);
+
+    this.http.delete<Role>(urlHref).subscribe(
+      next => {
+        const info = 'Role a été suprimé';
+        this.openDialog(info);
+
+        this.roles.splice(this.roles.indexOf(role), 1);
+        this.emitRolesSubject();
+      },
+      error => {
+        this.handleError(error);
+      }
+    );
+  }
+
+}
+  getUrlForUpdateAndDelete(url: string, objectToAdd: string, urlToAdd: string): string {
+    const urlObject = url.substring(url.indexOf(objectToAdd), url.length );
+    const vraiUrl = urlToAdd + '/' + urlObject;
+    return vraiUrl;
+  }
+  openDialog(information: string): void {
+    const dialogRef = this.dialog.open(DialogConfirmationDialogComponent, {
+      width: '400px',
+      data: {information: information}
+    });
   }
 
   handleError(error): void {

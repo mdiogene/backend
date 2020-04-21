@@ -1,18 +1,14 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import {User} from '../../model/User';
 import {Subscription} from 'rxjs';
 import {UsersService} from '../../services/users.service';
-import {MatDialog, MatTableDataSource} from '@angular/material';
+import {MatDialog, MatPaginator, MatTableDataSource} from '@angular/material';
 import {LoginService} from '../../services/login.service';
 import {UserAPILMTService} from '../../services/user-apilmt.service';
 import {Role} from '../../model/Role';
 import {RoleApilmtService} from '../../services/role-apilmt.service';
 import {UserToSaveInDB} from '../../model/UserToSaveInDB';
 import {UserRole} from '../../model/UserRole';
-// import {sha1} from '@angular/compiler/src/i18n/digest';
-// import {sha1} from '@angular/compiler/src/i18n/digest';
-import * as crypto from 'crypto-js';
-import {sha1} from '@angular/compiler/src/i18n/digest';
 import {Md5} from 'ts-md5';
 import {DialogConfirmationDialogComponent} from '../dialog-confirmation-dialog/dialog-confirmation-dialog.component';
 
@@ -24,7 +20,7 @@ import {DialogConfirmationDialogComponent} from '../dialog-confirmation-dialog/d
 })
 export class UsersComponent implements OnInit, OnDestroy {
 
-
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   userToModify = new Map<string, User>();
   displayedColumnsUsers: string[] = ['Nom', 'Prénom', 'Email', 'Password', 'TelNumber', 'Role', 'Vehicule', 'URL', 'Actions'];
   userByEmail: User;
@@ -61,7 +57,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    this.usersMatTable.paginator = this.paginator;
     this.usersSubscription = this.userAPILMTService.usersSubject.subscribe(
       (users: User[]) => {
         this.users = users;
@@ -134,8 +130,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     const end = localUserEmail.length - 1;
     localUserEmail = localUserEmail.substring(1, end);
     this.userAPILMTService.getUserByEmail(localUserEmail);
-    console.log('email of logged user :');
-    console.log(localUserEmail);
     this.usersMatTable.data.unshift(newUser);
     this.usersMatTable._updateChangeSubscription();
   }
@@ -145,23 +139,21 @@ export class UsersComponent implements OnInit, OnDestroy {
     const end = localUserEmail.length - 1;
     localUserEmail = localUserEmail.substring(1, end);
     this.userAPILMTService.getUserByEmail(localUserEmail);
-    console.log('email of logged user :');
-    console.log(localUserEmail);
     this.userToModify.set(user._links.self.href, this.cloneObject(user));
     user.isOnUpdate = true;
-    // this.onSaveButtonClick(user);
   }
 
   onDeleteButtonClick(user: User) {
-    this.userAPILMTService.deleteUser(user);
-    this.usersMatTable._updateChangeSubscription();
+    if (user._links) {
+      this.userAPILMTService.deleteUser(user);
+      this.usersMatTable._updateChangeSubscription();
+    }
+
   }
 
   onSaveButtonClick(user: User) {
     user.isOnUpdate = false;
 
-    console.log('user logged is :');
-    console.log(this.userByEmail);
     if (this.userByEmail.role.roleName === 'Administrateur') {
       if (user._links) {
         this.userAPILMTService.updateUser(user);

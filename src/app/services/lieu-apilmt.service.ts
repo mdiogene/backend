@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import {Lieu} from '../model/Lieu';
 import {apiLMT} from '../../environments/environment';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {LoadingService} from './loading-service.service';
 import {AlertService} from './alert-service.service';
 import {Subject} from 'rxjs';
-
-
+import {DialogConfirmationDialogComponent} from '../components/dialog-confirmation-dialog/dialog-confirmation-dialog.component';
+import {MatDialog} from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -59,11 +59,65 @@ export class LieuApilmtService {
     );
   }
 
+  deleteLieu(lieu: Lieu) {
+    this.loadingService.showLoading();
+    if (lieu._links) {
+      const urlHref = this.getUrlForUpdateAndDelete(lieu._links.self.href, 'lieus', `${apiLMT.url}`);
+
+      this.http.delete<Lieu>(urlHref).subscribe(
+        next => {
+          const info = 'Lieu a été suprimé';
+          this.openDialog(info);
+
+          this.lieux.splice(this.lieux.indexOf(lieu), 1);
+          this.emitLieuxSubject();
+        },
+        error => {
+          this.handleError(error);
+        }
+      );
+    }
+
+  }
+
+  updateLieu(lieu: Lieu): void {
+    this.loadingService.showLoading();
+    if (lieu._links) {
+      const urlHref = this.getUrlForUpdateAndDelete(lieu._links.self.href, 'lieus', `${apiLMT.url}`);
+      this.http.put<Lieu>(urlHref, lieu).subscribe(
+        next => {
+        this.lieux[this.lieux.indexOf(lieu)] = next;
+          this.emitLieuxSubject();
+        },
+        error => {
+          this.handleError(error);
+        }
+      );
+    }
+  }
+
+  getUrlForUpdateAndDelete(url: string, objectToAdd: string, urlToAdd: string): string {
+    const urlObject = url.substring(url.indexOf(objectToAdd), url.length );
+    const vraiUrl = urlToAdd + '/' + urlObject;
+    return vraiUrl;
+  }
+
+  openDialog(information: string): void {
+    const dialogRef = this.dialog.open(DialogConfirmationDialogComponent, {
+      width: '400px',
+      data: {information: information}
+    });
+  }
+
   handleError(error): void {
     this.loadingService.hideLoading();
     this.alertService.error(error.message);
   }
+
   constructor(private http: HttpClient,
               public loadingService: LoadingService,
-              public alertService: AlertService) { }
+              public alertService: AlertService,
+              private dialog: MatDialog) { }
+
+
 }

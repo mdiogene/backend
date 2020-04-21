@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {apiLMT, apiLMT3} from '../../environments/environment';
+import {apiLMT} from '../../environments/environment';
 import {User} from '../model/User';
 import {Subject} from 'rxjs';
 import {LoginService} from './login.service';
@@ -146,7 +146,7 @@ userAdded = false;
   }
 
   updateUser(user: User): void {
-    // this.loadingService.showLoading();
+    this.loadingService.showLoading();
     if (user._links) {
       const urlHref = this.getUrlForUpdateAndDelete(user._links.self.href, 'users', `${apiLMT.url}`);
       this.http.put<User>(urlHref, user).subscribe(
@@ -215,12 +215,12 @@ userAdded = false;
 
       this.http.delete<User>(urlHref).subscribe(
         next => {
-          console.log('user deleted !');
-          console.log(next);
+          const info = 'Utilisateur a été suprimé';
+          this.openDialog(info);
 
           this.users.splice( this.users.indexOf(user), 1);
           this.emitUsersSubject();
-          },
+        },
         error => {
           this.handleError(error);
         }
@@ -230,19 +230,6 @@ userAdded = false;
     this.fs.firestore.app.auth().signInWithEmailAndPassword(user.email, user.password).then(userToDelete => {
       userToDelete.user.delete();
     });
-    // this.fs.firestore.app.auth().signInWithEmailAndPassword(this.userByEmail.email, this.userByEmail.password );
-  }
-
-  construireUserToSaveInDB(user: User, role: Role): void {
-    this.userToSaveInDb.email = user.email;
-    this.userToSaveInDb.name = user.name;
-    this.userToSaveInDb.prenom = user.prenom;
-    this.userToSaveInDb.password = user.password;
-    this.userToSaveInDb.tel = user.tel;
-    this.userToSaveInDb.userId = user.userId;
-    this.userToSaveInDb.vehicule = user.vehicule;
-    this.userToSaveInDb.urlPhoto = user.urlPhoto;
-    this.userToSaveInDb.role = role;
   }
 
   handleError(error): void {

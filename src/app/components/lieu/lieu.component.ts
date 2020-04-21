@@ -17,6 +17,8 @@ export class LieuComponent implements OnInit {
   lieux: Lieu[] = [];
   lieuxSubscription: Subscription;
   lieuxMatTable: MatTableDataSource<Lieu>  = new MatTableDataSource<Lieu>(this.lieux);
+  lieuToModify = new Map<string, Lieu>();
+
   constructor(private lieuAPILMTService: LieuApilmtService) { }
 
 
@@ -42,18 +44,53 @@ export class LieuComponent implements OnInit {
     lieu.isOnUpdate = false;
     if (!lieu._links) {
       this.lieuAPILMTService.addLieu(lieu);
+    } else {
+      this.lieuAPILMTService.updateLieu(lieu);
+      this.lieuToModify.delete(lieu._links.self.href);
     }
   }
 
-  onEditButtonClick(lieu: any | Lieu) {
+  onEditButtonClick(lieu: Lieu) {
+    this.lieuToModify.set(lieu._links.self.href, this.cloneObject(lieu));
+    lieu.isOnUpdate = true;
 
   }
 
-  onDeleteButtonClick(lieu: any | Lieu) {
-
+  onDeleteButtonClick(lieu: Lieu) {
+    if (lieu._links) {
+      this.lieuAPILMTService.deleteLieu(lieu);
+      this.lieuxMatTable._updateChangeSubscription();
+    }
   }
 
-  onCancelButtonClick(lieu: any | Lieu) {
+  onCancelButtonClick(lieu: Lieu) {
+    lieu.isOnUpdate = false;
+    if (lieu._links.self.href) {
+      this.copieObject(this.lieuToModify.get(lieu._links.self.href), lieu);
+      this.lieuToModify.delete(lieu._links.self.href);
+    } else {
+      this.lieuxMatTable.data.splice(this.lieuxMatTable.data.indexOf(lieu), 1);
+    }
+    this.lieuxMatTable._updateChangeSubscription();
+  }
 
+
+  cloneObject(src): Lieu {
+    const target = new Lieu();
+    for (const prop in src) {
+      if (src.hasOwnProperty(prop)) {
+        target[prop] = src[prop];
+      }
+    }
+    return target;
+  }
+
+  copieObject(src: Lieu, target: Lieu): Lieu {
+    for (const prop in src) {
+      if (src.hasOwnProperty(prop)) {
+        target[prop] = src[prop];
+      }
+    }
+    return target;
   }
 }

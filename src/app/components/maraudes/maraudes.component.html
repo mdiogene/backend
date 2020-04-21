@@ -10,8 +10,6 @@
 </div>
 
 <mat-table class="table" [dataSource]="maraudesMatTable">
-
-
     <ng-container matColumnDef="{{displayedColumnsMaraudes[0]}}">
         <mat-header-cell *matHeaderCellDef class="titleTableHeader" mat-sort-header> {{ 'Maraude' }} </mat-header-cell>
         <mat-cell *matCellDef="let maraude">
@@ -19,7 +17,8 @@
                 <div *ngIf="!maraude.isOnUpdate"> {{maraude.lieu ? maraude.lieu.lieuName : '' }} </div>
                 <div *ngIf="maraude.isOnUpdate">
                     <select id="lieu" [(ngModel)]="maraude.lieu" name="lieu">
-            <option *ngFor="let lieu of lieux" [ngValue]="lieu">{{ lieu.lieuName}}</option>
+
+            <option *ngFor="let lieu of lieux" [ngValue]="lieu">{{lieu.lieuName}}</option>
           </select>
                 </div>
             </div>
@@ -43,7 +42,7 @@
         <mat-cell *matCellDef="let maraude">
           <!--<form>-->
             <div class="form-group">
-              <input type="datetime-local" class="form-control" [readOnly]="!maraude.isOnUpdate" *ngIf="!maraude.isOnUpdate"  [ngModel]="maraude.date">
+              <input type="datetime-local" class="mat-cell" [readOnly]="!maraude.isOnUpdate" *ngIf="!maraude.isOnUpdate"  [ngModel]="maraude.date"/>
               <!--{{maraude.date}} </input>-->
               <input autofocus type="datetime-local"
                      class="form-control"
@@ -111,3 +110,5 @@
     <mat-header-row *matHeaderRowDef="displayedColumnsMaraudes"></mat-header-row>
     <mat-row *matRowDef="let maraude; columns: displayedColumnsMaraudes;"></mat-row>
 </mat-table>
+
+<mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>

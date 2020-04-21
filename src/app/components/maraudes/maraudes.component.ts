@@ -1,6 +1,6 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Maraude} from '../../model/Maraude';
-import {MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {MaraudeApilmtService} from '../../services/maraude-apilmt.service';
 import {Subscription} from 'rxjs';
 import {LieuApilmtService} from '../../services/lieu-apilmt.service';
@@ -14,7 +14,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations/';
 })
 
 export class MaraudesComponent implements OnInit, OnDestroy {
-
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   userLoggedIn: boolean;
   displayedColumnsMaraudes: string[] = ['Lieu', 'Participants', 'Date', 'Duree', 'Commentaire', 'Actions'];
   maraudeToModify = new Map<string, Maraude>();
@@ -27,7 +27,7 @@ export class MaraudesComponent implements OnInit, OnDestroy {
   constructor(private maraudesAPILMTService: MaraudeApilmtService, private lieuxAPILMTService: LieuApilmtService) { }
 
   ngOnInit() {
-
+    this.maraudesMatTable.paginator = this.paginator;
     if (localStorage.getItem('userLoggedIn')) {
       this.userLoggedIn = true;
     } else {
@@ -108,6 +108,11 @@ this.lieuxAPILMTService.getAllLieux();
   }
 
   onDeleteButtonClick(maraude: any | Maraude) {
+    maraude.isOnUpdate = false;
+    if (maraude._links.self.href) {
+      this.maraudesAPILMTService.deleteMaraude(maraude);
+    }
+    this.maraudesMatTable._updateChangeSubscription();
 
   }
 }

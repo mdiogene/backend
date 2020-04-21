@@ -4,13 +4,13 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { UsersComponent } from './components/users/users.component';
 import {RouterModule, Routes} from '@angular/router';
-import {MatTableModule} from '@angular/material';
+import {MatPaginatorModule, MatTableModule} from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { AngularFireModule } from '@angular/fire';
-import {apiLMT, firebaseConfig} from '../environments/environment';
-import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreModule} from '@angular/fire/firestore';
+import {firebaseConfig} from '../environments/environment';
+import {AngularFirestore, AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireAuth} from '@angular/fire/auth';
 import { LoginComponent } from './components/login/login.component';
 import { DonsComponent } from './components/dons/dons.component';
@@ -27,12 +27,14 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { DialogConfirmationDialogComponent } from './components/dialog-confirmation-dialog/dialog-confirmation-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { BesoinsComponent } from './components/besoins/besoins.component';
 
 
 
 const AppRoutes: Routes = [
   { path: 'users', component: UsersComponent},
   { path: 'maraudes', component: MaraudesComponent},
+  { path: 'besoins', component: BesoinsComponent},
   { path: 'login', component: LoginComponent},
   { path: 'role', component: RoleComponent},
   { path: 'loading', component: LoadingComponent},
@@ -52,11 +54,12 @@ const AppRoutes: Routes = [
     RoleComponent,
     LoadingComponent,
     DialogConfirmationDialogComponent,
+    BesoinsComponent,
   ],
   imports: [
 
     BrowserModule,
-    MatTableModule,
+    MatTableModule, MatPaginatorModule,
     CdkTableModule,
     HttpClientModule,
     RouterModule.forRoot(AppRoutes),

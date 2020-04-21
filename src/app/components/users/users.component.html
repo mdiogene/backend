@@ -4,11 +4,6 @@
   </div>
 </div>
 
-<!--<div class="text-left">
-    <label name="labelInfo" class="labelInfo" *ngIf="infoToUser">{{infoToUser}} </label>
-    <button type="button" class="btn btn-info btn-ajouter" (click)="onCreateNewUsersClick()">{{'Nouveau' }}</button>
-</div>-->
-
 <div *ngIf="userLoggedIn">
   <div class="listeUsers">
     <!--<label name="displayedName">{{getDisplayedNames()}}</label>-->
@@ -152,6 +147,8 @@
       <mat-row *matRowDef="let user; columns: displayedColumnsUsers;"></mat-row>
 
     </mat-table>
+
   </div>
 
 </div>
+<mat-paginator [pageSizeOptions]="[5, 10, 20, 50, 100]" showFirstLastButtons></mat-paginator>

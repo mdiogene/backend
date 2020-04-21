@@ -20,7 +20,8 @@ export class MaraudeApilmtService {
   constructor(private alertService: AlertService,
               private loadingService: LoadingService,
               private http: HttpClient,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog) {
+  }
 
   emitMaraudesSubject() {
     if (this.maraudes) {
@@ -38,7 +39,6 @@ export class MaraudeApilmtService {
         if (next) {
           this.maraudes = maraudes._embedded.maraudes;
         }
-        // console.log(this.maraudes);
         this.emitMaraudesSubject();
       },
       error => {
@@ -80,7 +80,7 @@ export class MaraudeApilmtService {
   }
 
   getUrlForUpdateAndDelete(url: string, objectToAdd: string, urlToAdd: string): string {
-    const urlObject = url.substring(url.indexOf(objectToAdd), url.length );
+    const urlObject = url.substring(url.indexOf(objectToAdd), url.length);
     const vraiUrl = urlToAdd + '/' + urlObject;
     return vraiUrl;
   }
@@ -94,6 +94,27 @@ export class MaraudeApilmtService {
       this.http.put<Maraude>(urlHref, maraude).subscribe(
         next => {
           this.maraudes[this.maraudes.indexOf(maraude)] = next;
+          const info = 'Maraude mis à jour.';
+          this.openDialog(info);
+          this.emitMaraudesSubject();
+        },
+        error => {
+          this.handleError(error);
+        }
+      );
+    }
+  }
+
+  deleteMaraude(maraude: Maraude): void {
+    this.loadingService.showLoading();
+    if (maraude._links) {
+      const urlHref = this.getUrlForUpdateAndDelete(maraude._links.self.href, 'maraudes', `${apiLMT.url}`);
+
+      this.http.delete<Maraude>(urlHref).subscribe(
+        next => {
+          this.maraudes.splice( this.maraudes.indexOf(maraude), 1);
+          const info = 'Maraude supprimé.';
+          this.openDialog(info);
           this.emitMaraudesSubject();
         },
         error => {
@@ -103,3 +124,5 @@ export class MaraudeApilmtService {
     }
   }
 }
+
+
