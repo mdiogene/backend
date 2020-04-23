@@ -27,6 +27,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { DialogConfirmationDialogComponent } from './components/dialog-confirmation-dialog/dialog-confirmation-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { MentionsLegalesComponent } from './components/mentions-legales/mentions-legales.component';
 
 
 
@@ -37,7 +38,8 @@ const AppRoutes: Routes = [
   { path: 'role', component: RoleComponent},
   { path: 'loading', component: LoadingComponent},
   { path: 'lieu', component: LieuComponent},
-  { path: 'dialog', component: DialogConfirmationDialogComponent}
+  { path: 'dialog', component: DialogConfirmationDialogComponent},
+  { path: 'mentionslegales', component: MentionsLegalesComponent}
   ];
 
 @NgModule({
@@ -52,6 +54,7 @@ const AppRoutes: Routes = [
     RoleComponent,
     LoadingComponent,
     DialogConfirmationDialogComponent,
+    MentionsLegalesComponent,
   ],
   imports: [
 

@@ -8,6 +8,7 @@ import {MaraudesComponent} from './components/maraudes/maraudes.component';
 import {LieuComponent} from './components/lieu/lieu.component';
 import {RoleComponent} from './components/role/role.component';
 import {LoadingComponent} from './components/loading/loading.component';
+import {MentionsLegalesComponent} from './components/mentions-legales/mentions-legales.component';
 
 
 const AppRoutes: Routes = [
@@ -18,6 +19,7 @@ const AppRoutes: Routes = [
   { path: 'maraudes', component: MaraudesComponent},
   { path: 'roles', component: RoleComponent},
   { path: 'loading', component: LoadingComponent},
+  { path: 'mentionslegales', component: MentionsLegalesComponent},
 ];
 
 @NgModule({
