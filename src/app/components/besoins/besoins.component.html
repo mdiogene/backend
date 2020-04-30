@@ -1,3 +1,136 @@
-<p>
-  besoins works!
-</p>
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4 text-lg-center">Gestion Des Besoins</h1>
+  </div>
+</div>
+
+<div class="mat-title">
+
+  <button class="btn btn-success btn-ajouter" (click)="onCreateNewBesoinsRemontesClick()">{{'Nouveau' }}</button>
+</div>
+
+<mat-table class="table" [dataSource]="besoinsMatTable">
+  <ng-container matColumnDef="{{displayedColumnsBesoinsRemontes[0]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader" mat-sort-header> {{ 'Type' }} </mat-header-cell>
+    <mat-cell *matCellDef="let besoin">
+      <div *ngIf="besoin!=null">
+        <div *ngIf="!besoin.isOnUpdate"> {{besoin.typeBesoin ? besoin.typeBesoin.type : '' }} </div>
+        <div *ngIf="besoin.isOnUpdate">
+          <select id="typeBesoin" [(ngModel)]="besoin.typeBesoin" name="typeBesoin">
+            <option *ngFor="let typeBesoin of typeBesoinsRemontesList"
+                    [ngValue]="typeBesoin">{{typeBesoin.type}}</option>
+          </select>
+        </div>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="{{displayedColumnsBesoinsRemontes[1]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Besoin' }} </mat-header-cell>
+    <mat-cell *matCellDef="let besoin">
+      <div *ngIf="besoin!=null">
+      <div *ngIf="besoin.typeBesoin && besoin.typeBesoin.type === 'Alimentaire'">
+
+        <div *ngIf="!besoin.isOnUpdate"> {{besoin.alimentaire ? besoin.alimentaire.typeNom : ''}} </div>
+        <div *ngIf="besoin.isOnUpdate">
+          <select id="alimentaire" [(ngModel)]="besoin.alimentaire" name="alimentaire">
+            <option *ngFor="let alimentaire of alimentaires"
+                    [ngValue]="alimentaire">{{alimentaire.typeNom}}</option>
+          </select>
+        </div>
+      </div>
+      <div *ngIf="besoin.typeBesoin && besoin.typeBesoin.type === 'Service'">
+        <div *ngIf="!besoin.isOnUpdate"> {{besoin.service ? besoin.service.typeNom : ''}} </div>
+        <div *ngIf="besoin.isOnUpdate">
+          <select id="service" [(ngModel)]="besoin.service" name="service">
+            <option *ngFor="let service of serviceList"
+                    [ngValue]="service">{{service.typeNom}}</option>
+          </select>
+        </div>
+      </div>
+
+        <div *ngIf="besoin.typeBesoin && besoin.typeBesoin.type === 'Vetement'">
+          <div *ngIf="!besoin.isOnUpdate"> {{besoin.vetement ? besoin.vetement.typeNom : ''}} </div>
+          <div *ngIf="besoin.isOnUpdate">
+            <select id="vetement" [(ngModel)]="besoin.vetement" name="vetement">
+              <option *ngFor="let vetement of vetements"
+                      [ngValue]="vetement">{{vetement.typeNom}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="{{displayedColumnsBesoinsRemontes[2]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader" mat-sort-header> {{ 'Personnes ou Quantité' }} </mat-header-cell>
+    <mat-cell *matCellDef="let besoin">
+      <div *ngIf="besoin!=null">
+        <div *ngIf="!besoin.isOnUpdate"> {{besoin.quantite}} </div>
+        <input autofocus class="form-control" type="number" *ngIf="besoin.isOnUpdate"
+               [(ngModel)]="besoin.quantite" required="false" placeholder="Personnes ou Quantité">
+      </div>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="{{displayedColumnsBesoinsRemontes[3]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"
+                     mat-sort-header> {{ 'Date de Création' }} </mat-header-cell>
+    <mat-cell *matCellDef="let besoin">
+      <div *ngIf="besoin!=null">
+        <input autofocus class="mat-cell" type="datetime-local"
+               *ngIf="!besoin.isOnUpdate"
+               [readOnly]="!besoin.isOnUpdate"
+               [(ngModel)]="besoin.dateCreation">
+        <input autofocus class="form-control" type="datetime-local"
+               *ngIf="besoin.isOnUpdate"
+               [(ngModel)]="besoin.dateCreation" required="false" placeholder="Date de Création">
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="{{displayedColumnsBesoinsRemontes[4]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader" mat-sort-header> {{ 'Description' }} </mat-header-cell>
+    <mat-cell *matCellDef="let besoin">
+      <div *ngIf="besoin">
+
+        <div *ngIf="!besoin.isOnUpdate"> {{besoin.description}} </div>
+        <input autofocus class="form-control" type="text" *ngIf="besoin.isOnUpdate"
+               [(ngModel)]="besoin.description" required="true" placeholder="Description">
+      </div>
+
+
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="{{displayedColumnsBesoinsRemontes[5]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Actions' }} </mat-header-cell>
+    <mat-cell *matCellDef="let besoin">
+      <div *ngIf="besoin!=null">
+        <div class="twoButtonsDivContainer">
+          <button type="button" class="btn btn-success buttonMarginRight" (click)="onSaveButtonClick(besoin)"
+                  *ngIf="besoin.isOnUpdate">
+            {{'Enregistrer'}}
+          </button>
+          <button type="button" class="btn btn-warning" (click)="onCancelButtonClick(besoin)" *ngIf="besoin.isOnUpdate">
+            {{'Annuler'}}
+          </button>
+          <button type="button" class="btn btn-primary buttonMarginRight" (click)="onEditButtonClick(besoin)"
+                  *ngIf="!besoin.isOnUpdate">
+            {{'Editer'}}
+          </button>
+
+          <button type="button" class="btn btn-danger" (click)="onDeleteButtonClick(besoin)" *ngIf="!besoin.isOnUpdate">
+            {{'Supprimer'}}
+          </button>
+        </div>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumnsBesoinsRemontes"></mat-header-row>
+  <mat-row *matRowDef="let besoin; columns: displayedColumnsBesoinsRemontes;"></mat-row>
+</mat-table>
+
+<mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+
+

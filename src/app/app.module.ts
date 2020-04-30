@@ -28,6 +28,11 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { DialogConfirmationDialogComponent } from './components/dialog-confirmation-dialog/dialog-confirmation-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { BesoinsComponent } from './components/besoins/besoins.component';
+import { AlimentaireComponent } from './components/besoins/alimentaire/alimentaire.component';
+import { HygieneComponent } from './components/besoins/hygiene/hygiene.component';
+import { VetementsComponent } from './components/besoins/vetements/vetements.component';
+import { ServicesComponent } from './components/besoins/services/services.component';
+import { TypeBesoinsComponent } from './components/besoins/type-besoins/type-besoins.component';
 
 
 
@@ -39,6 +44,11 @@ const AppRoutes: Routes = [
   { path: 'role', component: RoleComponent},
   { path: 'loading', component: LoadingComponent},
   { path: 'lieu', component: LieuComponent},
+  { path: 'vetements', component: VetementsComponent},
+  { path: 'alimentaire', component: AlimentaireComponent},
+  { path: 'hygiene', component: HygieneComponent},
+  { path: 'services', component: ServicesComponent},
+  { path: 'typeBesoins', component: TypeBesoinsComponent},
   { path: 'dialog', component: DialogConfirmationDialogComponent}
   ];
 
@@ -55,6 +65,11 @@ const AppRoutes: Routes = [
     LoadingComponent,
     DialogConfirmationDialogComponent,
     BesoinsComponent,
+    AlimentaireComponent,
+    HygieneComponent,
+    VetementsComponent,
+    ServicesComponent,
+    TypeBesoinsComponent,
   ],
   imports: [
 

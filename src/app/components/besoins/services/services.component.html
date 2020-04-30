@@ -1,0 +1,79 @@
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4 text-lg-center">Gestion des Aliments</h1>
+  </div>
+</div>
+
+
+<div class="mat-title">
+
+  <button class="btn btn-success btn-ajouter" (click)="onCreateNewServicesClick()">{{'Nouveau' }}</button>
+</div>
+<mat-table class="table" [dataSource] = "servicesMatTable">
+  <ng-container matColumnDef="{{displayedColumnsServices[0]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Type Service' }} </mat-header-cell>
+    <mat-cell *matCellDef="let service" >
+      <div>
+        <div *ngIf="!service.isOnUpdate"> {{service.typeNom}} </div>
+        <input autofocus class="form-control w-120" type="text"
+               *ngIf="service.isOnUpdate"
+               [(ngModel)]="service.typeNom"
+               required="true"
+               placeholder="Service">
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="{{displayedColumnsServices[1]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Description' }} </mat-header-cell>
+    <mat-cell *matCellDef="let service" >
+      <div>
+        <div *ngIf="!service.isOnUpdate"> {{service.description}} </div>
+        <input autofocus class="form-control w-120" type="text"
+               *ngIf="service.isOnUpdate"
+               [(ngModel)]="service.description"
+               required="true"
+               placeholder="Description">
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="{{displayedColumnsServices[2]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Actions' }} </mat-header-cell>
+    <mat-cell *matCellDef="let service">
+      <div *ngIf="service!=null">
+        <div class="twoButtonsDivContainer">
+          <button type="button"
+                  class="btn btn-success buttonMarginRight"
+                  (click)="onSaveButtonClick(service)"
+                  *ngIf="service.isOnUpdate">
+            {{'Sauvegarder'}}
+          </button>
+          <button type="button"
+                  class="btn btn-warning"
+                  (click)="onCancelButtonClick(service)"
+                  *ngIf="service.isOnUpdate">
+            {{'Annuler'}}
+          </button>
+          <button type="button"
+                  class="btn btn-primary buttonMarginRight"
+                  (click)="onEditButtonClick(service)"
+                  *ngIf="!service.isOnUpdate">
+            {{'Editer'}}
+          </button>
+
+          <button type="button"
+                  class="btn btn-danger"
+                  (click)="onDeleteButtonClick(service)"
+                  *ngIf="!service.isOnUpdate">
+            {{'Supprimer'}}
+          </button>
+        </div>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumnsServices"></mat-header-row>
+  <mat-row *matRowDef="let service; columns: displayedColumnsServices;"></mat-row>
+</mat-table>
+

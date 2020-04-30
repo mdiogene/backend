@@ -1,0 +1,79 @@
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4 text-lg-center">Gestion des Aliments</h1>
+  </div>
+</div>
+
+
+<div class="mat-title">
+
+  <button class="btn btn-success btn-ajouter" (click)="onCreateNewAlimentairesClick()">{{'Nouveau' }}</button>
+</div>
+<mat-table class="table" [dataSource] = "alimentairesMatTable">
+  <ng-container matColumnDef="{{displayedColumnsAlimentaires[0]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Type Aliment' }} </mat-header-cell>
+    <mat-cell *matCellDef="let alimentaire" >
+      <div>
+        <div *ngIf="!alimentaire.isOnUpdate"> {{alimentaire.typeNom}} </div>
+        <input autofocus class="form-control w-120" type="text"
+               *ngIf="alimentaire.isOnUpdate"
+               [(ngModel)]="alimentaire.typeNom"
+               required="true"
+               placeholder="Aliment">
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="{{displayedColumnsAlimentaires[1]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Description' }} </mat-header-cell>
+    <mat-cell *matCellDef="let alimentaire" >
+      <div>
+        <div *ngIf="!alimentaire.isOnUpdate"> {{alimentaire.description}} </div>
+        <input autofocus class="form-control w-120" type="text"
+               *ngIf="alimentaire.isOnUpdate"
+               [(ngModel)]="alimentaire.description"
+               required="true"
+               placeholder="Description">
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="{{displayedColumnsAlimentaires[2]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Actions' }} </mat-header-cell>
+    <mat-cell *matCellDef="let alimentaire">
+      <div *ngIf="alimentaire!=null">
+        <div class="twoButtonsDivContainer">
+          <button type="button"
+                  class="btn btn-success buttonMarginRight"
+                  (click)="onSaveButtonClick(alimentaire)"
+                  *ngIf="alimentaire.isOnUpdate">
+            {{'Sauvegarder'}}
+          </button>
+          <button type="button"
+                  class="btn btn-warning"
+                  (click)="onCancelButtonClick(alimentaire)"
+                  *ngIf="alimentaire.isOnUpdate">
+            {{'Annuler'}}
+          </button>
+          <button type="button"
+                  class="btn btn-primary buttonMarginRight"
+                  (click)="onEditButtonClick(alimentaire)"
+                  *ngIf="!alimentaire.isOnUpdate">
+            {{'Editer'}}
+          </button>
+
+          <button type="button"
+                  class="btn btn-danger"
+                  (click)="onDeleteButtonClick(alimentaire)"
+                  *ngIf="!alimentaire.isOnUpdate">
+            {{'Supprimer'}}
+          </button>
+        </div>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumnsAlimentaires"></mat-header-row>
+  <mat-row *matRowDef="let alimentaire; columns: displayedColumnsAlimentaires;"></mat-row>
+</mat-table>
+

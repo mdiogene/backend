@@ -1,0 +1,79 @@
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4 text-lg-center">Gestion Vetements</h1>
+  </div>
+</div>
+
+
+<div class="mat-title">
+
+  <button class="btn btn-success btn-ajouter" (click)="onCreateNewVetementsClick()">{{'Nouveau' }}</button>
+</div>
+<mat-table class="table" [dataSource] = "vetementsMatTable">
+  <ng-container matColumnDef="{{displayedColumnsVetements[0]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Type de Vêtement' }} </mat-header-cell>
+    <mat-cell *matCellDef="let vetement" >
+      <div>
+        <div *ngIf="!vetement.isOnUpdate"> {{vetement.typeNom}} </div>
+        <input autofocus class="form-control w-40" type="text"
+               *ngIf="vetement.isOnUpdate"
+               [(ngModel)]="vetement.typeNom"
+               required="true"
+               placeholder="Type de Vêtement">
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="{{displayedColumnsVetements[1]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Description' }} </mat-header-cell>
+    <mat-cell *matCellDef="let vetement" >
+      <div>
+        <div *ngIf="!vetement.isOnUpdate"> {{vetement.description}} </div>
+        <input autofocus class="form-control w-40" type="text"
+               *ngIf="vetement.isOnUpdate"
+               [(ngModel)]="vetement.description"
+               required="true"
+               placeholder="Description">
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="{{displayedColumnsVetements[2]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Actions' }} </mat-header-cell>
+    <mat-cell *matCellDef="let vetement">
+      <div *ngIf="vetement!=null">
+        <div class="twoButtonsDivContainer">
+          <button type="button"
+                  class="btn btn-success buttonMarginRight"
+                  (click)="onSaveButtonClick(vetement)"
+                  *ngIf="vetement.isOnUpdate">
+            {{'Sauvegarder'}}
+          </button>
+          <button type="button"
+                  class="btn btn-warning"
+                  (click)="onCancelButtonClick(vetement)"
+                  *ngIf="vetement.isOnUpdate">
+            {{'Annuler'}}
+          </button>
+          <button type="button"
+                  class="btn btn-primary buttonMarginRight"
+                  (click)="onEditButtonClick(vetement)"
+                  *ngIf="!vetement.isOnUpdate">
+            {{'Editer'}}
+          </button>
+
+          <button type="button"
+                  class="btn btn-danger"
+                  (click)="onDeleteButtonClick(vetement)"
+                  *ngIf="!vetement.isOnUpdate">
+            {{'Supprimer'}}
+          </button>
+        </div>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumnsVetements"></mat-header-row>
+  <mat-row *matRowDef="let vetement; columns: displayedColumnsVetements;"></mat-row>
+</mat-table>
+

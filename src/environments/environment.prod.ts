@@ -2,7 +2,12 @@ export const environment = {
   production: false
 };
 
+
 export const apiLMT = {
+  url: 'http://localhost:8080/lamaintenduapi',
+};
+
+export const apiLMT1 = {
   url: 'https://lamaintendue.org:8243/lmt'
 };
 

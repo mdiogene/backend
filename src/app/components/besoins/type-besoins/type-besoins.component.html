@@ -1,0 +1,79 @@
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4 text-lg-center">Gestion des Type de Besoins</h1>
+  </div>
+</div>
+
+
+<div class="mat-title">
+
+  <button class="btn btn-success btn-ajouter" (click)="onCreateNewTypeBesoinsClick()">{{'Nouveau' }}</button>
+</div>
+<mat-table class="table" [dataSource] = "typeBesoinsMatTable">
+  <ng-container matColumnDef="{{displayedColumnsTypeBesoins[0]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Type Besoin' }} </mat-header-cell>
+    <mat-cell *matCellDef="let typeBesoin" >
+      <div>
+        <div *ngIf="!typeBesoin.isOnUpdate"> {{typeBesoin.type}} </div>
+        <input autofocus class="form-control w-120" type="text"
+               *ngIf="typeBesoin.isOnUpdate"
+               [(ngModel)]="typeBesoin.type"
+               required="true"
+               placeholder="Type de Besoins">
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="{{displayedColumnsTypeBesoins[1]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Description' }} </mat-header-cell>
+    <mat-cell *matCellDef="let typeBesoin" >
+      <div>
+        <div *ngIf="!typeBesoin.isOnUpdate"> {{typeBesoin.description}} </div>
+        <input autofocus class="form-control w-120" type="text"
+               *ngIf="typeBesoin.isOnUpdate"
+               [(ngModel)]="typeBesoin.description"
+               required="true"
+               placeholder="Description">
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="{{displayedColumnsTypeBesoins[2]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Actions' }} </mat-header-cell>
+    <mat-cell *matCellDef="let typeBesoin">
+      <div *ngIf="typeBesoin!=null">
+        <div class="twoButtonsDivContainer">
+          <button type="button"
+                  class="btn btn-success buttonMarginRight"
+                  (click)="onSaveButtonClick(typeBesoin)"
+                  *ngIf="typeBesoin.isOnUpdate">
+            {{'Sauvegarder'}}
+          </button>
+          <button type="button"
+                  class="btn btn-warning"
+                  (click)="onCancelButtonClick(typeBesoin)"
+                  *ngIf="typeBesoin.isOnUpdate">
+            {{'Annuler'}}
+          </button>
+          <button type="button"
+                  class="btn btn-primary buttonMarginRight"
+                  (click)="onEditButtonClick(typeBesoin)"
+                  *ngIf="!typeBesoin.isOnUpdate">
+            {{'Editer'}}
+          </button>
+
+          <button type="button"
+                  class="btn btn-danger"
+                  (click)="onDeleteButtonClick(typeBesoin)"
+                  *ngIf="!typeBesoin.isOnUpdate">
+            {{'Supprimer'}}
+          </button>
+        </div>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumnsTypeBesoins"></mat-header-row>
+  <mat-row *matRowDef="let typeBesoin; columns: displayedColumnsTypeBesoins;"></mat-row>
+</mat-table>
+

@@ -16,7 +16,7 @@
     <mat-table class="table" [dataSource]="usersMatTable">
 
       <ng-container matColumnDef="{{displayedColumnsUsers[0]}}">
-        <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Name' }} </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Nom' }} </mat-header-cell>
         <mat-cell *matCellDef="let user">
           <div *ngIf="user!=null">
             <div *ngIf="!user.isOnUpdate "> {{user.name}} </div>
@@ -52,7 +52,7 @@
 
 
       <ng-container matColumnDef="{{displayedColumnsUsers[3]}}">
-        <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Password' }} </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Mot de Passe' }} </mat-header-cell>
         <mat-cell *matCellDef="let user">
           <div *ngIf="user!=null">
             <div *ngIf="!user.isOnUpdate"> {{'************'}} </div>
@@ -77,7 +77,7 @@
       </ng-container>
       <ng-container matColumnDef="{{displayedColumnsUsers[5]}}">
         <mat-header-cell *matHeaderCellDef class="titleTableHeader"
-                         mat-sort-header> {{ 'Vehicule' }} </mat-header-cell>
+                         mat-sort-header> {{ 'Véhiculé' }} </mat-header-cell>
         <mat-cell *matCellDef="let user">
           <div *ngIf="user!=null">
             <div *ngIf="!user.isOnUpdate">
@@ -92,7 +92,7 @@
 
       <ng-container matColumnDef="{{displayedColumnsUsers[6]}}">
         <mat-header-cell *matHeaderCellDef class="titleTableHeader"
-                         mat-sort-header> {{ 'Role' }} </mat-header-cell>
+                         mat-sort-header> {{ 'Rôle' }} </mat-header-cell>
         <mat-cell *matCellDef="let user">
           <div *ngIf="user!=null">
             <div *ngIf="!user.isOnUpdate"> {{user.role ? user.role.roleName : '' }} </div>
@@ -124,10 +124,10 @@
             <div class="twoButtonsDivContainer">
               <button type="button" class="btn btn-success buttonMarginRight" (click)="onSaveButtonClick(user)"
                       *ngIf="user.isOnUpdate" [disabled]="!user.email || user.email.trim() == ''">
-                {{'Save'}}
+                {{'Sauvegarder'}}
               </button>
               <button type="button" class="btn btn-warning" (click)="onCancelButtonClick(user)" *ngIf="user.isOnUpdate">
-                {{'Cancel'}}
+                {{'Annuler'}}
               </button>
               <button type="button" class="btn btn-primary buttonMarginRight" (click)="onEditButtonClick(user)"
                       *ngIf="!user.isOnUpdate">
@@ -135,7 +135,7 @@
               </button>
 
               <button type="button" class="btn btn-danger" (click)="onDeleteButtonClick(user)" *ngIf="!user.isOnUpdate">
-                {{'Delete'}}
+                {{'Supprimer'}}
               </button>
             </div>
           </div>
