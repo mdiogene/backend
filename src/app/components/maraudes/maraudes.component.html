@@ -63,7 +63,7 @@
 
 
     <ng-container matColumnDef="{{displayedColumnsMaraudes[3]}}">
-        <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Duree' }} </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Durée' }} </mat-header-cell>
         <mat-cell *matCellDef="let maraude">
             <div>
 
@@ -90,17 +90,17 @@
             <div *ngIf="maraude!=null">
                 <div class="twoButtonsDivContainer">
                     <button type="button" class="btn btn-success buttonMarginRight" (click)="onSaveButtonClick(maraude)" *ngIf="maraude.isOnUpdate">
-            {{'Save'}}
+            {{'Enregistrer'}}
           </button>
                     <button type="button" class="btn btn-warning" (click)="onCancelButtonClick(maraude)" *ngIf="maraude.isOnUpdate">
-            {{'Cancel'}}
+            {{'Annuler'}}
           </button>
                     <button type="button" class="btn btn-primary buttonMarginRight" (click)="onEditButtonClick(maraude)" *ngIf="!maraude.isOnUpdate">
             {{'Editer'}}
           </button>
 
                     <button type="button" class="btn btn-danger" (click)="onDeleteButtonClick(maraude)" *ngIf="!maraude.isOnUpdate">
-            {{'Delete'}}
+            {{'Supprimer'}}
           </button>
                 </div>
             </div>

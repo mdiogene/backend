@@ -4,7 +4,6 @@ import {HttpClient} from '@angular/common/http';
 import {Maraude} from '../model/Maraude';
 import {Subject} from 'rxjs';
 import {AlertService} from './alert-service.service';
-import {User} from '../model/User';
 import {LoadingService} from './loading-service.service';
 import {DialogConfirmationDialogComponent} from '../components/dialog-confirmation-dialog/dialog-confirmation-dialog.component';
 import {MatDialog} from '@angular/material';

@@ -33,6 +33,9 @@ import { HygieneComponent } from './components/besoins/hygiene/hygiene.component
 import { VetementsComponent } from './components/besoins/vetements/vetements.component';
 import { ServicesComponent } from './components/besoins/services/services.component';
 import { TypeBesoinsComponent } from './components/besoins/type-besoins/type-besoins.component';
+import {MentionsLegalesComponent} from './components/mentions-legales/mentions-legales.component';
+import { ParticipantsMaraudeComponent } from './components/participants-maraude/participants-maraude.component';
+import { ParticipantsBesoinsComponent } from './components/participants-besoins/participants-besoins.component';
 
 
 
@@ -41,6 +44,7 @@ const AppRoutes: Routes = [
   { path: 'maraudes', component: MaraudesComponent},
   { path: 'besoins', component: BesoinsComponent},
   { path: 'login', component: LoginComponent},
+  { path: 'mentionslegales', component: MentionsLegalesComponent},
   { path: 'role', component: RoleComponent},
   { path: 'loading', component: LoadingComponent},
   { path: 'lieu', component: LieuComponent},
@@ -49,6 +53,8 @@ const AppRoutes: Routes = [
   { path: 'hygiene', component: HygieneComponent},
   { path: 'services', component: ServicesComponent},
   { path: 'typeBesoins', component: TypeBesoinsComponent},
+  { path: 'participantMaraude', component: ParticipantsMaraudeComponent},
+  { path: 'participantBesoin', component: ParticipantsBesoinsComponent},
   { path: 'dialog', component: DialogConfirmationDialogComponent}
   ];
 
@@ -70,6 +76,9 @@ const AppRoutes: Routes = [
     VetementsComponent,
     ServicesComponent,
     TypeBesoinsComponent,
+    MentionsLegalesComponent,
+    ParticipantsMaraudeComponent,
+    ParticipantsBesoinsComponent
   ],
   imports: [
 

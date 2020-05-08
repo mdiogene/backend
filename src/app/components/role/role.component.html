@@ -32,13 +32,13 @@
                   class="btn btn-success buttonMarginRight"
                   (click)="onSaveButtonClick(role)"
                   *ngIf="role.isOnUpdate">
-            {{'Save'}}
+            {{'Enregistrer'}}
           </button>
           <button type="button"
                   class="btn btn-warning"
                   (click)="onCancelButtonClick(role)"
                   *ngIf="role.isOnUpdate">
-            {{'Cancel'}}
+            {{'Annuler'}}
           </button>
           <button type="button"
                   class="btn btn-primary buttonMarginRight"
@@ -51,7 +51,7 @@
                   class="btn btn-danger"
                   (click)="onDeleteButtonClick(role)"
                   *ngIf="!role.isOnUpdate">
-            {{'Delete'}}
+            {{'Supprimer'}}
           </button>
         </div>
       </div>

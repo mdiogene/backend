@@ -5,7 +5,6 @@ import {MaraudeApilmtService} from '../../services/maraude-apilmt.service';
 import {Subscription} from 'rxjs';
 import {LieuApilmtService} from '../../services/lieu-apilmt.service';
 import {Lieu} from '../../model/Lieu';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations/';
 
 @Component({
   selector: 'app-maraudes',

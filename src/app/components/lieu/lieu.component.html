@@ -32,13 +32,13 @@
                     class="btn btn-success buttonMarginRight"
                     (click)="onSaveButtonClick(lieu)"
                     *ngIf="lieu.isOnUpdate">
-              {{'Save'}}
+              {{'Enregistrer'}}
             </button>
             <button type="button"
                     class="btn btn-warning"
                     (click)="onCancelButtonClick(lieu)"
                     *ngIf="lieu.isOnUpdate">
-              {{'Cancel'}}
+              {{'Annuler'}}
             </button>
             <button type="button"
                     class="btn btn-primary buttonMarginRight"
@@ -51,7 +51,7 @@
                     class="btn btn-danger"
                     (click)="onDeleteButtonClick(lieu)"
                     *ngIf="!lieu.isOnUpdate">
-              {{'Delete'}}
+              {{'Supprimer'}}
             </button>
           </div>
         </div>
