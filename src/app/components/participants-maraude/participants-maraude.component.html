@@ -1,0 +1,123 @@
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4 text-lg-center">Participants aux Maraudes</h1>
+  </div>
+</div>
+
+<div class="mat-title formulaire">
+<!--<form (ngSubmit) = "onSubmit()" #f="ngForm">-->
+  <!--<div class="form-group">-->
+    <!--<label class="form-control">{{ 'Trier les participants aux maraudes par lieu'  }} </label>-->
+  <!--</div>-->
+  <!--<div class="form-group">-->
+      <!--<label class="form-control" for="lieu">{{ 'Lieu de la maraude :' }} </label>-->
+      <!--<select id="lieu" class="form-control" [(ngModel)]="lieuSelectionne" name="lieu">-->
+
+        <!--<option *ngFor="let lieuSelectionne of lieux" [ngValue]="lieuSelectionne">{{lieuSelectionne.lieuName}}</option>-->
+      <!--</select>-->
+    <!--</div>-->
+      <!--<div class="form-group">-->
+      <!--<button class="btn btn-success btn-ajouter form-control" type="submit">{{'Rechercher avec que le lieu' }}</button>-->
+    <!--</div>-->
+
+<!--</form>-->
+
+  <form (ngSubmit)="onSubmit()" #f="ngForm">
+    <div class="form-group">
+      <label class="form-control">{{ 'Trier les participants aux maraudes par lieu et date'  }} </label>
+    </div>
+    <!--<div class="form-group">-->
+      <!--<label class="form-control" for="date">{{ 'Date de la maraude :' }} </label>-->
+      <!--<input id="date" autofocus type="datetime-local"-->
+             <!--class="form-control"-->
+             <!--[(ngModel)]="date"-->
+             <!--required="false"-->
+             <!--placeholder="Date">-->
+    <!--</div>-->
+
+
+
+    <div class="form-group">
+      <label class="form-control" for="lieu">{{ 'Lieu de la maraude :' }} </label>
+      <select class="form-control" id="lieu" [(ngModel)]="lieuSelectionne" name="lieu">
+
+        <option *ngFor="let lieuSelectionne of lieux" [ngValue]="lieuSelectionne">{{lieuSelectionne.lieuName}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <button class="btn btn-success btn-ajouter form-control" type="submit">{{'Rechercher avec la date et le lieu' }}</button>
+    </div>
+
+  </form>
+
+</div>
+
+<mat-table class="table" [dataSource]="maraudeUsersMatTable">
+  <ng-container matColumnDef="{{displayedColumnsMaraudeUsers[0]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader" mat-sort-header> {{ 'Lieu' }} </mat-header-cell>
+    <mat-cell *matCellDef="let maraudeUser">
+      <div *ngIf="maraudeUser!=null">
+        <div *ngIf="!maraudeUser.isOnUpdate"> {{maraudeUser.maraude ? maraudeUser.maraude.lieu.lieuName : '' }} </div>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="{{displayedColumnsMaraudeUsers[1]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Date' }} </mat-header-cell>
+    <mat-cell *matCellDef="let maraudeUser">
+      <!--<form>-->
+      <div class="form-group">
+        <input type="datetime-local" class="mat-cell" [readOnly]="!maraudeUser.isOnUpdate" *ngIf="!maraudeUser.isOnUpdate"  [ngModel]="maraudeUser.maraude.date"/>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+
+  <ng-container matColumnDef="{{displayedColumnsMaraudeUsers[2]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader" mat-sort-header> {{ 'Nom' }} </mat-header-cell>
+    <mat-cell *matCellDef="let maraudeUser">
+      <div *ngIf="maraudeUser!=null">
+        <div *ngIf="!maraudeUser.isOnUpdate"> {{maraudeUser.user ? maraudeUser.user.name : '' }} </div>
+        </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="{{displayedColumnsMaraudeUsers[3]}}">
+    <mat-header-cell *matHeaderCellDef class="titleTableHeader" mat-sort-header> {{ 'Prénom' }} </mat-header-cell>
+    <mat-cell *matCellDef="let maraudeUser">
+      <div *ngIf="maraudeUser!=null">
+        <div *ngIf="!maraudeUser.isOnUpdate"> {{maraudeUser.user ? maraudeUser.user.prenom : '' }} </div>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+
+  <!--<ng-container matColumnDef="{{displayedColumnsMaraudeUsers[4]}}">-->
+    <!--<mat-header-cell *matHeaderCellDef class="titleTableHeader"> {{ 'Actions' }} </mat-header-cell>-->
+    <!--<mat-cell *matCellDef="let maraudeUser">-->
+      <!--<div *ngIf="maraudeUser!=null">-->
+        <!--<div class="twoButtonsDivContainer">-->
+          <!--<button type="button" class="btn btn-success buttonMarginRight" (click)="onSaveButtonClick(maraudeUser)" *ngIf="maraudeUser.isOnUpdate">-->
+            <!--{{'Sauvegarder'}}-->
+          <!--</button>-->
+          <!--<button type="button" class="btn btn-warning" (click)="onCancelButtonClick(maraudeUser)" *ngIf="maraudeUser.isOnUpdate">-->
+            <!--{{'Annuler'}}-->
+          <!--</button>-->
+          <!--<button type="button" class="btn btn-primary buttonMarginRight" (click)="onEditButtonClick(maraudeUser)" *ngIf="!maraudeUser.isOnUpdate">-->
+            <!--{{'Editer'}}-->
+          <!--</button>-->
+
+          <!--<button type="button" class="btn btn-danger" (click)="onDeleteButtonClick(maraudeUser)" *ngIf="!maraudeUser.isOnUpdate">-->
+            <!--{{'Supprimer'}}-->
+          <!--</button>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</mat-cell>-->
+  <!--</ng-container>-->
+
+  <mat-header-row *matHeaderRowDef="displayedColumnsMaraudeUsers"></mat-header-row>
+  <mat-row *matRowDef="let maraudeUser; columns: displayedColumnsMaraudeUsers;"></mat-row>
+</mat-table>
+
+<mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
