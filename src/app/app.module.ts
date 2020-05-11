@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { UsersComponent } from './components/users/users.component';
 import {RouterModule, Routes} from '@angular/router';
-import {MatPaginatorModule, MatTableModule} from '@angular/material';
+import {MatPaginatorModule, MatSortModule, MatTableModule} from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
@@ -55,6 +55,7 @@ const AppRoutes: Routes = [
   { path: 'typeBesoins', component: TypeBesoinsComponent},
   { path: 'participantMaraude', component: ParticipantsMaraudeComponent},
   { path: 'participantBesoin', component: ParticipantsBesoinsComponent},
+  { path: 'participantMaraude/:maraudeId', component: ParticipantsMaraudeComponent},
   { path: 'dialog', component: DialogConfirmationDialogComponent}
   ];
 
@@ -83,7 +84,7 @@ const AppRoutes: Routes = [
   imports: [
 
     BrowserModule,
-    MatTableModule, MatPaginatorModule,
+    MatTableModule, MatPaginatorModule, MatSortModule,
     CdkTableModule,
     HttpClientModule,
     RouterModule.forRoot(AppRoutes),

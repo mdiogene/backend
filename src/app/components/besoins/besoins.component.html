@@ -9,7 +9,7 @@
   <button class="btn btn-success btn-ajouter" (click)="onCreateNewBesoinsRemontesClick()">{{'Nouveau' }}</button>
 </div>
 
-<mat-table class="table" [dataSource]="besoinsMatTable">
+<mat-table class="table" [dataSource]="besoinsMatTable" matSort>
   <ng-container matColumnDef="{{displayedColumnsBesoinsRemontes[0]}}">
     <mat-header-cell *matHeaderCellDef class="titleTableHeader" mat-sort-header> {{ 'Type' }} </mat-header-cell>
     <mat-cell *matCellDef="let besoin">

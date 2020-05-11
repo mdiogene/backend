@@ -62,9 +62,28 @@ export class MaraudeUsersService {
         this.handleError(error);
       }
     );
-
   }
 
+
+  getAllMaraudeUsersByMaraudeId(maraudeId: number) {
+    this.loadingService.showLoading();
+    this.maraudeUsers = null;
+    this.http.get<any>(this.maraudeUsersAPILMTUrl + '/search/findAllByMaraudeId/' + maraudeId).subscribe(
+      next => {
+        const maraudeUsers = next;
+        if (maraudeUsers && maraudeUsers.length > 0) {
+          this.maraudeUsers = maraudeUsers;
+          this.emitMaraudeUsersSubject();
+        }
+        console.log('only maraudeId');
+        console.log(this.maraudeUsers);
+
+      },
+      error => {
+        this.handleError(error);
+      }
+    );
+  }
   getAllMaraudeUsersByLieuAndDate(lieu: Lieu, date: string): void {
     this.loadingService.showLoading();
     this.maraudeUsers = null;

@@ -22,23 +22,25 @@
 
 <!--</form>-->
 
-  <form (ngSubmit)="onSubmit()" #f="ngForm">
+  <form>
     <div class="form-group">
-      <label class="form-control">{{ 'Trier les participants aux maraudes par lieu et date'  }} </label>
+      <label class="form-control card-title">{{ 'Trier les participants aux maraudes par lieu et date'  }} </label>
     </div>
     <!--<div class="form-group">-->
-      <!--<label class="form-control" for="date">{{ 'Date de la maraude :' }} </label>-->
-      <!--<input id="date" autofocus type="datetime-local"-->
+      <!--<div *ngIf="maraudeUser!=null">-->
+      <!--<label class="form-control float-left">{{ 'Date de la maraude :' }} </label>-->
+      <!--<input autofocus type="datetime-local"-->
              <!--class="form-control"-->
              <!--[(ngModel)]="date"-->
-             <!--required="false"-->
+             <!--required="true"-->
              <!--placeholder="Date">-->
+      <!--</div>-->
     <!--</div>-->
 
 
 
     <div class="form-group">
-      <label class="form-control" for="lieu">{{ 'Lieu de la maraude :' }} </label>
+      <label class="form-control float-left" for="lieu">{{ 'Lieu de la maraude :' }} </label>
       <select class="form-control" id="lieu" [(ngModel)]="lieuSelectionne" name="lieu">
 
         <option *ngFor="let lieuSelectionne of lieux" [ngValue]="lieuSelectionne">{{lieuSelectionne.lieuName}}</option>
@@ -46,14 +48,14 @@
     </div>
 
     <div class="form-group">
-      <button class="btn btn-success btn-ajouter form-control" type="submit">{{'Rechercher avec la date et le lieu' }}</button>
+      <button class="btn btn-success btn-ajouter form-control" type="button" (click)="onSubmit()">{{'Rechercher avec la date et le lieu' }}</button>
     </div>
 
   </form>
 
 </div>
-
-<mat-table class="table" [dataSource]="maraudeUsersMatTable">
+<input class="form-control col-sm-12 col-md-4" style="margin-top: 20px; margin-bottom: 20px;" (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+<mat-table class="table" #participantsSort = "matSort" [dataSource]="maraudeUsersMatTable" matSort>
   <ng-container matColumnDef="{{displayedColumnsMaraudeUsers[0]}}">
     <mat-header-cell *matHeaderCellDef class="titleTableHeader" mat-sort-header> {{ 'Lieu' }} </mat-header-cell>
     <mat-cell *matCellDef="let maraudeUser">

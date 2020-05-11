@@ -1,10 +1,12 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatTableDataSource} from '@angular/material';
+import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {Subscription} from 'rxjs';
 import {Lieu} from '../../model/Lieu';
 import {LieuApilmtService} from '../../services/lieu-apilmt.service';
 import {MaraudeUsers} from '../../model/MaraudeUsers';
 import {MaraudeUsersService} from '../../services/maraude-users.service';
+import {ActivatedRoute} from '@angular/router';
+import {stringify} from 'querystring';
 
 
 @Component({
@@ -13,7 +15,7 @@ import {MaraudeUsersService} from '../../services/maraude-users.service';
   styleUrls: ['./participants-maraude.component.scss']
 })
 export class ParticipantsMaraudeComponent implements OnInit, OnDestroy {
-
+  @ViewChild('participantsSort') matSort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   userLoggedIn: boolean;
   displayedColumnsMaraudeUsers: string[] = ['Lieu', 'Date', 'Nom', 'Prénom'];
@@ -23,13 +25,39 @@ export class ParticipantsMaraudeComponent implements OnInit, OnDestroy {
   maraudeUsersSubscription: Subscription;
   lieux: Lieu[] = [];
   lieuxSubscription: Subscription;
-  maraudeUsersMatTable: MatTableDataSource<MaraudeUsers>  = new MatTableDataSource<MaraudeUsers>(this.maraudeUsers);
+  maraudeUsersMatTable: MatTableDataSource<MaraudeUsers>  = new MatTableDataSource<MaraudeUsers>();
   lieuSelectionne = new Lieu();
-  date: string;
-  constructor(private maraudeUsersAPILMTService: MaraudeUsersService, private lieuxAPILMTService: LieuApilmtService) { }
+  date = '';
+  maraudeId: number;
+  constructor(private maraudeUsersAPILMTService: MaraudeUsersService,
+              private route: ActivatedRoute,
+              private lieuxAPILMTService: LieuApilmtService) { }
 
   ngOnInit() {
+
+
+    this.maraudeUsersMatTable.filterPredicate = function (data: MaraudeUsers, filter: string): boolean {
+      const reg = new RegExp('^.*(' + filter  + ').*$');
+      return reg.test(data.maraude.lieu.lieuName.toLowerCase()) ||
+        reg.test(data.maraude.participantMax.toString()) ||
+        reg.test(String(data.maraude.date)) ;
+    };
+
+    this.maraudeUsersMatTable.sort = this.matSort;
     this.maraudeUsersMatTable.paginator = this.paginator;
+    if (this.route.snapshot.params['maraudeId']) {
+      this.maraudeId = this.route.snapshot.params['maraudeId'];
+
+      console.log('only maraudeId');
+      console.log(this.maraudeId);
+      this.maraudeUsersAPILMTService.getAllMaraudeUsersByMaraudeId(this.maraudeId);
+      this.maraudeUsersMatTable.data = this.maraudeUsers;
+      this.maraudeUsersMatTable._updateChangeSubscription();
+
+      console.log('only usersMaraude of id maraude');
+      console.log(this.maraudeUsers);
+    }
+
     if (localStorage.getItem('userLoggedIn')) {
       this.userLoggedIn = true;
     } else {
@@ -37,7 +65,6 @@ export class ParticipantsMaraudeComponent implements OnInit, OnDestroy {
     }
     this.maraudeUsersSubscription = this.maraudeUsersAPILMTService.maraudeUsersSubject.subscribe(
       (maraudeUsers: MaraudeUsers[]) => {
-        console.log(maraudeUsers);
         this.maraudeUsers = maraudeUsers;
         this.maraudeUsersMatTable.data = this.maraudeUsers;
         this.maraudeUsersMatTable._updateChangeSubscription();
@@ -49,8 +76,19 @@ export class ParticipantsMaraudeComponent implements OnInit, OnDestroy {
         this.lieux = lieux;
       }
     );
-    this.maraudeUsersAPILMTService.getAllMaraudeUsers();
+    if (this.route.snapshot.params['maraudeId']) {
+      this.maraudeId = this.route.snapshot.params['maraudeId'];
+
+      console.log('only maraudeId');
+      console.log(this.maraudeId);
+      this.maraudeUsersAPILMTService.getAllMaraudeUsersByMaraudeId(this.maraudeId);
+      console.log('only usersMaraude of id maraude');
+      console.log(this.maraudeUsers);
+    } else {
+      this.maraudeUsersAPILMTService.getAllMaraudeUsers();
+    }
     this.lieuxAPILMTService.getAllLieux();
+  
   }
 
   ngOnDestroy(): void {
@@ -119,15 +157,39 @@ export class ParticipantsMaraudeComponent implements OnInit, OnDestroy {
 
   }
 
+  getParticipantByDate(date: string){
+    const participantsParDate: MaraudeUsers[] = [];
+    this.maraudeUsers.forEach(maraudeUser => {
+      if (date.toString().substring(1, 10) === (maraudeUser.maraude.date.toString().substring(1, 10))) {
+        participantsParDate.unshift(maraudeUser);
+      }
+    });
+
+      this.maraudeUsersMatTable.data = participantsParDate;
+    this.maraudeUsersMatTable._updateChangeSubscription();
+
+  }
   onSubmit() {
-    this.maraudeUsers = [];
-   if (this.lieuSelectionne && this.date) {
+    this.maraudeUsers = null;
+    console.log('submit:');
+    console.log(this.date);
+
+    if (this.lieuSelectionne && this.date) {
       this.maraudeUsersAPILMTService.getAllMaraudeUsersByLieuAndDate(this.lieuSelectionne, this.date);
-      this.maraudeUsersMatTable._updateChangeSubscription();
+      this.getParticipantByDate(this.date);
     } else {
      this.maraudeUsersAPILMTService.getAllMaraudeUsersByLieu(this.lieuSelectionne);
-    this.maraudeUsersMatTable._updateChangeSubscription();
+     this.getParticipantByDate(this.date);
   }
-}
+    console.log('only ou submit lieu');
+    console.log(this.maraudeUsers);
+
+  }
+
+  applyFilter(filterValue: string) {
+
+    this.maraudeUsersMatTable.filter = filterValue.trim().toLowerCase();
+    // this.maraudeUsersMatTable._updateChangeSubscription();
+  }
 }
 

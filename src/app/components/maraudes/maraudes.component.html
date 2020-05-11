@@ -9,7 +9,7 @@
     <button class="btn btn-success btn-ajouter" (click)="onCreateNewMaraudeClick()">{{'Nouveau' }}</button>
 </div>
 
-<mat-table class="table" [dataSource]="maraudesMatTable">
+<mat-table class="table" [dataSource]="maraudesMatTable" matSort>
     <ng-container matColumnDef="{{displayedColumnsMaraudes[0]}}">
         <mat-header-cell *matHeaderCellDef class="titleTableHeader" mat-sort-header> {{ 'Maraude' }} </mat-header-cell>
         <mat-cell *matCellDef="let maraude">
@@ -50,14 +50,8 @@
                      [(ngModel)]="maraude.date"
                      required="true"
                      placeholder="Date">
-              <!--class="form-control"-->
-              <!--bsDatepicker>-->
-                     <!--#datepickerMDY="bsDatepicker"-->
-                     <!--[bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"-->
-
 
             </div>
-            <!--<form>-->
         </mat-cell>
     </ng-container>
 
@@ -108,7 +102,7 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumnsMaraudes"></mat-header-row>
-    <mat-row *matRowDef="let maraude; columns: displayedColumnsMaraudes;"></mat-row>
+    <mat-row *matRowDef="let maraude; columns: displayedColumnsMaraudes;" routerLink="/participantMaraude/{{maraude.id}}"></mat-row>
 </mat-table>
 
 <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
