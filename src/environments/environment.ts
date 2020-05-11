@@ -7,18 +7,21 @@ export const environment = {
 };
 
 export const apiLMT3 = {
-  url: 'https://94.23.204.130:8080/lamaintenduapi'
+  url: 'https://lamaintendue.org:8080/lamaintenduapi'
 };
 
-export const apiLMT = {
-  url: 'http://localhost:8080/lamaintenduapi',
+export const apiLMT2 = {
+  url: 'http://localhost:8080/lamaintenduapi'
+};
+export const apiLMT1 = {
+  url: 'https://lamaintendue.org:8080/lamaintenduapi'
  };
 
-export const apiLMT2 = {
+export const apiLMT = {
   url: 'https://lamaintendue.org:8243/lmt'
 };
 export const apiLMTput = {
-   url: 'https://94.23.204.130:8280/lmtput'
+   url: 'https://lamaintendue.org:8280/lmtput'
 };
 // Config FireBase
 export const firebaseConfig = {
